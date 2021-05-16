@@ -25,7 +25,7 @@ public class Comment {
     private Timestamp timestamp;
 
     @Column(name = "autor_id")
-    private int autorId;
+    private int authorId;
 
     @Column(name = "order_id")
     private Integer orderId;

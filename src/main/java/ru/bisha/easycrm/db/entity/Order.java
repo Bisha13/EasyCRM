@@ -36,7 +36,7 @@ public class Order {
     private int clientId;
 
     @Column(name = "small_description")
-    private Object smallDescription;
+    private String smallDescription;
 
     @Column(name = "full_description")
     private String fullDescription;
