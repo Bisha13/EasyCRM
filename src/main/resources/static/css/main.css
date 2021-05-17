@@ -1,3 +1,31 @@
-.card {
-    margin-top: 50px;
+.orderSection {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+[id^=datalist-input] {
+    margin-top: 8px;
+}
+.form-group.textArea-comments {
+    margin-bottom: 10px;
+}
+.form-control.whatToFix {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.price-text {
+    margin-bottom: 1em;
+}
+.price-text span.price-text-inner {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+.price-text span.price-text-sum {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+hr {
+    box-shadow: 2px 2px 2px cornflowerblue;
+}
+td button.btn-danger {
+    margin-right: 0;
 }

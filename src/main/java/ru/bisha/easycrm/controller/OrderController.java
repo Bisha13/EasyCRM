@@ -3,7 +3,7 @@ package ru.bisha.easycrm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.service.OrderService;
@@ -22,11 +22,18 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
+    @RequestMapping
     public String getAllOrders(Model model) {
         List<Order> orderList = orderService.getAllOrders();
         model.addAttribute("orderListAttr", orderList);
         return "allOrders";
+    }
+
+    @RequestMapping("/{id}")
+    public String getOrder(@PathVariable int id, Model model) {
+        Order order = orderService.getOrder(id);
+        model.addAttribute("orderAtr", order);
+        return "order";
     }
 
 

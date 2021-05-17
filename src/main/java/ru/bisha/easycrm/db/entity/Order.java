@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "orderstable")
@@ -32,8 +33,9 @@ public class Order {
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
-    @Column(name = "client_id")
-    private int clientId;
+    @OneToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @Column(name = "small_description")
     private String smallDescription;
@@ -42,7 +44,8 @@ public class Order {
     private String fullDescription;
 
     @Column(name = "execute_status")
-    private Integer executeStatus;
+    @Enumerated(EnumType.ORDINAL)
+    private Status executeStatus;
 
     @Column(name = "executor_id")
     private Integer executorId;
@@ -62,13 +65,20 @@ public class Order {
     @Column(name = "payment_status")
     private Integer paymentStatus;
 
-    @Column(name = "bike_id")
-    private Integer bikeId;
+    @OneToOne
+    @JoinColumn(name = "bike_id")
+    private Device device;
 
     @Column(name = "order_description")
     private String orderDescription;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<Service> services;
 
+enum Status {
+    NEW, WAITING, WAITING_GLEB, WAITING_PARTS, READY, CLOSED,
+}
 
 
 

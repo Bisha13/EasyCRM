@@ -16,4 +16,9 @@ public class OrderServiceImp implements OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
+    public Order getOrder(int id) {
+        return orderRepository.findById(id)
+                .orElseGet(Order::new);
+    }
 }
