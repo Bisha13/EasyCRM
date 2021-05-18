@@ -22,8 +22,10 @@ public class Service {
     @Column(name = "order_id")
     private int orderId;
 
-    @Column(name = "executor_id")
-    private int executorId;
+
+    @OneToOne
+    @JoinColumn(name = "executor_id")
+    private User executor;
 
     @Column(name = "description")
     private String description;

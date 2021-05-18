@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.User;
 import ru.bisha.easycrm.service.OrderService;
+import ru.bisha.easycrm.service.UserService;
 
 import java.util.List;
 
@@ -17,9 +19,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final UserService userService;
+
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @RequestMapping
@@ -32,7 +37,9 @@ public class OrderController {
     @RequestMapping("/{id}")
     public String getOrder(@PathVariable int id, Model model) {
         Order order = orderService.getOrder(id);
+        List<User> users = userService.getAllUsers();
         model.addAttribute("orderAtr", order);
+        model.addAttribute("usersAtr", users);
         return "order";
     }
 

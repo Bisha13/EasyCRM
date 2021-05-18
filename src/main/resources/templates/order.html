@@ -87,7 +87,7 @@
 
                 <table class="table">
                     <thead>
-                    <tr >
+                    <tr>
                         <th scope="col">Работа</th>
                         <th scope="col">Цена</th>
                         <th scope="col">Кто делает</th>
@@ -99,13 +99,20 @@
                         <td class="w-50" th:text="${service.description}">Полное ТО</td>
                         <td th:text="${service.price}">5000</td>
                         <td>
-                            <div class="input-group item-datalist">
-                                <input
-                                        class="form-control"
-                                        list="datalistOptions"
-                                        placeholder="Кто делает?"
-                                />
-                            </div>
+                            <!--                            <div class="input-group item-datalist">-->
+                            <!--                                <input-->
+                            <!--                                        class="form-control"-->
+                            <!--                                        list="datalistOptions"-->
+                            <!--                                        placeholder="Кто делает?"-->
+                            <!--                                />-->
+                            <!--                            </div>-->
+                            <select class="form-select">
+                                <option>Кто чинит?</option>
+                                <option th:each="executor : ${usersAtr}"
+                                        th:text="${executor.fullName}"
+                                        th:value="${executor.id}"
+                                        th:selected="${executor.id == service.executor.id}"></option>
+                            </select>
                         </td>
                         <td>
                             <button
