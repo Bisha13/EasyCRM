@@ -22,7 +22,6 @@ public class Service {
     @Column(name = "order_id")
     private int orderId;
 
-
     @OneToOne
     @JoinColumn(name = "executor_id")
     private User executor;

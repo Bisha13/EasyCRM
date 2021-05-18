@@ -76,6 +76,10 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<Service> services;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<Work> listOfWorks;
+
 enum Status {
     NEW, WAITING, WAITING_GLEB, WAITING_PARTS, READY, CLOSED,
 }

@@ -95,23 +95,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="service : ${orderAtr.services}">
-                        <td class="w-50" th:text="${service.description}">Полное ТО</td>
-                        <td th:text="${service.price}">5000</td>
+                    <tr th:each="work : ${orderAtr.listOfWorks}">
+                        <td class="w-50" th:text="${work.item.name}">Полное ТО</td>
+                        <td th:text="${work.item.price}">5000</td>
                         <td>
-                            <!--                            <div class="input-group item-datalist">-->
-                            <!--                                <input-->
-                            <!--                                        class="form-control"-->
-                            <!--                                        list="datalistOptions"-->
-                            <!--                                        placeholder="Кто делает?"-->
-                            <!--                                />-->
-                            <!--                            </div>-->
                             <select class="form-select">
                                 <option>Кто чинит?</option>
                                 <option th:each="executor : ${usersAtr}"
                                         th:text="${executor.fullName}"
                                         th:value="${executor.id}"
-                                        th:selected="${executor.id == service.executor.id}"></option>
+                                        th:selected="${executor.id == work.executor.id}"></option>
                             </select>
                         </td>
                         <td>
