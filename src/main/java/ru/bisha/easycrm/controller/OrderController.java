@@ -43,7 +43,6 @@ public class OrderController {
         Order order = orderService.getOrder(id);
         Client client = clientService.getClient(order.getClientId());
         Device device = deviceService.getDevice(order.getDeviceId());
-        //orderService.saveOrder(order);
         List<User> users = userService.getAllUsers();
         model.addAttribute("orderAtr", order);
         model.addAttribute("clientAtr", client);

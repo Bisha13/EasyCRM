@@ -23,8 +23,9 @@ public class Work {
     @Column(name = "order_id")
     private int orderId;
 
-    @Column(name = "item_id")
-    private int itemId;
+    @OneToOne
+    @JoinColumn(name = "item_id")
+    private Item item;
 
     @Column(name = "executor_id")
     private int executorId;
