@@ -21,4 +21,9 @@ public class OrderServiceImp implements OrderService {
         return orderRepository.findById(id)
                 .orElseGet(Order::new);
     }
+
+    @Override
+    public void saveOrder(Order order) {
+        orderRepository.save(order);
+    }
 }

@@ -1,13 +1,17 @@
 package ru.bisha.easycrm.db.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@ToString
+@EqualsAndHashCode
 @Table(name = "work")
 public class Work {
 
@@ -19,13 +23,11 @@ public class Work {
     @Column(name = "order_id")
     private int orderId;
 
-    @OneToOne
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @Column(name = "item_id")
+    private int itemId;
 
-    @ManyToOne
-    @JoinColumn(name = "executor_id")
-    private User executor;
+    @Column(name = "executor_id")
+    private int executorId;
 
     @Column(name = "work_status")
     private Status status;

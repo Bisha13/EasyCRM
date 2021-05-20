@@ -1,8 +1,6 @@
 package ru.bisha.easycrm.db.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "item")
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 public class Item {
 
@@ -27,9 +27,8 @@ public class Item {
     @Column(name = "price")
     private int price;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,  CascadeType.REFRESH})
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @Column(name = "category_id")
+    private int category;
 
     @Column(name = "priority")
     private Integer priority;

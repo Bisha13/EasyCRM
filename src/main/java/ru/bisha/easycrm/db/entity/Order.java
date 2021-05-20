@@ -33,9 +33,8 @@ public class Order {
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
-    @OneToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @Column(name = "client_id")
+    private int clientId;
 
     @Column(name = "small_description")
     private String smallDescription;
@@ -65,16 +64,15 @@ public class Order {
     @Column(name = "payment_status")
     private Integer paymentStatus;
 
-    @OneToOne
-    @JoinColumn(name = "bike_id")
-    private Device device;
+    @Column(name = "bike_id")
+    private int deviceId;
 
     @Column(name = "order_description")
     private String orderDescription;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private List<Service> services;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "order_id")
+//    private List<Service> services;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")

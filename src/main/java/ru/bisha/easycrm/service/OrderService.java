@@ -9,4 +9,6 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     Order getOrder(int id);
+
+    void saveOrder(Order order);
 }

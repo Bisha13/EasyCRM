@@ -50,91 +50,121 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="order-info" th:object="${orderAtr}">
-                    <div class="order-number">
-                        <span class="text-for-order-number">Номер заказа:</span>
-                        <span class="number-of-order" th:text="*{orderId}">7015</span>
-                    </div>
-                    <div class="order-status">
-                        <span class="text-for-order-status">Стату заказа:</span>
-                        <span class="status-of-order" th:text="*{executeStatus}">Принят</span>
-                    </div>
-                    <div class="order-client">
-                        <span class="text-for-order-client">Клиент:</span>
-                        <span class="client-of-order" th:text="*{client.name}">Михаил Велосипедовский</span>
-                    </div>
-                    <div class="order-phone">
-                        <span class="text-for-order-phone">Телефон:</span>
-                        <span class="phone-of-order" th:text="*{client.phoneNumber}">89154446015</span>
-                    </div>
-                </div>
-                <hr/>
+                <form th:action="@{/orders/save}" th:object="${orderAtr}">
+                    <input type="hidden" th:field="*{orderId}">
+                    <input type="hidden" th:field="*{timestamp}">
+                    <input type="hidden" th:field="*{clientId}">
+                    <input type="hidden" th:field="*{smallDescription}">
+                    <input type="hidden" th:field="*{fullDescription}">
+                    <input type="hidden" th:field="*{executeStatus}">
+                    <input type="hidden" th:field="*{executorId}">
+                    <input type="hidden" th:field="*{partsPrice}">
+                    <input type="hidden" th:field="*{workPrice}">
+                    <input type="hidden" th:field="*{parts}">
+                    <input type="hidden" th:field="*{works}">
+                    <input type="hidden" th:field="*{paymentStatus}">
+                    <input type="hidden" th:field="*{deviceId}">
+                    <input type="hidden" th:field="*{orderDescription}">
+                    <input type="hidden" th:field="*{timeClose}">
+                    <input type="hidden" th:field="*{fullPrice}">
+<!--                    <input type="hidden" th:field="*{listOfWorks}">-->
 
-                <div class="vehicle-block" th:object="${orderAtr.device}">
-                    <div class="vehicle-info">
-                        <span class="text-for-vehicle-info">Что чиним:</span>
-                        <span class="value-of-vehicle-info"
-                              th:text="*{vendor} + ' ' + *{model}">Велосипед красный</span>
+
+
+                    <div class="order-info">
+                        <div class="order-number">
+                            <span class="text-for-order-number">Номер заказа:</span>
+                            <span class="number-of-order" th:text="*{orderId}">7015</span>
+                        </div>
+                        <div class="order-status">
+                            <span class="text-for-order-status">Стату заказа:</span>
+                            <span class="status-of-order" th:text="*{executeStatus}">Принят</span>
+                        </div>
+                        <div class="order-client">
+                            <span class="text-for-order-client">Клиент:</span>
+                            <span class="client-of-order" th:text="${clientAtr.name}">Михаил Велосипедовский</span>
+                        </div>
+                        <div class="order-phone">
+                            <span class="text-for-order-phone">Телефон:</span>
+                            <span class="phone-of-order" th:text="${clientAtr.phoneNumber}">89154446015</span>
+                        </div>
                     </div>
-                    <div class="vehicle-info-additional">
-                        <span class="text-for-additional-info">Кратко:</span>
-                        <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
-                        >Весь велосипед погнуло как буратину, наверное за зиму
+                    <hr/>
+
+                    <div class="vehicle-block" th:object="${deviceAtr}">
+                        <div class="vehicle-info">
+                            <span class="text-for-vehicle-info">Что чиним:</span>
+                            <span class="value-of-vehicle-info"
+                                  th:text="*{vendor} + ' ' + *{model}">Велосипед красный</span>
+                        </div>
+                        <div class="vehicle-info-additional">
+                            <span class="text-for-additional-info">Кратко:</span>
+                            <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
+                            >Весь велосипед погнуло как буратину, наверное за зиму
                   так.</span
-                        >
-                    </div>
-                </div>
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Работа</th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Кто делает</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="work : ${orderAtr.listOfWorks}">
-                        <td class="w-50" th:text="${work.item.name}">Полное ТО</td>
-                        <td th:text="${work.item.price}">5000</td>
-                        <td>
-                            <select class="form-select">
-                                <option>Кто чинит?</option>
-                                <option th:each="executor : ${usersAtr}"
-                                        th:text="${executor.fullName}"
-                                        th:value="${executor.id}"
-                                        th:selected="${executor.id == work.executor.id}"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <button
-                                    class="btn btn-danger float-end"
-                                    th:onclick="remove(this);"
-                                    type="button"
                             >
-                                <i aria-hidden="true" class="fa fa-minus float-right"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="form-group textArea-comments">
-                    <label for="textArea-comments1">Комментарии</label>
-                    <textarea
-                            class="form-control"
-                            id="textArea-comments1"
-                            rows="5"
-                    ></textarea>
-                </div>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Работа</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Кто делает</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="work, itemStat : *{listOfWorks}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].id}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].orderId}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].itemId}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].status}">
+                            <td class="w-50" th:text="${work.getItemId}"></td>
+                            <td th:text="${work.status}">5000</td>
+<!--                            <td th:text="*{listOfWorks[__${itemStat.index}__].executor.fullName}">-->
+                            <td>
+                                <select class="form-select" th:field="*{listOfWorks[__${itemStat.index}__].executorId}">
+<!--                                    <option>Кто чинит?</option>-->
+                                    <option th:each="executor : ${usersAtr}"
+                                            th:text="${executor.fullName}"
+                                            th:value="${executor.id}"
+                                            th:selected="*{executorId} == ${work.executorId}"
+                                    >
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <button
+                                        class="btn btn-danger float-end"
+                                        th:onclick="remove(this);"
+                                        type="button"
+                                >
+                                    <i aria-hidden="true" class="fa fa-minus float-right"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group textArea-comments">
+                        <label for="textArea-comments1">Комментарии</label>
+                        <textarea
+                                class="form-control"
+                                id="textArea-comments1"
+                                rows="5"
+                        ></textarea>
+                    </div>
 
 
-                <button
-                        class="btn btn-primary btn-lg"
-                        type="button"
-                >
-                    Сохранить
-                </button>
+<!--                    <button-->
+<!--                            class="btn btn-primary btn-lg"-->
+<!--                            type="button"-->
+<!--                    >-->
+<!--                        Сохранить-->
+<!--                    </button>-->
+                    <input type="submit" value="Save">
+                </form>
             </div>
         </div>
     </div>
