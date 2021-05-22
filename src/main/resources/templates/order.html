@@ -119,12 +119,7 @@
                         <tr th:each="work, itemStat : *{listOfWorks}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].id}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].orderId}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.id}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.name}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.description}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.price}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.category}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item.priority}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].status}">
                             <td class="w-50" th:text="${work.item.name}"></td>
                             <td th:text="${work.status}">5000</td>
