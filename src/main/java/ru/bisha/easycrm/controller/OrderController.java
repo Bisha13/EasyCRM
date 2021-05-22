@@ -6,14 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.bisha.easycrm.db.entity.Client;
-import ru.bisha.easycrm.db.entity.Device;
-import ru.bisha.easycrm.db.entity.Order;
-import ru.bisha.easycrm.db.entity.User;
-import ru.bisha.easycrm.service.ClientService;
-import ru.bisha.easycrm.service.DeviceService;
-import ru.bisha.easycrm.service.OrderService;
-import ru.bisha.easycrm.service.UserService;
+import ru.bisha.easycrm.db.entity.*;
+import ru.bisha.easycrm.service.*;
+
 import java.util.List;
 
 @Controller
@@ -29,6 +24,8 @@ public class OrderController {
     private final ClientService clientService;
 
     private final DeviceService deviceService;
+
+    private final ItemService itemService;
 
 
     @RequestMapping
@@ -57,6 +54,16 @@ public class OrderController {
         return "redirect:/orders/" + order.getOrderId();
     }
 
+    @RequestMapping("/new")
+    public String newOrder(Model model) {
+        OrderWrapper orderWrapper = new OrderWrapper();
+        orderWrapper.addOrder(new Order());
+        List<Item> itemList = itemService.getAll();
 
+        model.addAttribute("itemsAtr", itemList);
+        model.addAttribute("ordersAtr", orderWrapper);
+
+        return "newOrder";
+    }
 }
 
