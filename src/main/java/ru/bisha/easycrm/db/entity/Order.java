@@ -33,8 +33,10 @@ public class Order {
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
-    @Column(name = "client_id")
-    private int clientId;
+    @OneToOne(fetch = FetchType.LAZY, cascade =
+            {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @Column(name = "small_description")
     private String smallDescription;
@@ -64,8 +66,10 @@ public class Order {
     @Column(name = "payment_status")
     private Integer paymentStatus;
 
-    @Column(name = "bike_id")
-    private int deviceId;
+    @OneToOne(fetch = FetchType.LAZY, cascade =
+            {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "bike_id")
+    private Device device;
 
     @Column(name = "order_description")
     private String orderDescription;

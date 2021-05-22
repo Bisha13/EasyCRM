@@ -53,7 +53,7 @@
                 <form th:action="@{/orders/save}" th:object="${orderAtr}">
                     <input type="hidden" th:field="*{orderId}">
                     <input type="hidden" th:field="*{timestamp}">
-                    <input type="hidden" th:field="*{clientId}">
+                    <input type="hidden" th:field="*{client}">
                     <input type="hidden" th:field="*{smallDescription}">
                     <input type="hidden" th:field="*{fullDescription}">
                     <input type="hidden" th:field="*{executeStatus}">
@@ -63,7 +63,7 @@
                     <input type="hidden" th:field="*{parts}">
                     <input type="hidden" th:field="*{works}">
                     <input type="hidden" th:field="*{paymentStatus}">
-                    <input type="hidden" th:field="*{deviceId}">
+                    <input type="hidden" th:field="*{device}">
                     <input type="hidden" th:field="*{orderDescription}">
                     <input type="hidden" th:field="*{timeClose}">
                     <input type="hidden" th:field="*{fullPrice}">
@@ -82,20 +82,20 @@
                         </div>
                         <div class="order-client">
                             <span class="text-for-order-client">Клиент:</span>
-                            <span class="client-of-order" th:text="${clientAtr.name}">Михаил Велосипедовский</span>
+                            <span class="client-of-order" th:text="*{client.name}">Михаил Велосипедовский</span>
                         </div>
                         <div class="order-phone">
                             <span class="text-for-order-phone">Телефон:</span>
-                            <span class="phone-of-order" th:text="${clientAtr.phoneNumber}">89154446015</span>
+                            <span class="phone-of-order" th:text="*{client.phoneNumber}">89154446015</span>
                         </div>
                     </div>
                     <hr/>
 
-                    <div class="vehicle-block" th:object="${deviceAtr}">
+                    <div class="vehicle-block">
                         <div class="vehicle-info">
                             <span class="text-for-vehicle-info">Что чиним:</span>
                             <span class="value-of-vehicle-info"
-                                  th:text="*{vendor} + ' ' + *{model}">Велосипед красный</span>
+                                  th:text="*{device.deviceName}">Велосипед красный</span>
                         </div>
                         <div class="vehicle-info-additional">
                             <span class="text-for-additional-info">Кратко:</span>
