@@ -63,7 +63,12 @@
                     <tbody>
                     <tr th:each="order : ${orderListAttr}">
                         <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}"></a></td>
-                        <td th:text="${order.getDeviceId.vendor} + ' ' + ${order.getDeviceId.model}">Otto</td>
+                        <div th:if="${order.device.deviceName != null}">
+                            <td th:text="${order.device.deviceName}">Otto</td>
+                        </div>
+                        <div th:unless="${order.device.deviceName != null}">
+                            <td th:text="${order.device.vendor} + ' ' + ${order.device.model}">Otto</td></div>
+
                         <td th:text="${order.smallDescription}">Otto</td>
                         <td th:text="${order.executeStatus}">Otto</td>
                         <td th:text="${order.orderDescription}">Otto</td>
