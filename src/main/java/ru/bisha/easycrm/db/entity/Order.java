@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,10 +24,10 @@ public class Order {
     private int orderId;
 
     @Column(name = "full_price")
-    private Integer fullPrice;
+    private Integer fullPrice; // когда редактируется заказ
 
     @Column(name = "time_close")
-    private Date timeClose;
+    private Date timeClose; // подумать
 
     @CreationTimestamp
     @Column(name="timestamp",
@@ -39,23 +40,24 @@ public class Order {
     private Client client;
 
     @Column(name = "small_description")
-    private String smallDescription;
+    private String smallDescription; //сделать
 
     @Column(name = "full_description")
     private String fullDescription;
 
     @Column(name = "execute_status")
     @Enumerated(EnumType.ORDINAL)
-    private Status executeStatus;
+    private Status executeStatus; // изменять когда редактируется заказ или
+    // много заказов
 
     @Column(name = "executor_id")
     private Integer executorId;
 
     @Column(name = "parts_price")
-    private Integer partsPrice;
+    private Integer partsPrice; // Не знаю, нужно вообще или нет
 
     @Column(name = "work_price")
-    private Integer workPrice;
+    private Integer workPrice; // same
 
     @Column(name = "parts")
     private String parts;
@@ -72,7 +74,7 @@ public class Order {
     private Device device;
 
     @Column(name = "order_description")
-    private String orderDescription;
+    private String orderDescription; // сделать
 
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "order_id")
@@ -82,7 +84,14 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<Work> listOfWorks;
 
-enum Status {
+    public Order() {
+        this.executeStatus = Status.NEW;
+        this.device = new Device();
+        this.listOfWorks = new ArrayList<>();
+        listOfWorks.add(new Work());
+    }
+
+    enum Status {
     NEW, WAITING, WAITING_GLEB, WAITING_PARTS, READY, CLOSED,
 }
 

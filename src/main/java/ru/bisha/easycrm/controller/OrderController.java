@@ -39,25 +39,37 @@ public class OrderController {
     public String getOrder(@PathVariable int id, Model model) {
         Order order = orderService.getOrder(id);
         List<User> users = userService.getAllUsers();
+        List<Item> items = itemService.getAll();
         model.addAttribute("orderAtr", order);
         model.addAttribute("usersAtr", users);
+        model.addAttribute("itemsAtr", items);
         return "order";
     }
 
+    @RequestMapping("/saveWrapper")
+    public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+                            @ModelAttribute("orderAtr") final Client client) {
+
+        System.out.println("Success!");
+        return "redirect:/orders";
+//                + order.getOrderId();
+    }
     @RequestMapping("/save")
-    public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
+    public String saveSeveral(@ModelAttribute("orderAtr") final Order order) {
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }
 
     @RequestMapping("/new")
     public String newOrder(Model model) {
-        OrderWrapper orderWrapper = new OrderWrapper();
-        orderWrapper.addOrder(new Order());
+        OrderWrapper ordersWrapper = new OrderWrapper();
+        ordersWrapper.addOrder(new Order());
+        Client client = new Client();
         List<Item> itemList = itemService.getAll();
 
         model.addAttribute("itemsAtr", itemList);
-        model.addAttribute("ordersAtr", orderWrapper);
+        model.addAttribute("ordersWrapperAtr", ordersWrapper);
+        model.addAttribute("clientAtr", client);
 
         return "newOrder";
     }

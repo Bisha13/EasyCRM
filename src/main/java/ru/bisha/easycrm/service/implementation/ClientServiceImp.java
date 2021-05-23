@@ -12,8 +12,14 @@ public class ClientServiceImp implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Override
     public Client getClient(int id) {
         return clientRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
     }
 
 }

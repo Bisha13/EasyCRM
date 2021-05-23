@@ -34,6 +34,8 @@ public class Work {
     @Column(name = "work_status")
     private Status status;
 
+    private String test;
+
     enum Status {
         NEW, DONE, PAYED
     }
