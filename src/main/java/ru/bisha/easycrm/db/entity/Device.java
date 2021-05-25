@@ -20,6 +20,9 @@ public class Device {
     @Column(name = "device_id")
     private int deviceId;
 
+    @Column(name = "device_name")
+    private String deviceName;
+
     @Column(name = "vendor")
     private String vendor;
 
@@ -37,6 +40,7 @@ public class Device {
 
     @Column(name = "device_type")
     private int deviceType;
+
 
     @CreationTimestamp
     @Column(name="timestamp",

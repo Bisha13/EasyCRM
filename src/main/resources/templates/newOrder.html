@@ -1,188 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="UTF-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-  <!-- Bootstrap CSS -->
-  <link th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap-grid.min.css}" rel="stylesheet">
-  <link th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/webjars/font-awesome/5.15.2/css/all.css}" rel="stylesheet">
-  <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap-grid.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap/5.0.1/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/5.15.2/css/all.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
 
-  <title>Document</title>
+    <title>Document</title>
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">EasyRide</a>
-    <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Главная</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Заказы</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Клиенты</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Мастера</a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">EasyRide</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Клиенты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Мастера</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
 
 <!-- Section with orders -->
-<div class="container orderSection" id="orderSectionId">
-  <div class="row sectionRow">
-    <div class="col"></div>
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-          <div class="order-segment">
-            <input
-                    class="form-control whatToFix"
-                    type="text"
-                    placeholder="Что чиним?"
-            />
-            <!-- Datalist -->
-            <div class="input-group item-datalist">
-              <input
-                      class="form-control"
-                      list="datalistOptions"
-                      placeholder="Что нужно сделать?"
-              />
-              <div>
-                <button
-                        class="btn btn-danger"
-                        type="button"
-                        onclick="remove(this);"
-                        style="display: none"
-                >
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                </button>
-                <button
-                        class="btn btn-success"
-                        type="button"
-                        onclick="duplicate(this);"
-                >
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-              </div>
+<form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}">
+    <div class="container orderSection" id="orderSectionId">
+        <div class="row sectionRow" th:each="order, i : *{orderList}">
+            <div class="col"></div>
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="order-segment">
+                            <input type="hidden" class="forRowIndGen" th:field="*{orderList[__${i.index}__].executeStatus}">
+
+                            <input
+                                    th:field="*{orderList[__${i.index}__].device.deviceName}"
+                                    class="form-control whatToFix forRowIndGen"
+                                    type="text"
+                                    placeholder="Что чиним?"
+                            />
+                            <!-- Datalist -->
+                            <div class="input-group item-datalist" th:each="work, j : ${order.listOfWorks}">
+                                <select
+                                        class="form-control forRowIndGen"
+                                        list="datalistOptions"
+                                        placeholder="Что нужно сделать?"
+                                        th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
+                                />
+                                <option>---</option>
+                                <option th:each="item : ${itemsAtr}"
+                                        th:text="${item.name} + ' - ' + ${item.price}"
+                                        th:value="${item.id}"
+                                ></option>
+                                </select>
+                                <div>
+                                    <button
+                                            class="btn btn-danger"
+                                            type="button"
+                                            onclick="remove(this);"
+                                            style="display: none"
+                                    >
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                    <button
+                                            class="btn btn-success"
+                                            type="button"
+                                            onclick="duplicate(this);"
+                                    >
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <br/>
+
+
+                            <div class="form-group textArea-comments">
+                                <label for="textArea-comments1">Комментарии</label>
+                                <textarea th:field="*{orderList[__${i.index}__].fullDescription}"
+                                          class="form-control forRowIndGen"
+                                          id="textArea-comments1"
+                                          rows="5"
+                                ></textarea>
+                            </div>
+                            <button
+                                    type="button"
+                                    class="btn btn-primary btn-lg"
+                                    onclick="anotherOne(this);"
+
+                            >
+                                Чиним что-то ещё
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-secondary btn-lg"
+                                    onclick="removeRow(this);"
+                                    style="display: none"
+                            >
+                                Убрать
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br />
+            <div class="col"></div>
+        </div>
+    </div>
 
-
-            <div class="form-group textArea-comments">
-              <label for="textArea-comments1">Комментарии</label>
-              <textarea
-                      class="form-control"
-                      id="textArea-comments1"
-                      rows="5"
-              ></textarea>
+    <div class="container clientSection">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="price-text">
+                            <span class="price-text-inner">Итого денег: </span>
+                            <span class="price-text-sum">5000р.</span>
+                        </div>
+                        <div class="input-group mb-3" th:object="${clientAtr}">
+                            <input
+                                    th:field="*{phoneNumber}"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Телефон"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="search-phone-button"
+                            />
+                            <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="search-phone-button"
+                            >
+                                Искать
+                            </button>
+                            <input
+                                    th:field="*{name}"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Имя"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="confirm-order-button"
+                            />
+                            <button
+                                    class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="confirm-order-button"
+                            >
+                                Оформить заказ
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button
-                    type="button"
-                    class="btn btn-primary btn-lg"
-                    onclick="anotherOne(this);"
-
-            >
-              Чиним что-то ещё
-            </button>
-            <button
-                    type="button"
-                    class="btn btn-secondary btn-lg"
-                    onclick="removeRow(this);"
-                    style="display: none"
-            >
-              Убрать
-            </button>
-          </div>
+            <div class="col"></div>
         </div>
-      </div>
     </div>
-    <div class="col"></div>
-  </div>
-</div>
-
-<div class="container clientSection">
-  <div class="row">
-    <div class="col"></div>
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-          <div class="price-text">
-            <span class="price-text-inner">Итого денег:</span>
-            <span class="price-text-sum">5000р.</span>
-          </div>
-          <div class="input-group mb-3">
-            <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Телефон"
-                    aria-label="Recipient's username"
-                    aria-describedby="search-phone-button"
-            />
-            <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    id="search-phone-button"
-            >
-              Искать
-            </button>
-            <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Имя"
-                    aria-label="Recipient's username"
-                    aria-describedby="confirm-order-button"
-            />
-            <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    id="confirm-order-button"
-            >
-              Оформить заказ
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col"></div>
-  </div>
-</div>
-
+    <input type="submit" value="Save">
+</form>
 <!-- Options for dataList -->
-<datalist id="datalistOptions">
-  <option value="Колесо"></option>
-  <option value="Рама"></option>
-  <option value="Руль"></option>
-  <option value="Тормоз"></option>
-  <option value="Всякое"></option>
-  <option value="Ужасы"></option>
-</datalist>
+<!--<datalist id="datalistOptions">-->
+<!--  <option th:each="item : ${itemsAtr}" -->
+<!--          th:text="${item.name}"-->
+<!--          th:value="${item.id}"-->
+<!--  ></option>-->
+<!--</datalist>-->
 <!-- Bootstrap js -->
 <script th:src="@{/webjars/bootstrap/5.0.1/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
 <script src="/js/custom.js" type="text/javascript"></script>
 <script>
-  window.onload = saveSection();
+    window.onload = saveSection();
 </script>
 </body>
 </html>

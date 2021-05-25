@@ -23,7 +23,8 @@ public class Work {
     @Column(name = "order_id")
     private int orderId;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade =
+            {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "item_id")
     private Item item;
 
@@ -32,6 +33,8 @@ public class Work {
 
     @Column(name = "work_status")
     private Status status;
+
+    private String test;
 
     enum Status {
         NEW, DONE, PAYED
