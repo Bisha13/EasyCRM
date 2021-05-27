@@ -20,12 +20,23 @@
                         <div class="order-segment">
                             <input type="hidden" class="forRowIndGen" th:field="*{orderList[__${i.index}__].executeStatus}">
 
-                            <input
-                                    th:field="*{orderList[__${i.index}__].device.deviceName}"
-                                    class="form-control whatToFix forRowIndGen"
-                                    type="text"
-                                    placeholder="Что чиним?"
-                            />
+<!--                            <input-->
+<!--                                    th:field="*{orderList[__${i.index}__].device.deviceName}"-->
+<!--                                    class="form-control whatToFix forRowIndGen"-->
+<!--                                    type="text"-->
+<!--                                    placeholder="Что чиним?"-->
+<!--                            />-->
+
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control forRowIndGen"
+                                       th:field="*{orderList[__${i.index}__].device.deviceName}"
+                                       placeholder="Что чиним?" aria-label="Что чиним?">
+                                <span class="input-group-text"><i class="fas fa-bicycle"></i></span>
+                                <input type="text" class="form-control forRowIndGen"
+                                       th:field="*{orderList[__${i.index}__].device.description}"
+                                       placeholder="Краткое описание" aria-label="Краткое описание">
+                            </div>
+
                             <!-- Datalist -->
                             <div class="input-group item-datalist" th:each="work, j : ${order.listOfWorks}">
                                 <select
