@@ -3,6 +3,7 @@ package ru.bisha.easycrm.db.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -80,8 +81,10 @@ public class Order {
 //    @JoinColumn(name = "order_id")
 //    private List<Service> services;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @ToString.Exclude
+    @OneToMany(mappedBy = "order",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
     private List<Work> listOfWorks;
 
     public Order() {

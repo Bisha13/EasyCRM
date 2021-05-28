@@ -40,12 +40,15 @@ function revaluateRowIds() {
     for (let i = 0; i < sectionRows.length; i++) {
         let innerClasses = sectionRows[i].querySelectorAll(".forRowIndGen");
         for (let el of innerClasses) {
+
             let partsOfId = el.id.split(".");
             if (partsOfId[0].includes("orderList")) {
                 partsOfId[0] = `orderList${i}`;
                 el.id = partsOfId.join(".");
+            }
 
-                let partsOfName = el.name.split(".");
+            let partsOfName = el.name.split(".");
+            if (partsOfName[0].includes("orderList")) {
                 partsOfName[0] = `orderList[${i}]`;
                 el.name = partsOfName.join(".");
             }

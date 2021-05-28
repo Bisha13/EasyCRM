@@ -34,9 +34,11 @@
                     <input type="hidden" th:field="*{paymentStatus}">
                     <input type="hidden" th:field="*{device}">
                     <input type="hidden" th:field="*{orderDescription}">
-                    <input type="hidden" th:field="*{timeClose}">
                     <input type="hidden" th:field="*{fullPrice}">
-<!--                    <input type="hidden" th:field="*{listOfWorks}">-->
+                    <div th:if="*{timeClose != null}">
+                        <input type="hidden" th:field="*{timeClose}">
+                    </div>
+                    <!--                    <input type="hidden" th:field="*{listOfWorks}">-->
 
 
 
@@ -87,7 +89,7 @@
                         <tbody>
                         <tr th:each="work, itemStat : *{listOfWorks}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].id}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].orderId}">
+                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].order}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item}">
                             <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].status}">
                             <td class="w-50" th:text="${work.item.name}"></td>

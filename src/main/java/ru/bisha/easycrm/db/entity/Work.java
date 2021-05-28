@@ -20,8 +20,9 @@ public class Work {
     @Column(name = "work_id")
     private int id;
 
-    @Column(name = "order_id")
-    private int orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
@@ -38,6 +39,9 @@ public class Work {
         NEW, DONE, PAYED
     }
 
+    public Work() {
+        this.executorId = 20;
+    }
 }
 
 

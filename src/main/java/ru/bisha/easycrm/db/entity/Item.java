@@ -27,15 +27,11 @@ public class Item {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "category_id")
-    private int category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(name = "priority")
     private Integer priority;
 
-    public Item(String name, String description, int price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
 }

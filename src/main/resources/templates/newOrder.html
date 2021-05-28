@@ -20,13 +20,6 @@
                         <div class="order-segment">
                             <input type="hidden" class="forRowIndGen" th:field="*{orderList[__${i.index}__].executeStatus}">
 
-<!--                            <input-->
-<!--                                    th:field="*{orderList[__${i.index}__].device.deviceName}"-->
-<!--                                    class="form-control whatToFix forRowIndGen"-->
-<!--                                    type="text"-->
-<!--                                    placeholder="Что чиним?"-->
-<!--                            />-->
-
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control forRowIndGen"
                                        th:field="*{orderList[__${i.index}__].device.deviceName}"
@@ -42,12 +35,12 @@
                                 <select
                                         class="form-control forRowIndGen"
                                         list="datalistOptions"
-                                        placeholder="Что нужно сделать?"
+<!--                                        placeholder="Что нужно сделать?"-->
                                         th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
                                 />
-                                <option>---</option>
+<!--                                <option>Что нужно сделать?</option>-->
                                 <option th:each="item : ${itemsAtr}"
-                                        th:text="${item.name} + ' - ' + ${item.price}"
+                                        th:text="'[' + ${item.category.name} + '] - ' + ${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
                                 ></option>
                                 </select>
@@ -70,6 +63,21 @@
                                 </div>
                             </div>
                             <br/>
+
+
+                            <input
+                                    th:field="*{orderList[__${i.index}__].smallDescription}"
+                                    class="form-control whatToFix forRowIndGen"
+                                    type="text"
+                                    placeholder="Краткое описание"
+                            />
+
+                            <input
+                                    th:field="*{orderList[__${i.index}__].orderDescription}"
+                                    class="form-control whatToFix forRowIndGen"
+                                    type="text"
+                                    placeholder="Особые отметки"
+                            />
 
 
                             <div class="form-group textArea-comments">

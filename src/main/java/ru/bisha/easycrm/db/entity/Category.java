@@ -2,6 +2,7 @@ package ru.bisha.easycrm.db.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "Category")
 @Data
 @NoArgsConstructor
+@ToString
 public class Category {
 
     @Id
@@ -20,6 +22,7 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     @OrderBy("priority")
     private List<Item> items;

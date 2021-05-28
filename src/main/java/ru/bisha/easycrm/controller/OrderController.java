@@ -49,10 +49,17 @@ public class OrderController {
     @RequestMapping("/saveWrapper")
     public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
                             @ModelAttribute("orderAtr") final Client client) {
+        clientService.saveClient(client);
 
-        System.out.println("Success!");
+        for (Order order : orderWrapper.getOrderList()) {
+            order.setClient(client);
+            order.getDevice().setOwner(client.getId());
+            for (Work work : order.getListOfWorks()) {
+                work.setOrder(order);
+            }
+            orderService.saveOrder(order);
+        }
         return "redirect:/orders";
-//                + order.getOrderId();
     }
     @RequestMapping("/save")
     public String saveSeveral(@ModelAttribute("orderAtr") final Order order) {
