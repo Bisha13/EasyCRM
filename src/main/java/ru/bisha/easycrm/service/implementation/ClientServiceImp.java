@@ -22,4 +22,14 @@ public class ClientServiceImp implements ClientService {
         return clientRepository.save(client);
     }
 
+    @Override
+    public Client findClientByNumber(String phoneNumber) {
+        String shorter = phoneNumber.replaceAll("[()+-]", "");
+        if (shorter.startsWith("7")) {
+            shorter = shorter.replaceFirst("7", "");
+        }
+        String phoneLike = "%" + shorter;
+        return clientRepository.findClientByPhoneNumberLike(phoneLike);
+    }
+
 }

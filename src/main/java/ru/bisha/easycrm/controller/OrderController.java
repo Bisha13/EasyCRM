@@ -47,7 +47,8 @@ public class OrderController {
     }
 
     @RequestMapping("/saveWrapper")
-    public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+    public String saveOrder(@ModelAttribute("ordersWrapperAtr")
+                                final OrderWrapper orderWrapper,
                             @ModelAttribute("orderAtr") final Client client) {
         clientService.saveClient(client);
 
@@ -80,5 +81,25 @@ public class OrderController {
 
         return "newOrder";
     }
+
+    @RequestMapping("/findClient")
+    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr")
+                                          final OrderWrapper orderWrapper,
+                                      @ModelAttribute("orderAtr")
+                                      final Client client, Model model) {
+        List<Item> itemList = itemService.getAll();
+
+        Client foundClient = clientService
+                .findClientByNumber(client.getPhoneNumber());
+
+        model.addAttribute("itemsAtr", itemList);
+        model.addAttribute("ordersWrapperAtr", orderWrapper);
+        model.addAttribute("clientAtr",
+                foundClient != null ?
+                foundClient : client);
+        System.out.println("!!");
+        return "newOrder";
+    }
+
 }
 

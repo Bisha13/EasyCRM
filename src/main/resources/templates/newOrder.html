@@ -35,12 +35,12 @@
                                 <select
                                         class="form-control forRowIndGen"
                                         list="datalistOptions"
-<!--                                        placeholder="Что нужно сделать?"-->
+                                        placeholder="Что нужно сделать?"
                                         th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
                                 />
 <!--                                <option>Что нужно сделать?</option>-->
                                 <option th:each="item : ${itemsAtr}"
-                                        th:text="'[' + ${item.category.name} + '] - ' + ${item.name} + ' - ' + ${item.price}"
+                                        th:text="${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
                                 ></option>
                                 </select>
@@ -132,8 +132,9 @@
                                     aria-describedby="search-phone-button"
                             />
                             <button
+                                    th:formaction="@{/orders/findClient}"
                                     class="btn btn-outline-secondary"
-                                    type="button"
+                                    type="submit"
                                     id="search-phone-button"
                             >
                                 Искать
@@ -148,7 +149,7 @@
                             />
                             <button
                                     class="btn btn-outline-secondary"
-                                    type="button"
+                                    type="submit"
                                     id="confirm-order-button"
                             >
                                 Оформить заказ
