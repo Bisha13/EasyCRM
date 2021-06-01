@@ -33,27 +33,7 @@ function remove(node) {
 
 function saveSection() {
     section = document.getElementsByClassName("row")[0].cloneNode(true);
-}
-
-function revaluateRowIds() {
-    let sectionRows = document.querySelectorAll(".row.sectionRow");
-    for (let i = 0; i < sectionRows.length; i++) {
-        let innerClasses = sectionRows[i].querySelectorAll(".forRowIndGen");
-        for (let el of innerClasses) {
-
-            let partsOfId = el.id.split(".");
-            if (partsOfId[0].includes("orderList")) {
-                partsOfId[0] = `orderList${i}`;
-                el.id = partsOfId.join(".");
-            }
-
-            let partsOfName = el.name.split(".");
-            if (partsOfName[0].includes("orderList")) {
-                partsOfName[0] = `orderList[${i}]`;
-                el.name = partsOfName.join(".");
-            }
-        }
-    }
+    revaluateIds();
 }
 
 function anotherOne(node) {
@@ -102,5 +82,26 @@ function revaluateIds() {
         select.id = `orderList${rowIndex}.listOfWorks${i}.item`;
         select.name = `orderList[${rowIndex}].listOfWorks[${i}].item`;
         i++;
+    }
+}
+
+function revaluateRowIds() {
+    let sectionRows = document.querySelectorAll(".row.sectionRow");
+    for (let i = 0; i < sectionRows.length; i++) {
+        let innerClasses = sectionRows[i].querySelectorAll(".forRowIndGen");
+        for (let el of innerClasses) {
+
+            let partsOfId = el.id.split(".");
+            if (partsOfId[0].includes("orderList")) {
+                partsOfId[0] = `orderList${i}`;
+                el.id = partsOfId.join(".");
+            }
+
+            let partsOfName = el.name.split(".");
+            if (partsOfName[0].includes("orderList")) {
+                partsOfName[0] = `orderList[${i}]`;
+                el.name = partsOfName.join(".");
+            }
+        }
     }
 }

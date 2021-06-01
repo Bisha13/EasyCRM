@@ -42,6 +42,7 @@
                                 <option th:each="item : ${itemsAtr}"
                                         th:text="${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
+                                        th:selected="${item} == *{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
                                 ></option>
                                 </select>
                                 <div>
