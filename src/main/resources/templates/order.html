@@ -87,17 +87,34 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="work, itemStat : *{listOfWorks}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].id}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].order}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].item}">
-                            <input type="hidden" th:field="*{listOfWorks[__${itemStat.index}__].status}">
-                            <td class="w-50" th:text="${work.item.name}"></td>
-                            <td th:text="${work.status}">5000</td>
-<!--                            <td th:text="*{listOfWorks[__${itemStat.index}__].executor.fullName}">-->
+                        <tr th:each="work, i : *{listOfWorks}" class="item-datalist">
+                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].id}">
+                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].order}">
+<!--                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].item}">-->
+                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].status}">
+
+
+
+<!--                            <td class="w-50" th:text="${work.item.name}"></td>-->
                             <td>
-                                <select class="form-select" th:field="*{listOfWorks[__${itemStat.index}__].executorId}">
-<!--                                    <option>Кто чинит?</option>-->
+                                <select
+                                    class="form-control"
+                                    list="datalistOptions"
+                                    placeholder="Что нужно сделать?"
+                                    th:field="*{listOfWorks[__${i.index}__].item}"
+                            />
+                                <!--                                <option>Что нужно сделать?</option>-->
+                                <option th:each="item, j : ${itemsAtr}"
+                                        th:text="${item.name} + ' - ' + ${item.price}"
+                                        th:value="${item.id}"
+                                        th:selected="${item} == *{listOfWorks[__${i.index}__].item}"
+                                ></option>
+                                </select></td>
+                            <td th:text="${work.status}">5000</td>
+<!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
+
+                            <td>
+                                <select class="form-select" th:field="*{listOfWorks[__${i.index}__].executorId}">
                                     <option th:each="executor : ${usersAtr}"
                                             th:text="${executor.fullName}"
                                             th:value="${executor.id}"
@@ -106,6 +123,7 @@
                                     </option>
                                 </select>
                             </td>
+
                             <td>
                                 <button
                                         class="btn btn-danger float-end"
@@ -113,6 +131,13 @@
                                         type="button"
                                 >
                                     <i aria-hidden="true" class="fa fa-minus float-right"></i>
+                                </button>
+                                <button
+                                        class="btn btn-success"
+                                        type="button"
+                                        onclick="duplicate(this);"
+                                >
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                             </td>
                         </tr>

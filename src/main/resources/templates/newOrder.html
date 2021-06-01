@@ -7,7 +7,7 @@
 
 <body>
 <!-- Navbar -->
-<div th:insert="fragments/navbar :: navbar('orders')"></div>
+<div th:insert="fragments/navbar :: navbar('home')"></div>
 
 <!-- Section with orders -->
 <form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}">

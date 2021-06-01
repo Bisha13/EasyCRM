@@ -41,6 +41,7 @@ public class Work {
 
     public Work() {
         this.executorId = 20;
+        this.status = Status.NEW;
     }
 }
 
