@@ -16,7 +16,7 @@
 
 <br/>
 <div class="container">
-    <div class="row">
+    <div class="row sectionRow">
         <div class="card">
             <div class="card-body">
                 <form th:action="@{/orders/save}" th:object="${orderAtr}">
@@ -88,17 +88,17 @@
                         </thead>
                         <tbody>
                         <tr th:each="work, i : *{listOfWorks}" class="item-datalist">
-                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].id}">
-                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].order}">
+                            <input type="hidden" class="itemIdGen deleteId" th:field="*{listOfWorks[__${i.index}__].id}">
+                            <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].order}">
 <!--                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].item}">-->
-                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].status}">
+                            <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].status}">
 
 
 
 <!--                            <td class="w-50" th:text="${work.item.name}"></td>-->
                             <td>
                                 <select
-                                    class="form-control"
+                                    class="form-control itemIdGen"
                                     list="datalistOptions"
                                     placeholder="Что нужно сделать?"
                                     th:field="*{listOfWorks[__${i.index}__].item}"
@@ -174,5 +174,10 @@
 </datalist>
 
 <div th:insert="fragments/footer :: myFooter"></div>
+<script>
+    window.onload = function () {
+        hideAndDisplayDatalistButtons();
+    }
+</script>
 </body>
 </html>

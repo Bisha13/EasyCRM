@@ -40,6 +40,7 @@ public class OrderController {
         Order order = orderService.getOrder(id);
         List<User> users = userService.getAllUsers();
         List<Item> items = itemService.getAll();
+//        order.getListOfWorks().add(new Work());
         model.addAttribute("orderAtr", order);
         model.addAttribute("usersAtr", users);
         model.addAttribute("itemsAtr", items);
