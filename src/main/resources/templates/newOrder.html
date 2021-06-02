@@ -18,14 +18,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="order-segment">
-                            <input type="hidden" class="forRowIndGen" th:field="*{orderList[__${i.index}__].executeStatus}">
-
+                            <input type="hidden" th:field="*{orderList[__${i.index}__].executeStatus}">
+                            <!--Что чиним и Краткое описание-->
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control forRowIndGen"
+                                <input type="text" class="form-control toClean"
                                        th:field="*{orderList[__${i.index}__].device.deviceName}"
                                        placeholder="Что чиним?" aria-label="Что чиним?">
-                                <span class="input-group-text"><i class="fas fa-bicycle"></i></span>
-                                <input type="text" class="form-control forRowIndGen"
+                                <span class="input-group-text" onclick="clean(this);"><i class="fas fa-bicycle"></i></span>
+                                <input type="text" class="form-control toClean"
                                        th:field="*{orderList[__${i.index}__].device.description}"
                                        placeholder="Краткое описание" aria-label="Краткое описание">
                             </div>
@@ -33,7 +33,7 @@
                             <!-- Datalist -->
                             <div class="input-group item-datalist" th:each="work, j : ${order.listOfWorks}">
                                 <select
-                                        class="form-control forRowIndGen"
+                                        class="form-control"
                                         list="datalistOptions"
                                         placeholder="Что нужно сделать?"
                                         th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
@@ -45,11 +45,12 @@
                                         th:selected="${item} == *{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
                                 ></option>
                                 </select>
+                                <!--Кнопки плюс и минус-->
                                 <div>
                                     <button
                                             class="btn btn-danger"
                                             type="button"
-                                            onclick="remove(this);"
+                                            onclick="removeItemList(this);"
                                             style="display: none"
                                     >
                                         <i class="fa fa-minus" aria-hidden="true"></i>
@@ -57,7 +58,7 @@
                                     <button
                                             class="btn btn-success"
                                             type="button"
-                                            onclick="duplicate(this);"
+                                            onclick="duplicateItemList(this);"
                                     >
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                     </button>
@@ -65,17 +66,17 @@
                             </div>
                             <br/>
 
-
+                            <!--Краткое описание-->
                             <input
                                     th:field="*{orderList[__${i.index}__].smallDescription}"
-                                    class="form-control whatToFix forRowIndGen"
+                                    class="form-control whatToFix toClean"
                                     type="text"
                                     placeholder="Краткое описание"
                             />
-
+                            <!--Особые отметки-->
                             <input
                                     th:field="*{orderList[__${i.index}__].orderDescription}"
-                                    class="form-control whatToFix forRowIndGen"
+                                    class="form-control whatToFix toClean"
                                     type="text"
                                     placeholder="Особые отметки"
                             />
@@ -84,7 +85,7 @@
                             <div class="form-group textArea-comments">
                                 <label for="textArea-comments1">Комментарии</label>
                                 <textarea th:field="*{orderList[__${i.index}__].fullDescription}"
-                                          class="form-control forRowIndGen"
+                                          class="form-control toClean"
                                           id="textArea-comments1"
                                           rows="5"
                                 ></textarea>
@@ -92,7 +93,7 @@
                             <button
                                     type="button"
                                     class="btn btn-primary btn-lg"
-                                    onclick="anotherOne(this);"
+                                    onclick="duplicateRow(this);"
 
                             >
                                 Чиним что-то ещё
