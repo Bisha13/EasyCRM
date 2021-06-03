@@ -38,9 +38,6 @@
                     <div th:if="*{timeClose != null}">
                         <input type="hidden" th:field="*{timeClose}">
                     </div>
-                    <!--                    <input type="hidden" th:field="*{listOfWorks}">-->
-
-
 
                     <div class="order-info">
                         <div class="order-number">
@@ -88,22 +85,19 @@
                         </thead>
                         <tbody>
                         <tr th:each="work, i : *{listOfWorks}" class="item-datalist">
-                            <input type="hidden" class="itemIdGen deleteId" th:field="*{listOfWorks[__${i.index}__].id}">
+                            <input type="hidden" class="itemIdGen deleteId"
+                                   th:field="*{listOfWorks[__${i.index}__].id}">
                             <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].order}">
-<!--                            <input type="hidden" th:field="*{listOfWorks[__${i.index}__].item}">-->
                             <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].status}">
 
 
-
-<!--                            <td class="w-50" th:text="${work.item.name}"></td>-->
                             <td>
                                 <select
-                                    class="form-control itemIdGen"
-                                    list="datalistOptions"
-                                    placeholder="Что нужно сделать?"
-                                    th:field="*{listOfWorks[__${i.index}__].item}"
-                            />
-                                <!--                                <option>Что нужно сделать?</option>-->
+                                        class="form-control itemIdGen"
+                                        list="datalistOptions"
+                                        placeholder="Что нужно сделать?"
+                                        th:field="*{listOfWorks[__${i.index}__].item}"
+                                />
                                 <option th:each="item, j : ${itemsAtr}"
                                         th:text="${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
@@ -111,7 +105,7 @@
                                 ></option>
                                 </select></td>
                             <td th:text="${work.status}">5000</td>
-<!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
+                            <!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
 
                             <td>
                                 <select class="form-select" th:field="*{listOfWorks[__${i.index}__].executorId}">
@@ -125,13 +119,22 @@
                             </td>
 
                             <td>
+                                <!--onclick="removeItemList(this);"-->
                                 <button
                                         class="btn btn-danger float-end"
-                                        th:onclick="removeItemList(this);"
+
+
+                                        th:onclick="deleteWorkById('/works/delete?itemId=[[${work.id}]]');"
                                         type="button"
                                 >
                                     <i aria-hidden="true" class="fa fa-minus float-right"></i>
                                 </button>
+
+<!--                                <form th:action="@{/works/delete}">-->
+<!--                                    <input type="hidden" th:value="*{listOfWorks[__${i.index}__].id}" th:name="itemId">-->
+<!--                                    <button class="btn btn-danger " type="submit" value="Удалить"/>-->
+<!--                                    <i aria-hidden="true" class="fa fa-minus"></i></button>-->
+<!--                                </form>-->
                                 <button
                                         class="btn btn-success"
                                         type="button"
@@ -153,12 +156,12 @@
                     </div>
 
 
-<!--                    <button-->
-<!--                            class="btn btn-primary btn-lg"-->
-<!--                            type="button"-->
-<!--                    >-->
-<!--                        Сохранить-->
-<!--                    </button>-->
+                    <!--                    <button-->
+                    <!--                            class="btn btn-primary btn-lg"-->
+                    <!--                            type="button"-->
+                    <!--                    >-->
+                    <!--                        Сохранить-->
+                    <!--                    </button>-->
                     <input type="submit" value="Save">
                 </form>
             </div>
