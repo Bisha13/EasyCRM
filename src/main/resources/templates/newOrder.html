@@ -19,16 +19,48 @@
                     <div class="card-body">
                         <div class="order-segment">
                             <input type="hidden" class="rowIdGen" th:field="*{orderList[__${i.index}__].executeStatus}">
-                            <!--Что чиним и Краткое описание-->
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control toClean rowIdGen"
-                                       th:field="*{orderList[__${i.index}__].device.deviceName}"
-                                       placeholder="Что чиним?" aria-label="Что чиним?">
-                                <span class="input-group-text" onclick="clean(this);"><i class="fas fa-bicycle"></i></span>
-                                <input type="text" class="form-control toClean rowIdGen"
-                                       th:field="*{orderList[__${i.index}__].device.description}"
-                                       placeholder="Краткое описание" aria-label="Краткое описание">
+
+
+                            <!--Device section-->
+
+                            <!--Select device-->
+                            <div class="input-group device-list-section" th:if="${devisesAtr}">
+                                <select
+                                        class="form-control rowIdGen itemIdGen"
+                                        list="datalistOptions"
+                                        placeholder="Что нужно сделать?"
+                                        th:field="*{orderList[__${i.index}__].device}"
+                                >
+
+                                <!--                                <option>Что нужно сделать?</option>-->
+                                <option th:each="device : ${devisesAtr}"
+                                        th:text="${device.deviceName}"
+                                        th:value="${device.deviceId}"
+                                        th:selected="${device} == *{orderList[__${i.index}__].device}"
+                                ></option>
+                                </select>
+                                <span class="input-group-text" onclick="toggleDeviceSection(this);" th:if="${devisesAtr}">
+                                        <i class="fas fa-bicycle"></i></span>
                             </div>
+
+
+                            <br>
+                            <!--New Device-->
+                            <div class="new-device-section">
+                                <div class="input-group mb-3">
+                                    <!--Что чиним?-->
+                                    <input type="text" class="form-control toClean rowIdGen"
+                                           th:field="*{orderList[__${i.index}__].device.deviceName}"
+                                           placeholder="Что чиним?" aria-label="Что чиним?">
+                                    <span class="input-group-text" onclick="toggleDeviceSection(this);">
+                                        <i class="fas fa-bicycle"></i></span>
+                                    <!--Краткое описание-->
+                                    <input type="text" class="form-control toClean rowIdGen"
+                                           th:field="*{orderList[__${i.index}__].device.description}"
+                                           placeholder="Краткое описание" aria-label="Краткое описание">
+                                </div>
+                            </div>
+
 
                             <!-- Datalist -->
                             <div class="input-group item-datalist" th:each="work, j : ${order.listOfWorks}">
@@ -38,7 +70,7 @@
                                         placeholder="Что нужно сделать?"
                                         th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
                                 />
-<!--                                <option>Что нужно сделать?</option>-->
+                                <!--                                <option>Что нужно сделать?</option>-->
                                 <option th:each="item : ${itemsAtr}"
                                         th:text="${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
@@ -125,6 +157,15 @@
                             <span class="price-text-sum">5000р.</span>
                         </div>
                         <div class="input-group mb-3" th:object="${clientAtr}">
+                            <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{phoneNumber2}">
+                            <input type="hidden" th:field="*{phoneNumber3}">
+                            <input type="hidden" th:field="*{address}">
+                            <input type="hidden" th:field="*{discount}">
+                            <input type="hidden" th:field="*{vkId}">
+                            <input type="hidden" th:field="*{fbId}">
+                            <input type="hidden" th:field="*{instagramId}">
+                            <input type="hidden" th:field="*{mailingApproval}">
                             <input
                                     th:field="*{phoneNumber}"
                                     type="text"
@@ -176,9 +217,14 @@
 <div th:insert="fragments/footer :: myFooter"></div>
 <script>
     window.onload = function () {
-        saveSection();
+        saveOrderSection();
+        saveDeviceSection();
         hideAndDisplayDatalistButtons();
         hideAndDisplayRowButtons();
+        let listOfToggleButtons = document.querySelectorAll(".input-group-text");
+        for (let toggleButton of listOfToggleButtons) {
+            toggleDeviceSection(toggleButton);
+        }
     }
 </script>
 </body>

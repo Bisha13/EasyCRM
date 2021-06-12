@@ -10,5 +10,5 @@ public interface OrderService {
 
     Order getOrder(int id);
 
-    void saveOrder(Order order);
+    Order saveOrder(Order order);
 }

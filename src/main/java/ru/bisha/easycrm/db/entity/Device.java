@@ -30,7 +30,7 @@ public class Device {
     private String model;
 
     @Column(name = "owner")
-    private int owner;
+    private int ownerId;
 
     @Column(name = "serial_number")
     private int serialNumber;

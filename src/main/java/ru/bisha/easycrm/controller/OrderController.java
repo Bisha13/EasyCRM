@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.bisha.easycrm.db.entity.*;
 import ru.bisha.easycrm.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,14 +49,13 @@ public class OrderController {
     }
 
     @RequestMapping("/saveWrapper")
-    public String saveOrder(@ModelAttribute("ordersWrapperAtr")
-                                final OrderWrapper orderWrapper,
-                            @ModelAttribute("orderAtr") final Client client) {
-        clientService.saveClient(client);
+    public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+                            @ModelAttribute("clientAtr") final Client client) {
+        Client someClient = clientService.saveClient(client);
 
         for (Order order : orderWrapper.getOrderList()) {
-            order.setClient(client);
-            order.getDevice().setOwner(client.getId());
+            order.setClient(someClient);
+            order.getDevice().setOwnerId(someClient.getId());
             for (Work work : order.getListOfWorks()) {
                 work.setOrder(order);
             }
@@ -63,6 +63,7 @@ public class OrderController {
         }
         return "redirect:/orders";
     }
+
     @RequestMapping("/save")
     public String saveSeveral(@ModelAttribute("orderAtr") final Order order) {
         orderService.saveOrder(order);
@@ -84,21 +85,27 @@ public class OrderController {
     }
 
     @RequestMapping("/findClient")
-    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr")
-                                          final OrderWrapper orderWrapper,
-                                      @ModelAttribute("orderAtr")
-                                      final Client client, Model model) {
+    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+                                      @ModelAttribute("clientAtr") final Client client, Model model) {
         List<Item> itemList = itemService.getAll();
 
         Client foundClient = clientService
                 .findClientByNumber(client.getPhoneNumber());
 
+        List<Device> deviceList = new ArrayList<>();
+        if (foundClient != null) {
+            deviceList = deviceService
+                    .getDevicesByUserId(foundClient.getId());
+        }
+
         model.addAttribute("itemsAtr", itemList);
         model.addAttribute("ordersWrapperAtr", orderWrapper);
         model.addAttribute("clientAtr",
                 foundClient != null ?
-                foundClient : client);
-        System.out.println("!!");
+                        foundClient : client);
+        if (!deviceList.isEmpty()) {
+            model.addAttribute("devisesAtr", deviceList);
+        }
         return "newOrder";
     }
 

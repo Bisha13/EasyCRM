@@ -1,3 +1,7 @@
+let orderSection;
+let newDeviceSection;
+let deviceListSection;
+
 function revaluateRowId() {
     let rows = document.querySelectorAll(".row.sectionRow");
     for (let i = 0; i < rows.length; i++) {
@@ -54,10 +58,10 @@ function revaluateItemId() {
 }
 
 function duplicateItemList(node) {
-    var elem = node.parentNode.parentNode;
-    var clone = elem.cloneNode(true);
+    let elem = node.parentNode.parentNode;
+    let clone = elem.cloneNode(true);
     clone.querySelector("select").value = "169";
-    clone.querySelector(".deleteId").value = "0";
+    //clone.querySelector(".deleteId").value = "0";
     elem.after(clone);
     revaluateItemId();
     hideAndDisplayDatalistButtons();
@@ -72,8 +76,8 @@ function removeItemList(node) {
 
 function duplicateRow(node) {
     let element = node.parentNode.parentNode.parentNode.parentNode.parentNode;
-    element.parentNode.appendChild(section);
-    section = section.cloneNode(true);
+    element.parentNode.appendChild(orderSection);
+    orderSection = orderSection.cloneNode(true);
     revaluateRowId();
     hideAndDisplayRowButtons();
 }
@@ -85,7 +89,7 @@ function removeRow(node) {
 }
 
 function hideAndDisplayDatalistButtons() {
-    let rowButtons = document.querySelectorAll(".row");
+    let rowButtons = document.querySelectorAll(".row.sectionRow");
     rowButtons.forEach(function (row) {
         process(row);
     });
@@ -126,9 +130,47 @@ function hideAndDisplayRowButtons() {
     }
 }
 
-function saveSection() {
-    section = document.getElementsByClassName("row")[0].cloneNode(true);
-    clean(section);
+function saveOrderSection() {
+    orderSection = document.getElementsByClassName("row")[0].cloneNode(true);
+    clean(orderSection);
+}
+
+function saveDeviceSection() {
+    newDeviceSection = document
+        .getElementsByClassName("new-device-section")[0]
+        .cloneNode(true);
+    clean(newDeviceSection);
+    try {
+        deviceListSection = document
+            .getElementsByClassName("device-list-section")[0]
+            .cloneNode(true);
+    } catch (e) {
+    }
+}
+
+function toggleDeviceSection(element) {
+    let deviceList = element.parentNode.parentNode.parentNode
+        .querySelector(".device-list-section");
+    let newDevice = element.parentNode.parentNode.parentNode
+        .querySelector(".new-device-section");
+
+    if (deviceList != null && newDevice != null) {
+        deviceList.parentNode.removeChild(deviceList);
+        revaluateRowId();
+        return;
+    }
+    if (newDevice != null) {
+        newDevice.parentNode.insertBefore(deviceListSection.cloneNode(true), newDevice);
+        newDevice.parentNode.removeChild(newDevice);
+        revaluateRowId();
+        //rewaluateIds
+        return;
+    }
+    if (deviceList != null) {
+        deviceList.parentNode.insertBefore(newDeviceSection.cloneNode(true), deviceList);
+        deviceList.parentNode.removeChild(deviceList);
+        revaluateRowId();
+    }
 }
 
 function clean(node) {
@@ -137,11 +179,14 @@ function clean(node) {
             item.value = "";
         });
     let datalists = node.querySelectorAll(".item-datalist");
-    datalists[0].querySelector("select").value = "169";
+    if (datalists.length != 0) {
+        datalists[0].querySelector("select").value = "169";
+    }
     for (let i = 1; i < datalists.length; i++) {
         datalists[i].remove();
     }
 }
+
 function deleteWorkById(url) {
     // var url = document.getElementById('id_Элемента');
     let r = confirm("Удалить работу?");

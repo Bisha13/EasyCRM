@@ -7,6 +7,8 @@ import ru.bisha.easycrm.db.entity.Device;
 import ru.bisha.easycrm.db.repository.DeviceRepository;
 import ru.bisha.easycrm.service.DeviceService;
 
+import java.util.List;
+
 @Service
 public class DeviceServiceImp implements DeviceService {
 
@@ -16,5 +18,10 @@ public class DeviceServiceImp implements DeviceService {
     @Override
     public Device getDevice(int id) {
         return deviceRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Device> getDevicesByUserId(int id) {
+        return deviceRepository.getDevicesByOwnerId(id);
     }
 }
