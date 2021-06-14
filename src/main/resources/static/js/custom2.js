@@ -61,8 +61,13 @@ function duplicateItemList(node) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
     clone.querySelector("select").value = "169";
-    clone.querySelector(".deleteId").value = "0";
+    let toDelete = clone.querySelector(".deleteId");
+    if (toDelete) {
+        clone.querySelector(".deleteId").value = "0";
+    }
     elem.after(clone);
+    clone.querySelector(".btn-danger")
+        .setAttribute("onclick", "javascript: removeItemList(this);");
     revaluateItemId();
     hideAndDisplayDatalistButtons();
 }
