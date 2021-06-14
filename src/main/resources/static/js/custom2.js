@@ -61,7 +61,7 @@ function duplicateItemList(node) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
     clone.querySelector("select").value = "169";
-    //clone.querySelector(".deleteId").value = "0";
+    clone.querySelector(".deleteId").value = "0";
     elem.after(clone);
     revaluateItemId();
     hideAndDisplayDatalistButtons();
@@ -77,6 +77,7 @@ function removeItemList(node) {
 function duplicateRow(node) {
     let element = node.parentNode.parentNode.parentNode.parentNode.parentNode;
     element.parentNode.appendChild(orderSection);
+    toggleDeviceSection(orderSection.querySelector(".input-group-text"));
     orderSection = orderSection.cloneNode(true);
     revaluateRowId();
     hideAndDisplayRowButtons();
