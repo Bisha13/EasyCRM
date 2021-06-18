@@ -82,7 +82,7 @@ function removeItemList(node) {
 function duplicateRow(node) {
     let element = node.parentNode.parentNode.parentNode.parentNode.parentNode;
     element.parentNode.appendChild(orderSection);
-    toggleDeviceSection(orderSection.querySelector(".input-group-text"));
+    toggleDeviceSection(orderSection.querySelector(".toggle-button"));
     orderSection = orderSection.cloneNode(true);
     revaluateRowId();
     hideAndDisplayRowButtons();

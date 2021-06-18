@@ -37,7 +37,7 @@
                         <td th:text="${order.smallDescription}">Otto</td>
                         <td th:text="${order.executeStatus}">Otto</td>
                         <td th:text="${order.orderDescription}">Otto</td>
-                        <td th:text="${order.timestamp}">Otto</td>
+                        <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">Otto</td>
                     </tr>
                     </tbody>
                 </table>

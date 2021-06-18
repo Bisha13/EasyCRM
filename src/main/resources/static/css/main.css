@@ -2,8 +2,8 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
-[id^=datalist-input] {
-    margin-top: 8px;
+.item-datalist {
+    margin-top: 0.5em;
 }
 .form-group.textArea-comments {
     margin-bottom: 10px;

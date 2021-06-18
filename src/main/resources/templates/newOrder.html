@@ -39,12 +39,10 @@
                                         th:selected="${device} == *{orderList[__${i.index}__].device}"
                                 ></option>
                                 </select>
-                                <span class="input-group-text" onclick="toggleDeviceSection(this);" th:if="${devisesAtr}">
+                                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);" th:if="${devisesAtr}">
                                         <i class="fas fa-bicycle"></i></span>
                             </div>
 
-
-                            <br>
                             <!--New Device-->
                             <div class="new-device-section">
                                 <div class="input-group mb-3">
@@ -52,12 +50,12 @@
                                     <input type="text" class="form-control toClean rowIdGen"
                                            th:field="*{orderList[__${i.index}__].device.deviceName}"
                                            placeholder="Что чиним?" aria-label="Что чиним?">
-                                    <span class="input-group-text" onclick="toggleDeviceSection(this);">
+                                    <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);">
                                         <i class="fas fa-bicycle"></i></span>
                                     <!--Краткое описание-->
                                     <input type="text" class="form-control toClean rowIdGen"
                                            th:field="*{orderList[__${i.index}__].device.description}"
-                                           placeholder="Краткое описание" aria-label="Краткое описание">
+                                           placeholder="Описание" aria-label="Описание">
                                 </div>
                             </div>
 
@@ -97,22 +95,23 @@
                                 </div>
                             </div>
                             <br/>
+                            <br/>
 
-                            <!--Краткое описание-->
-                            <input
-                                    th:field="*{orderList[__${i.index}__].smallDescription}"
-                                    class="form-control whatToFix toClean rowIdGen"
-                                    type="text"
-                                    placeholder="Краткое описание"
-                            />
-                            <!--Особые отметки-->
-                            <input
-                                    th:field="*{orderList[__${i.index}__].orderDescription}"
-                                    class="form-control whatToFix toClean rowIdGen"
-                                    type="text"
-                                    placeholder="Особые отметки"
-                            />
 
+                            <div class="order-title-section">
+                                <div class="input-group mb-3">
+                                    <!--Краткое описание-->
+                                    <input type="text" class="form-control toClean rowIdGen"
+                                           th:field="*{orderList[__${i.index}__].smallDescription}"
+                                           placeholder="Краткое описание" aria-label="Краткое описание">
+                                    <span class="input-group-text" >
+                                        <i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
+                                    <!--Особые отметки-->
+                                    <input type="text" class="form-control toClean rowIdGen"
+                                           th:field="*{orderList[__${i.index}__].orderDescription}"
+                                           placeholder="Особые отметки" aria-label="Особые отметки">
+                                </div>
+                            </div>
 
                             <div class="form-group textArea-comments">
                                 <textarea th:field="*{orderList[__${i.index}__].fullDescription}"
@@ -221,7 +220,7 @@
         saveDeviceSection();
         hideAndDisplayDatalistButtons();
         hideAndDisplayRowButtons();
-        let listOfToggleButtons = document.querySelectorAll(".input-group-text");
+        let listOfToggleButtons = document.querySelectorAll(".toggle-button");
         for (let toggleButton of listOfToggleButtons) {
             toggleDeviceSection(toggleButton);
         }

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/orders")
+@RequestMapping("/")
 public class OrderController {
 
 
@@ -29,14 +29,14 @@ public class OrderController {
     private final ItemService itemService;
 
 
-    @RequestMapping
+    @RequestMapping("orders")
     public String getAllOrders(Model model) {
         List<Order> orderList = orderService.getAllOrders();
         model.addAttribute("orderListAttr", orderList);
         return "allOrders";
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping("orders/{id}")
     public String getOrder(@PathVariable int id, Model model) {
         Order order = orderService.getOrder(id);
         List<User> users = userService.getAllUsers();
@@ -48,7 +48,7 @@ public class OrderController {
         return "order";
     }
 
-    @RequestMapping("/saveWrapper")
+    @RequestMapping("orders/saveWrapper")
     public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
                             @ModelAttribute("clientAtr") final Client client) {
         Client someClient = clientService.saveClient(client);
@@ -64,13 +64,13 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("orders/save")
     public String saveSeveral(@ModelAttribute("orderAtr") final Order order) {
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }
 
-    @RequestMapping("/new")
+    @RequestMapping
     public String newOrder(Model model) {
         OrderWrapper ordersWrapper = new OrderWrapper();
         ordersWrapper.addOrder(new Order());
@@ -84,7 +84,7 @@ public class OrderController {
         return "newOrder";
     }
 
-    @RequestMapping("/findClient")
+    @RequestMapping("orders/findClient")
     public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
                                       @ModelAttribute("clientAtr") final Client client, Model model) {
         List<Item> itemList = itemService.getAll();
