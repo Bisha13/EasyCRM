@@ -24,7 +24,6 @@
                     <input type="hidden" th:field="*{timestamp}">
                     <input type="hidden" th:field="*{client}">
                     <input type="hidden" th:field="*{smallDescription}">
-                    <input type="hidden" th:field="*{fullDescription}">
                     <input type="hidden" th:field="*{executeStatus}">
                     <input type="hidden" th:field="*{executorId}">
                     <input type="hidden" th:field="*{partsPrice}">
@@ -66,7 +65,7 @@
                                   th:text="*{device.deviceName}">Велосипед красный</span>
                         </div>
                         <div class="vehicle-info-additional">
-                            <span class="text-for-additional-info">Кратко:</span>
+                            <span class="text-for-additional-info">Описание:</span>
                             <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
                             >Весь велосипед погнуло как буратину, наверное за зиму
                   так.</span
@@ -147,6 +146,7 @@
                     <div class="form-group textArea-comments">
                         <label for="textArea-comments1">Комментарии</label>
                         <textarea
+                                th:field="*{fullDescription}"
                                 class="form-control"
                                 id="textArea-comments1"
                                 rows="5"

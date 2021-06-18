@@ -165,7 +165,7 @@ function toggleDeviceSection(element) {
         revaluateRowId();
         return;
     }
-    if (newDevice != null) {
+    if (newDevice != null && deviceListSection != null) {
         newDevice.parentNode.insertBefore(deviceListSection.cloneNode(true), newDevice);
         newDevice.parentNode.removeChild(newDevice);
         revaluateRowId();

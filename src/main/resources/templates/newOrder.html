@@ -32,14 +32,18 @@
                                         th:field="*{orderList[__${i.index}__].device}"
                                 >
 
-                                <!--                                <option>Что нужно сделать?</option>-->
-                                <option th:each="device : ${devisesAtr}"
-                                        th:text="${device.deviceName}"
+                                    <!--                                <option>Что нужно сделать?</option>-->
+                                    <option th:each="device : ${devisesAtr}"
+                                            th:text="${device.deviceName != null}
+                                            ? ${device.deviceName}
+                                            : ${device.vendor} + ' ' + ${device.model}"
                                         th:value="${device.deviceId}"
                                         th:selected="${device} == *{orderList[__${i.index}__].device}"
-                                ></option>
+                                        >
+                                    </option>
                                 </select>
-                                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);" th:if="${devisesAtr}">
+                                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);"
+                                      th:if="${devisesAtr}">
                                         <i class="fas fa-bicycle"></i></span>
                             </div>
 
@@ -104,7 +108,7 @@
                                     <input type="text" class="form-control toClean rowIdGen"
                                            th:field="*{orderList[__${i.index}__].smallDescription}"
                                            placeholder="Краткое описание" aria-label="Краткое описание">
-                                    <span class="input-group-text" >
+                                    <span class="input-group-text">
                                         <i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
                                     <!--Особые отметки-->
                                     <input type="text" class="form-control toClean rowIdGen"

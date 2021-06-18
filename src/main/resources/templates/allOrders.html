@@ -30,12 +30,13 @@
                     <tbody>
                     <tr th:each="order : ${orderListAttr}">
                         <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}"></a></td>
-                        <td th:text="${order.device.deviceName != null}
+                        <td th:if="${order.device.deviceId != 0}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
+                        <td th:unless="${order.device.deviceId != 0}" th:text="Неизвестный"></td>
 
                         <td th:text="${order.smallDescription}">Otto</td>
-                        <td th:text="${order.executeStatus}">Otto</td>
+                        <td th:text="${order.executeStatus.status}">Otto</td>
                         <td th:text="${order.orderDescription}">Otto</td>
                         <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">Otto</td>
                     </tr>

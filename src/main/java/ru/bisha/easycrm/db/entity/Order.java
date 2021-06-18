@@ -95,8 +95,24 @@ public class Order {
     }
 
     enum Status {
-    NEW, WAITING, WAITING_GLEB, WAITING_PARTS, READY, CLOSED,
-}
+
+        NEW("Новый"),
+        WAITING("Ожидает"),
+        WAITING_GLEB("Ждёт Глеба"),
+        WAITING_PARTS("Ждёт запчастей"),
+        READY("Готов"),
+        CLOSED("Закрыт");
+
+        private String status;
+
+        Status(String status) {
+            this.status = status;
+        }
+
+        public String getStatus() {
+            return this.status;
+        }
+    }
 
 
 
