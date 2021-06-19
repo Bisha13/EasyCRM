@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
 
 <head>
     <div th:replace="fragments/header :: myHeader"></div>
@@ -37,9 +37,9 @@
                                             th:text="${device.deviceName != null}
                                             ? ${device.deviceName}
                                             : ${device.vendor} + ' ' + ${device.model}"
-                                        th:value="${device.deviceId}"
-                                        th:selected="${device} == *{orderList[__${i.index}__].device}"
-                                        >
+                                            th:value="${device.deviceId}"
+                                            th:selected="${device} == *{orderList[__${i.index}__].device}"
+                                    >
                                     </option>
                                 </select>
                                 <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);"
@@ -65,20 +65,27 @@
 
 
                             <!-- Datalist -->
-                            <div class="input-group item-datalist" th:each="work, j : ${order.listOfWorks}">
+                            <div class="item-datalist input-group" th:each="service, j : ${order.listOfServices}">
+
                                 <select
                                         class="form-control rowIdGen itemIdGen"
                                         list="datalistOptions"
                                         placeholder="Что нужно сделать?"
-                                        th:field="*{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
-                                />
-                                <!--                                <option>Что нужно сделать?</option>-->
-                                <option th:each="item : ${itemsAtr}"
-                                        th:text="${item.name} + ' - ' + ${item.price}"
-                                        th:value="${item.id}"
-                                        th:selected="${item} == *{orderList[__${i.index}__].listOfWorks[__${j.index}__].item}"
-                                ></option>
+                                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"
+                                >
+                                    <!--                                <option>Что нужно сделать?</option>-->
+                                    <option th:each="item : ${itemsAtr}"
+                                            th:text="${item.name} + ' - ' + ${item.price}"
+                                            th:value="${item.id}"
+                                            th:selected="${item} == *{orderList[__${i.index}__]
+                                            .listOfServices[__${j.index}__].item}"
+                                    ></option>
                                 </select>
+                                <input type="text" class="form-control toClean rowIdGen"
+                                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description}"
+                                       placeholder="Краткое описание" aria-label="Краткое описание"
+                                       style="display: none"
+                                >
                                 <!--Кнопки плюс и минус-->
                                 <div>
                                     <button
@@ -96,7 +103,15 @@
                                     >
                                         <i class="fa fa-plus" aria-hidden="true"></i>
                                     </button>
+                                    <button
+                                            class="btn btn-primary"
+                                            type="button"
+                                            onclick="exchange(this);"
+                                    >
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </button>
                                 </div>
+
                             </div>
                             <br/>
                             <br/>

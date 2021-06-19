@@ -32,7 +32,6 @@ function revaluateItemId() {
         process(items);
     });
 
-
     function process(items) {
         for (let i = 0; i < items.length; i++) {
             items[i]
@@ -40,15 +39,15 @@ function revaluateItemId() {
                 .forEach(function (el) {
                     let splitId = el.id.split(".");
                     for (let j = 0; j < splitId.length; j++) {
-                        if (splitId[j].includes("listOfWorks")) {
-                            splitId[j] = `listOfWorks${i}`;
+                        if (splitId[j].includes("listOfServices")) {
+                            splitId[j] = `listOfServices${i}`;
                             el.id = splitId.join(".");
                         }
                     }
                     let splitName = el.name.split(".");
                     for (let j = 0; j < splitName.length; j++) {
-                        if (splitName[j].includes("listOfWorks")) {
-                            splitName[j] = `listOfWorks[${i}]`;
+                        if (splitName[j].includes("listOfServices")) {
+                            splitName[j] = `listOfServices[${i}]`;
                             el.name = splitName.join(".");
                         }
                     }
@@ -190,6 +189,20 @@ function clean(node) {
     }
     for (let i = 1; i < datalists.length; i++) {
         datalists[i].remove();
+    }
+}
+
+function exchange(node) {
+    let papa = node.parentNode.parentNode;
+    let select = papa.querySelector("select.form-control");
+    let input = papa.querySelector("input.form-control");
+
+    if (select.style.display === "none") {
+        select.style.display = "inline";
+        input.style.display = "none";
+    } else {
+        select.style.display = "none";
+        input.style.display = "inline";
     }
 }
 

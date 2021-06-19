@@ -19,18 +19,23 @@ public class Service {
     @Column(name = "service_id")
     private int serviceId;
 
-    @Column(name = "order_id")
-    private int orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @OneToOne
-    @JoinColumn(name = "executor_id")
-    private User executor;
+    @Column(name = "executor_id")
+    private int executorId;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "price")
     private int price;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade =
+            {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "item_id")
+    private Item item;
 
     @CreationTimestamp
     @Column(name="time_stamp",
@@ -43,4 +48,7 @@ public class Service {
     @Column(name = "profit")
     private Integer profit;
 
+    public Service() {
+        this.executorId = 20;
+    }
 }

@@ -85,13 +85,21 @@ public class Order {
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Service> listOfServices;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "order",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
     private List<Work> listOfWorks;
 
     public Order() {
         this.executeStatus = Status.NEW;
         this.device = new Device();
         this.listOfWorks = new ArrayList<>();
+        this.listOfServices = new ArrayList<>();
         listOfWorks.add(new Work());
+        listOfServices.add(new Service());
     }
 
     enum Status {
@@ -103,7 +111,7 @@ public class Order {
         READY("Готов"),
         CLOSED("Закрыт");
 
-        private String status;
+        private final String status;
 
         Status(String status) {
             this.status = status;
