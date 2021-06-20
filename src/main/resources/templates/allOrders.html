@@ -14,12 +14,15 @@
 
 <div class="container">
     <div class="row">
+        <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
         <div class="card">
             <div class="card-body">
+
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">Номер заказа</th>
+                        <th scope="col">Клиент</th>
                         <th scope="col">Что чиним</th>
                         <th scope="col">Кратко</th>
                         <th scope="col">Статус</th>
@@ -29,23 +32,26 @@
                     </thead>
                     <tbody>
                     <tr th:each="order : ${orderListAttr}">
-                        <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}"></a></td>
+                        <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
+                        <td th:text="${order.client.name}">Глеб</td>
                         <td th:if="${order.device.deviceId != 0}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
-                        <td th:unless="${order.device.deviceId != 0}" th:text="Неизвестный"></td>
+                        <td th:unless="${order.device.deviceId != 0}" th:text="Неизвестный">Велосипед</td>
 
-                        <td th:text="${order.smallDescription}">Otto</td>
-                        <td th:text="${order.executeStatus.status}">Otto</td>
-                        <td th:text="${order.orderDescription}">Otto</td>
-                        <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">Otto</td>
+                        <td th:text="${order.smallDescription}">Красный</td>
+                        <td th:text="${order.executeStatus.value}">Обрабатывается</td>
+                        <td th:text="${order.orderDescription}">Сегодня!</td>
+                        <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
 </div>
-<div th:insert="fragments/footer :: myFooter"></div>
+
+<div th:replace="fragments/footer :: myFooter"></div>
 </body>
 </html>

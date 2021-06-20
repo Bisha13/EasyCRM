@@ -77,28 +77,16 @@ public class Order {
     @Column(name = "order_description")
     private String orderDescription; // сделать
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "order_id")
-//    private List<Service> services;
-
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE })
     private List<Service> listOfServices;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "order",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
-    private List<Work> listOfWorks;
-
     public Order() {
         this.executeStatus = Status.NEW;
         this.device = new Device();
-        this.listOfWorks = new ArrayList<>();
         this.listOfServices = new ArrayList<>();
-        listOfWorks.add(new Work());
         listOfServices.add(new Service());
     }
 
@@ -111,14 +99,14 @@ public class Order {
         READY("Готов"),
         CLOSED("Закрыт");
 
-        private final String status;
+        private final String value;
 
-        Status(String status) {
-            this.status = status;
+        Status(String value) {
+            this.value = value;
         }
 
-        public String getStatus() {
-            return this.status;
+        public String getValue() {
+            return this.value;
         }
     }
 

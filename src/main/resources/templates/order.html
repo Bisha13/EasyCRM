@@ -83,11 +83,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="work, i : *{listOfWorks}" class="item-datalist">
+                        <tr th:each="service, i : *{listOfServices}" class="item-datalist">
                             <input type="hidden" class="itemIdGen deleteId"
-                                   th:field="*{listOfWorks[__${i.index}__].id}">
-                            <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].order}">
-                            <input type="hidden" class="itemIdGen" th:field="*{listOfWorks[__${i.index}__].status}">
+                                   th:field="*{listOfServices[__${i.index}__].serviceId}">
+                            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].order}">
+                            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].price}">
 
 
                             <td>
@@ -95,23 +95,31 @@
                                         class="form-control itemIdGen"
                                         list="datalistOptions"
                                         placeholder="Что нужно сделать?"
-                                        th:field="*{listOfWorks[__${i.index}__].item}"
-                                />
+                                        th:field="*{listOfServices[__${i.index}__].item}"
+                                        th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                       'display:inline' : 'display:none'"
+                                >
                                 <option th:each="item, j : ${itemsAtr}"
                                         th:text="${item.name} + ' - ' + ${item.price}"
                                         th:value="${item.id}"
-                                        th:selected="${item} == *{listOfWorks[__${i.index}__].item}"
+                                        th:selected="${item} == *{listOfServices[__${i.index}__].item}"
                                 ></option>
-                                </select></td>
-                            <td th:text="${work.status}">5000</td>
+                                </select>
+                                <input type="text" class="form-control toClean itemIdGen"
+                                       th:field="*{listOfServices[__${i.index}__].description}"
+                                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                       'display:none' : 'display:inline'"
+                                />
+                            </td>
+                            <td th:text="${service.price}">5000</td>
                             <!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
 
                             <td>
-                                <select class="form-select" th:field="*{listOfWorks[__${i.index}__].executorId}">
+                                <select class="form-select itemIdGen" th:field="*{listOfServices[__${i.index}__].executorId}">
                                     <option th:each="executor : ${usersAtr}"
                                             th:text="${executor.fullName}"
                                             th:value="${executor.id}"
-                                            th:selected="*{executorId} == ${work.executorId}"
+                                            th:selected="*{executorId} == ${service.executorId}"
                                     >
                                     </option>
                                 </select>
@@ -121,23 +129,23 @@
                                 <!--onclick="removeItemList(this);"-->
                                 <button
                                         class="btn btn-danger float-end"
-                                        th:onclick="deleteWorkById('/works/delete?itemId=[[${work.id}]]');"
-                                        type="button"
-                                >
+                                        th:onclick="deleteWorkById('/services/delete?itemId=[[${service.serviceId}]]')"
+                                        type="button">
                                     <i aria-hidden="true" class="fa fa-minus float-right"></i>
                                 </button>
-
-<!--                                <form th:action="@{/works/delete}">-->
-<!--                                    <input type="hidden" th:value="*{listOfWorks[__${i.index}__].id}" th:name="itemId">-->
-<!--                                    <button class="btn btn-danger " type="submit" value="Удалить"/>-->
-<!--                                    <i aria-hidden="true" class="fa fa-minus"></i></button>-->
-<!--                                </form>-->
                                 <button
                                         class="btn btn-success"
                                         type="button"
                                         onclick="duplicateItemList(this);"
                                 >
                                     <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        onclick="exchange(this);"
+                                >
+                                    <i class="fas fa-exchange-alt"></i>
                                 </button>
                             </td>
                         </tr>

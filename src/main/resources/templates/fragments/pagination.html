@@ -1,0 +1,22 @@
+<html>
+<body>
+<nav th:fragment="allOrdersPagination" aria-label="Page navigation">
+  <ul th:if="${orderListAttr.totalPages > 0}" class="pagination justify-content-end">
+    <li th:class="${#request.getParameter('page')} == 1 ? 'page-item disabled' : 'page-item'">
+      <a class="page-link"
+         th:href="@{/orders/page/(size=${orderListAttr.size}, page=${#request.getParameter('page')} - 1)}"
+         tabindex="-1">Назад</a>
+    </li>
+    <li th:each="pageNumber : ${pageNumbers}"
+        th:class="${pageNumber} == ${#request.getParameter('page')} ? 'page-item active' : 'page-item'">
+      <a th:href="@{/orders/page/(size=${orderListAttr.size}, page=${pageNumber})}"
+         th:text="${pageNumber}"
+         class="page-link"></a>
+    <li th:class="${#request.getParameter('page')} == ${pageNumbers.size()} ? 'page-item disabled' : 'page-item'">
+      <a class="page-link"
+         th:href="@{/orders/page/(size=${orderListAttr.size}, page=${#request.getParameter('page')} + 1)}">Вперёд</a>
+    </li>
+  </ul>
+</nav>
+</body>
+</html>

@@ -120,17 +120,17 @@ function hideAndDisplayRowButtons() {
     let rowButtons = document.querySelectorAll(".row.sectionRow");
 
     rowButtons.forEach(function (row) {
-        row.querySelector(".btn-primary").style.display = "none";
-        row.querySelector(".btn-secondary").style.display = "inline";
+        row.querySelector(".btn-primary.btn-lg").style.display = "none";
+        row.querySelector(".btn-secondary.btn-lg").style.display = "inline";
     });
 
     rowButtons[rowButtons.length - 1]
-        .querySelector(".btn-primary").style.display = "inline";
+        .querySelector(".btn-primary.btn-lg").style.display = "inline";
     rowButtons[rowButtons.length - 1]
-        .querySelector(".btn-secondary").style.display = "inline";
+        .querySelector(".btn-secondary.btn-lg").style.display = "inline";
 
     if (rowButtons.length === 1) {
-        rowButtons[0].querySelector(".btn-secondary")
+        rowButtons[0].querySelector(".btn-secondary.btn-lg")
             .style.display = "none";
     }
 }

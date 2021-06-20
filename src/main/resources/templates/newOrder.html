@@ -72,6 +72,9 @@
                                         list="datalistOptions"
                                         placeholder="Что нужно сделать?"
                                         th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"
+                                        th:style="*{orderList[__${i.index}__]
+                                        .listOfServices[__${j.index}__].description} == null ?
+                                       'display:inline' : 'display:none'"
                                 >
                                     <!--                                <option>Что нужно сделать?</option>-->
                                     <option th:each="item : ${itemsAtr}"
@@ -84,7 +87,8 @@
                                 <input type="text" class="form-control toClean rowIdGen"
                                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description}"
                                        placeholder="Краткое описание" aria-label="Краткое описание"
-                                       style="display: none"
+                                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == null ?
+                                       'display:none' : 'display:inline'"
                                 >
                                 <!--Кнопки плюс и минус-->
                                 <div>
@@ -214,6 +218,7 @@
                                     id="confirm-order-button"
                             >
                                 Оформить заказ
+<!--                                todo make button delete hidden stuff-->
                             </button>
                         </div>
                     </div>

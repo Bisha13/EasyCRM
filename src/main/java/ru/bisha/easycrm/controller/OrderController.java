@@ -1,16 +1,23 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.bisha.easycrm.db.entity.*;
 import ru.bisha.easycrm.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,11 +35,45 @@ public class OrderController {
 
     private final ItemService itemService;
 
+    private static final int DEFAULT_PAGE_SIZE = 100;
 
-    @RequestMapping("orders")
+
+    @RequestMapping("orders/")
     public String getAllOrders(Model model) {
         List<Order> orderList = orderService.getAllOrders();
         model.addAttribute("orderListAttr", orderList);
+        return "allOrders";
+    }
+
+//    @RequestMapping("orders/page/{pageId}")
+//    public String getAllOrders(@PathVariable int pageId, Model model) {
+//        Page<Order> orderList = orderService.getOrdersByPage(pageId);
+//        model.addAttribute("orderListAttr", orderList);
+//        return "allOrders";
+//    }
+
+    @RequestMapping("orders/page/")
+    public String getAllOrders(
+                    Model model,
+                    @RequestParam("page") Optional<Integer> page,
+                    @RequestParam("size") Optional<Integer> size) {
+
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
+
+        Page<Order> orderPage = orderService.getPageOfOrders(
+                PageRequest.of(currentPage - 1, pageSize,
+                        Sort.by("orderId").descending()));
+
+        model.addAttribute("orderListAttr", orderPage);
+
+        int totalPages = orderPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "allOrders";
     }
 
@@ -56,8 +97,8 @@ public class OrderController {
         for (Order order : orderWrapper.getOrderList()) {
             order.setClient(someClient);
             order.getDevice().setOwnerId(someClient.getId());
-            for (Work work : order.getListOfWorks()) {
-                work.setOrder(order);
+            for (Service service : order.getListOfServices()) {
+                service.setOrder(order);
             }
             orderService.saveOrder(order);
         }
@@ -108,6 +149,5 @@ public class OrderController {
         }
         return "newOrder";
     }
-
 }
 

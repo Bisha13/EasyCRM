@@ -1,6 +1,8 @@
 package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.bisha.easycrm.db.entity.Order;
@@ -27,5 +29,10 @@ public class OrderServiceImp implements OrderService {
     @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
+    }
+
+    @Override
+    public Page<Order> getPageOfOrders(PageRequest request) {
+        return orderRepository.findAll(request);
     }
 }
