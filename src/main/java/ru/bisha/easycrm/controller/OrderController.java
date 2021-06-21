@@ -45,13 +45,6 @@ public class OrderController {
         return "allOrders";
     }
 
-//    @RequestMapping("orders/page/{pageId}")
-//    public String getAllOrders(@PathVariable int pageId, Model model) {
-//        Page<Order> orderList = orderService.getOrdersByPage(pageId);
-//        model.addAttribute("orderListAttr", orderList);
-//        return "allOrders";
-//    }
-
     @RequestMapping("orders/page/")
     public String getAllOrders(
                     Model model,
@@ -80,9 +73,16 @@ public class OrderController {
     @RequestMapping("orders/{id}")
     public String getOrder(@PathVariable int id, Model model) {
         Order order = orderService.getOrder(id);
+
+        try {
+            order.getDevice();
+        } catch (Exception e) {
+            order.setDevice(new Device());
+        }
+
         List<User> users = userService.getAllUsers();
         List<Item> items = itemService.getAll();
-//        order.getListOfWorks().add(new Work());
+
         model.addAttribute("orderAtr", order);
         model.addAttribute("usersAtr", users);
         model.addAttribute("itemsAtr", items);

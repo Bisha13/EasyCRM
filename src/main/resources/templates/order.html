@@ -59,11 +59,27 @@
                     <hr/>
 
                     <div class="vehicle-block">
+
                         <div class="vehicle-info">
                             <span class="text-for-vehicle-info">Что чиним:</span>
-                            <span class="value-of-vehicle-info"
+                            <span th:if="*{device}"
+                                    class="value-of-vehicle-info"
                                   th:text="*{device.deviceName}">Велосипед красный</span>
                         </div>
+
+                        <div class="input-group mb-3" th:unless="*{device}">
+                            <!--Что чиним?-->
+                            <input type="text" class="form-control toClean rowIdGen"
+                                   th:field="*{device.deviceName}"
+                                   placeholder="Что чиним?" aria-label="Что чиним?">
+                            <span class="input-group-text toggle-button">
+                                        <i class="fas fa-bicycle"></i></span>
+                            <!--Краткое описание-->
+                            <input type="text" class="form-control toClean rowIdGen"
+                                   th:field="*{device.description}"
+                                   placeholder="Описание" aria-label="Описание">
+                        </div>
+
                         <div class="vehicle-info-additional">
                             <span class="text-for-additional-info">Описание:</span>
                             <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"

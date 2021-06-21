@@ -90,6 +90,18 @@ public class Order {
         listOfServices.add(new Service());
     }
 
+    @PostLoad
+    public void postLoad(){
+        try {
+            if(getDevice() != null && getDevice().getDeviceId() == 0){
+                setDevice(null);
+            }
+        }
+        catch (EntityNotFoundException e){
+            setDevice(null);
+        }
+    }
+
     enum Status {
 
         NEW("Новый"),
