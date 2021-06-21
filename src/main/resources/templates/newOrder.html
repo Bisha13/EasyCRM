@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
 
 <head>
-    <div th:replace="fragments/header :: myHeader"></div>
+  <div th:replace="fragments/header :: myHeader"></div>
 </head>
 
 <body>
@@ -10,232 +10,244 @@
 <div th:insert="fragments/navbar :: navbar('home')"></div>
 
 <!-- Section with orders -->
-<form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}">
-    <div class="container orderSection" id="orderSectionId">
-        <div class="row sectionRow" th:each="order, i : *{orderList}">
-            <div class="col"></div>
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="order-segment">
-                            <input type="hidden" class="rowIdGen" th:field="*{orderList[__${i.index}__].executeStatus}">
+<form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}" id="form" some="s">
+  <div class="container orderSection" id="orderSectionId">
+    <div class="row sectionRow" th:each="order, i : *{orderList}">
+      <div class="col"></div>
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="order-segment">
+              <input type="hidden" class="rowIdGen" th:field="*{orderList[__${i.index}__].executeStatus}">
 
 
-                            <!--Device section-->
+              <!--Device section-->
 
-                            <!--Select device-->
-                            <div class="input-group device-list-section" th:if="${devisesAtr}">
-                                <select
-                                        class="form-control rowIdGen itemIdGen"
-                                        list="datalistOptions"
-                                        placeholder="Что нужно сделать?"
-                                        th:field="*{orderList[__${i.index}__].device}"
-                                >
+              <!--Select device-->
+              <div class="input-group device-list-section" th:if="${devisesAtr}">
+                <select
+                    class="form-control rowIdGen itemIdGen"
+                    list="datalistOptions"
+                    placeholder="Что нужно сделать?"
+                    th:field="*{orderList[__${i.index}__].device}"
+                >
 
-                                    <!--                                <option>Что нужно сделать?</option>-->
-                                    <option th:each="device : ${devisesAtr}"
-                                            th:text="${device.deviceName != null}
+                  <!--                                <option>Что нужно сделать?</option>-->
+                  <option th:each="device : ${devisesAtr}"
+                          th:text="${device.deviceName != null}
                                             ? ${device.deviceName}
                                             : ${device.vendor} + ' ' + ${device.model}"
-                                            th:value="${device.deviceId}"
-                                            th:selected="${device} == *{orderList[__${i.index}__].device}"
-                                    >
-                                    </option>
-                                </select>
-                                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);"
-                                      th:if="${devisesAtr}">
+                          th:value="${device.deviceId}"
+                          th:selected="${device} == *{orderList[__${i.index}__].device}"
+                  >
+                  </option>
+                </select>
+                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);"
+                      th:if="${devisesAtr}">
                                         <i class="fas fa-bicycle"></i></span>
-                            </div>
+              </div>
 
-                            <!--New Device-->
-                            <div class="new-device-section">
-                                <div class="input-group mb-3">
-                                    <!--Что чиним?-->
-                                    <input type="text" class="form-control toClean rowIdGen"
-                                           th:field="*{orderList[__${i.index}__].device.deviceName}"
-                                           placeholder="Что чиним?" aria-label="Что чиним?">
-                                    <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);">
+              <!--New Device-->
+              <div class="new-device-section">
+                <div class="input-group mb-3">
+                  <!--Что чиним?-->
+                  <input type="text" class="form-control toClean rowIdGen"
+                         th:field="*{orderList[__${i.index}__].device.deviceName}"
+                         placeholder="Что чиним?" aria-label="Что чиним?">
+                  <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);">
                                         <i class="fas fa-bicycle"></i></span>
-                                    <!--Краткое описание-->
-                                    <input type="text" class="form-control toClean rowIdGen"
-                                           th:field="*{orderList[__${i.index}__].device.description}"
-                                           placeholder="Описание" aria-label="Описание">
-                                </div>
-                            </div>
+                  <!--Краткое описание-->
+                  <input type="text" class="form-control toClean rowIdGen"
+                         th:field="*{orderList[__${i.index}__].device.description}"
+                         placeholder="Описание" aria-label="Описание">
+                </div>
+              </div>
 
 
-                            <!-- Datalist -->
-                            <div class="item-datalist input-group" th:each="service, j : ${order.listOfServices}">
+              <!-- Datalist -->
+              <div class="item-datalist input-group" th:each="service, j : ${order.listOfServices}">
 
-                                <select
-                                        class="form-control rowIdGen itemIdGen"
-                                        list="datalistOptions"
-                                        placeholder="Что нужно сделать?"
-                                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"
-                                        th:style="*{orderList[__${i.index}__]
-                                        .listOfServices[__${j.index}__].description} == null ?
-                                       'display:inline' : 'display:none'"
-                                >
-                                    <!--                                <option>Что нужно сделать?</option>-->
-                                    <option th:each="item : ${itemsAtr}"
-                                            th:text="${item.name} + ' - ' + ${item.price}"
-                                            th:value="${item.id}"
-                                            th:selected="${item} == *{orderList[__${i.index}__]
-                                            .listOfServices[__${j.index}__].item}"
-                                    ></option>
-                                </select>
-                                <input type="text" class="form-control toClean rowIdGen"
-                                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description}"
-                                       placeholder="Краткое описание" aria-label="Краткое описание"
-                                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == null ?
-                                       'display:none' : 'display:inline'"
-                                >
-                                <!--Кнопки плюс и минус-->
-                                <div>
-                                    <button
-                                            class="btn btn-danger"
-                                            type="button"
-                                            onclick="removeItemList(this);"
-                                            style="display: none"
-                                    >
-                                        <i class="fa fa-minus" aria-hidden="true"></i>
-                                    </button>
-                                    <button
-                                            class="btn btn-success"
-                                            type="button"
-                                            onclick="duplicateItemList(this);"
-                                    >
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                    </button>
-                                    <button
-                                            class="btn btn-primary"
-                                            type="button"
-                                            onclick="exchange(this);"
-                                    >
-                                        <i class="fas fa-exchange-alt"></i>
-                                    </button>
-                                </div>
+                <input
+                    class="datalist form-control rowIdGen itemIdGen"
+                    list="datalistOptions"
+                    placeholder="Что нужно сделать?"
+                    th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
+                                        'display:inline' : 'display:none'"
+                >
+                <!--                    th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"-->
+                <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}">
 
-                            </div>
-                            <br/>
-                            <br/>
+                <!--Price span label-->
+                <span class="input-group-text toggle-button"
+                      th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
+                                      'display:inline' : 'display:none'">Price</span>
+
+                <!--Input description-->
+                <input type="text" class="input form-control toClean rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description}"
+                       placeholder="Краткое описание" aria-label="Краткое описание"
+                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
+                                       'display:none' : 'display:inline'">
+
+                <!--                                       todo get price for service-->
+                <input type="text" class="form-control price toClean rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].price}"
+                       placeholder="Цена" aria-label="Цена"
+                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
+                                       'display:none' : 'display:inline'">
+                <!--Кнопки плюс и минус-->
+                <div>
+                  <button
+                      class="btn btn-danger"
+                      type="button"
+                      onclick="removeItemList(this);"
+                      style="display: none">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </button>
+                  <button
+                      class="btn btn-success"
+                      type="button"
+                      onclick="duplicateItemList(this);">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                  <button
+                      class="btn btn-primary"
+                      type="button"
+                      onclick="exchange(this);">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                </div>
+
+              </div>
+              <br/>
+              <br/>
 
 
-                            <div class="order-title-section">
-                                <div class="input-group mb-3">
-                                    <!--Краткое описание-->
-                                    <input type="text" class="form-control toClean rowIdGen"
-                                           th:field="*{orderList[__${i.index}__].smallDescription}"
-                                           placeholder="Краткое описание" aria-label="Краткое описание">
-                                    <span class="input-group-text">
+              <div class="order-title-section">
+                <div class="input-group mb-3">
+                  <!--Краткое описание-->
+                  <input type="text" class="form-control toClean rowIdGen"
+                         th:field="*{orderList[__${i.index}__].smallDescription}"
+                         placeholder="Краткое описание" aria-label="Краткое описание">
+                  <span class="input-group-text">
                                         <i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
-                                    <!--Особые отметки-->
-                                    <input type="text" class="form-control toClean rowIdGen"
-                                           th:field="*{orderList[__${i.index}__].orderDescription}"
-                                           placeholder="Особые отметки" aria-label="Особые отметки">
-                                </div>
-                            </div>
+                  <!--Особые отметки-->
+                  <input type="text" class="form-control toClean rowIdGen"
+                         th:field="*{orderList[__${i.index}__].orderDescription}"
+                         placeholder="Особые отметки" aria-label="Особые отметки">
+                </div>
+              </div>
 
-                            <div class="form-group textArea-comments">
+              <div class="form-group textArea-comments">
                                 <textarea th:field="*{orderList[__${i.index}__].fullDescription}"
                                           class="form-control toClean rowIdGen"
                                           id="textArea-comments1"
                                           placeholder="Комментарии"
                                           rows="5"
                                 ></textarea>
-                            </div>
-                            <button
-                                    type="button"
-                                    class="btn btn-primary btn-lg"
-                                    onclick="duplicateRow(this);"
+              </div>
+              <button
+                  type="button"
+                  class="btn btn-primary btn-lg"
+                  onclick="duplicateRow(this);"
 
-                            >
-                                Чиним что-то ещё
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-secondary btn-lg"
-                                    onclick="removeRow(this);"
-                                    style="display: none"
-                            >
-                                Убрать
-                            </button>
-                        </div>
-                    </div>
-                </div>
+              >
+                Чиним что-то ещё
+              </button>
+              <button
+                  type="button"
+                  class="btn btn-secondary btn-lg"
+                  onclick="removeRow(this);"
+                  style="display: none"
+              >
+                Убрать
+              </button>
             </div>
-            <div class="col"></div>
+          </div>
         </div>
+      </div>
+      <div class="col"></div>
     </div>
+  </div>
 
-    <div class="container clientSection">
-        <div class="row">
-            <div class="col"></div>
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="price-text">
-                            <span class="price-text-inner">Итого денег: </span>
-                            <span class="price-text-sum">5000р.</span>
-                        </div>
-                        <div class="input-group mb-3" th:object="${clientAtr}">
-                            <input type="hidden" th:field="*{id}">
-                            <input type="hidden" th:field="*{phoneNumber2}">
-                            <input type="hidden" th:field="*{phoneNumber3}">
-                            <input type="hidden" th:field="*{address}">
-                            <input type="hidden" th:field="*{discount}">
-                            <input type="hidden" th:field="*{vkId}">
-                            <input type="hidden" th:field="*{fbId}">
-                            <input type="hidden" th:field="*{instagramId}">
-                            <input type="hidden" th:field="*{mailingApproval}">
-                            <input
-                                    th:field="*{phoneNumber}"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Телефон"
-                                    aria-label="Recipient's username"
-                                    aria-describedby="search-phone-button"
-                            />
-                            <button
-                                    th:formaction="@{/orders/findClient}"
-                                    class="btn btn-outline-secondary"
-                                    type="submit"
-                                    id="search-phone-button"
-                            >
-                                Искать
-                            </button>
-                            <input
-                                    th:field="*{name}"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Имя"
-                                    aria-label="Recipient's username"
-                                    aria-describedby="confirm-order-button"
-                            />
-                            <button
-                                    class="btn btn-outline-secondary"
-                                    type="submit"
-                                    id="confirm-order-button"
-                            >
-                                Оформить заказ
-<!--                                todo make button delete hidden stuff-->
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  <div class="container clientSection">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="price-text">
+              <span class="price-text-inner">Итого денег: </span>
+              <span class="price-text-sum">5000р.</span>
             </div>
-            <div class="col"></div>
+            <div class="input-group mb-3" th:object="${clientAtr}">
+              <input type="hidden" th:field="*{id}">
+              <input type="hidden" th:field="*{phoneNumber2}">
+              <input type="hidden" th:field="*{phoneNumber3}">
+              <input type="hidden" th:field="*{address}">
+              <input type="hidden" th:field="*{discount}">
+              <input type="hidden" th:field="*{vkId}">
+              <input type="hidden" th:field="*{fbId}">
+              <input type="hidden" th:field="*{instagramId}">
+              <input type="hidden" th:field="*{mailingApproval}">
+              <input
+                  th:field="*{phoneNumber}"
+                  type="text"
+                  class="form-control"
+                  placeholder="Телефон"
+                  aria-label="Recipient's username"
+                  aria-describedby="search-phone-button"
+              />
+              <button
+                  class="btn btn-outline-secondary"
+                  onclick="ordersFindClient();"
+                  type="button"
+                  id="search-phone-button"
+              >
+                Искать
+              </button>
+              <input
+                  th:field="*{name}"
+                  type="text"
+                  class="form-control"
+                  placeholder="Имя"
+                  aria-label="Recipient's username"
+                  aria-describedby="confirm-order-button"
+              />
+              <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  onclick="saveOrder();"
+                  id="confirm-order-button"
+              >
+                Оформить заказ
+                <!--todo make button delete hidden stuff-->
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="col"></div>
     </div>
-    <input type="submit" value="Save">
+  </div>
+  <input type="submit" value="Save">
 </form>
 <!-- Options for dataList -->
-<!--<datalist id="datalistOptions">-->
-<!--  <option th:each="item : ${itemsAtr}" -->
-<!--          th:text="${item.name}"-->
-<!--          th:value="${item.id}"-->
-<!--  ></option>-->
-<!--</datalist>-->
+
+<!--<input list="datalistOptions"-->
+<!--       class="form-control rowIdGen itemIdGen"-->
+<!--       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}">-->
+<datalist id="datalistOptions">
+  <option th:each="item : ${itemsAtr}"
+          th:price="${item.price}"
+          th:value="${item.name}"
+          th:data-value="${item.id}"
+  >
+    </option>
+</datalist>
+
+
 <!-- Bootstrap js -->
 <div th:insert="fragments/footer :: myFooter"></div>
 <script>
@@ -248,6 +260,8 @@
         for (let toggleButton of listOfToggleButtons) {
             toggleDeviceSection(toggleButton);
         }
+        addListeners();
+        loadItemsFromHidden();
     }
 </script>
 </body>

@@ -102,7 +102,7 @@ public class OrderController {
             }
             orderService.saveOrder(order);
         }
-        return "redirect:/orders";
+        return "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE + "&page=1";
     }
 
     @RequestMapping("orders/save")

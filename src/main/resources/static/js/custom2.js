@@ -59,7 +59,7 @@ function revaluateItemId() {
 function duplicateItemList(node) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
-    clone.querySelector("select").value = "169";
+    clone.querySelector("input").value = "";
     let toDelete = clone.querySelector(".deleteId");
     if (toDelete) {
         clone.querySelector(".deleteId").value = "0";
@@ -69,6 +69,7 @@ function duplicateItemList(node) {
         .setAttribute("onclick", "javascript: removeItemList(this);");
     revaluateItemId();
     hideAndDisplayDatalistButtons();
+    addListeners();
 }
 
 function removeItemList(node) {
@@ -85,6 +86,7 @@ function duplicateRow(node) {
     orderSection = orderSection.cloneNode(true);
     revaluateRowId();
     hideAndDisplayRowButtons();
+    addListeners();
 }
 
 function removeRow(node) {
@@ -185,7 +187,7 @@ function clean(node) {
         });
     let datalists = node.querySelectorAll(".item-datalist");
     if (datalists.length != 0) {
-        datalists[0].querySelector("select").value = "169";
+        datalists[0].querySelector("input").value = "";
     }
     for (let i = 1; i < datalists.length; i++) {
         datalists[i].remove();
@@ -194,15 +196,43 @@ function clean(node) {
 
 function exchange(node) {
     let papa = node.parentNode.parentNode;
-    let select = papa.querySelector("select.form-control");
-    let input = papa.querySelector("input.form-control");
+    let select = papa.querySelector("input.datalist");
+    let selectPrice = papa.querySelector("span.input-group-text")
+    let input = papa.querySelector("input.form-control.input");
+    let inputPrice = papa.querySelector("input.form-control.price");
 
     if (select.style.display === "none") {
         select.style.display = "inline";
+        selectPrice.style.display = "inline";
         input.style.display = "none";
+        inputPrice.style.display = "none";
     } else {
         select.style.display = "none";
+        selectPrice.style.display = "none";
         input.style.display = "inline";
+        inputPrice.style.display = "inline";
+    }
+}
+
+function saveOrder() {
+    let r = confirm("Сохранить заказ?");
+    if (r === true) {
+        switchHiddenValues();
+        document.getElementById('form').submit();
+    }
+}
+
+function ordersFindClient() {
+    let form = document.getElementById('form');
+    form.setAttribute('action', '/orders/findClient');
+    switchHiddenValues();
+    form.submit();
+}
+
+function switchHiddenValues() {
+    let dataListOptions = document.querySelectorAll('[hiddenValue]');
+    for (let el of dataListOptions) {
+        el.setAttribute("value", el.getAttribute("hiddenvalue"));
     }
 }
 
@@ -213,3 +243,65 @@ function deleteWorkById(url) {
         document.location.href = url;
     }
 }
+
+function addListeners() {
+    let inputs = document.querySelectorAll('input[list]');
+    for (let el of inputs) {
+        el.addEventListener('input', function (e) {
+            var input = e.target,
+                list = input.getAttribute('list'),
+                options = document.querySelectorAll('#' + list + ' option'),
+                hiddenInput = this.nextElementSibling,
+                inputValue = input.value;
+
+            hiddenInput.value = inputValue;
+
+            for (var i = 0; i < options.length; i++) {
+                var option = options[i];
+
+                if (option.value === inputValue) {
+                    hiddenInput.value = option.getAttribute('data-value');
+                    break;
+                }
+            }
+        });
+    }
+}
+
+function loadItemsFromHidden() {
+    let hiddenInputs = document.querySelectorAll(".hiddenItem");
+    let options = document.querySelectorAll("#datalistOptions option");
+    if (!hiddenInputs[0].value) { return; }
+    for (let input of hiddenInputs) {
+        for (let i = 0; i < options.length; i++) {
+            let option = options[i];
+            if (input.value === option.getAttribute('data-value')) {
+                input.previousElementSibling.value
+                    = option.getAttribute('value');
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

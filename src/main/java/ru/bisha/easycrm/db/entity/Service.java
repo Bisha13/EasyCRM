@@ -50,5 +50,6 @@ public class Service {
 
     public Service() {
         this.executorId = 20;
+        this.description = "";
     }
 }

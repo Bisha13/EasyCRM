@@ -36,3 +36,6 @@ td button.btn-danger {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.price {
+    max-width: 100px;
+}
