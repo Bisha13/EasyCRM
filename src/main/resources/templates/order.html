@@ -7,7 +7,7 @@
 >
 
 <head>
-    <div th:replace="fragments/header :: myHeader"></div>
+  <div th:replace="fragments/header :: myHeader"></div>
 </head>
 
 <body>
@@ -16,192 +16,214 @@
 
 <br/>
 <div class="container">
-    <div class="row sectionRow">
-        <div class="card">
-            <div class="card-body">
-                <form th:action="@{/orders/save}" th:object="${orderAtr}">
-                    <input type="hidden" th:field="*{orderId}">
-                    <input type="hidden" th:field="*{timestamp}">
-                    <input type="hidden" th:field="*{client}">
-                    <input type="hidden" th:field="*{smallDescription}">
-                    <input type="hidden" th:field="*{executeStatus}">
-                    <input type="hidden" th:field="*{executorId}">
-                    <input type="hidden" th:field="*{partsPrice}">
-                    <input type="hidden" th:field="*{workPrice}">
-                    <input type="hidden" th:field="*{parts}">
-                    <input type="hidden" th:field="*{works}">
-                    <input type="hidden" th:field="*{paymentStatus}">
-                    <input type="hidden" th:field="*{device}">
-                    <input type="hidden" th:field="*{orderDescription}">
-                    <input type="hidden" th:field="*{fullPrice}">
-                    <div th:if="*{timeClose != null}">
-                        <input type="hidden" th:field="*{timeClose}">
-                    </div>
+  <div class="row sectionRow">
+    <div class="card">
+      <div class="card-body">
+        <form th:action="@{/orders/save}" th:object="${orderAtr}">
+          <input type="hidden" th:field="*{orderId}">
+          <input type="hidden" th:field="*{timestamp}">
+          <input type="hidden" th:field="*{client}">
+          <input type="hidden" th:field="*{smallDescription}">
+          <input type="hidden" th:field="*{executeStatus}">
+          <input type="hidden" th:field="*{executorId}">
+          <input type="hidden" th:field="*{partsPrice}">
+          <input type="hidden" th:field="*{workPrice}">
+          <input type="hidden" th:field="*{parts}">
+          <input type="hidden" th:field="*{works}">
+          <input type="hidden" th:field="*{paymentStatus}">
+          <input type="hidden" th:field="*{device}">
+          <input type="hidden" th:field="*{orderDescription}">
+          <input type="hidden" th:field="*{fullPrice}">
+          <div th:if="*{timeClose != null}">
+            <input type="hidden" th:field="*{timeClose}">
+          </div>
 
-                    <div class="order-info">
-                        <div class="order-number">
-                            <span class="text-for-order-number">Номер заказа:</span>
-                            <span class="number-of-order" th:text="*{orderId}">7015</span>
-                        </div>
-                        <div class="order-status">
-                            <span class="text-for-order-status">Стату заказа:</span>
-                            <span class="status-of-order" th:text="*{executeStatus}">Принят</span>
-                        </div>
-                        <div class="order-client">
-                            <span class="text-for-order-client">Клиент:</span>
-                            <span class="client-of-order" th:text="*{client.name}">Михаил Велосипедовский</span>
-                        </div>
-                        <div class="order-phone">
-                            <span class="text-for-order-phone">Телефон:</span>
-                            <span class="phone-of-order" th:text="*{client.phoneNumber}">89154446015</span>
-                        </div>
-                    </div>
-                    <hr/>
-
-                    <div class="vehicle-block">
-
-                        <div class="vehicle-info">
-                            <span class="text-for-vehicle-info">Что чиним:</span>
-                            <span th:if="*{device}"
-                                    class="value-of-vehicle-info"
-                                  th:text="*{device.deviceName}">Велосипед красный</span>
-                        </div>
-
-                        <div class="input-group mb-3" th:unless="*{device}">
-                            <!--Что чиним?-->
-                            <input type="text" class="form-control toClean rowIdGen"
-                                   th:field="*{device.deviceName}"
-                                   placeholder="Что чиним?" aria-label="Что чиним?">
-                            <span class="input-group-text toggle-button">
-                                        <i class="fas fa-bicycle"></i></span>
-                            <!--Краткое описание-->
-                            <input type="text" class="form-control toClean rowIdGen"
-                                   th:field="*{device.description}"
-                                   placeholder="Описание" aria-label="Описание">
-                        </div>
-
-                        <div class="vehicle-info-additional">
-                            <span class="text-for-additional-info">Описание:</span>
-                            <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
-                            >Весь велосипед погнуло как буратину, наверное за зиму
-                  так.</span
-                            >
-                        </div>
-                    </div>
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Работа</th>
-                            <th scope="col">Цена</th>
-                            <th scope="col">Кто делает</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="service, i : *{listOfServices}" class="item-datalist">
-                            <input type="hidden" class="itemIdGen deleteId"
-                                   th:field="*{listOfServices[__${i.index}__].serviceId}">
-                            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].order}">
-                            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].price}">
-
-
-                            <td>
-                                <select
-                                        class="form-control itemIdGen"
-                                        list="datalistOptions"
-                                        placeholder="Что нужно сделать?"
-                                        th:field="*{listOfServices[__${i.index}__].item}"
-                                        th:style="*{listOfServices[__${i.index}__].description} == '' ?
-                                       'display:inline' : 'display:none'"
-                                >
-                                <option th:each="item, j : ${itemsAtr}"
-                                        th:text="${item.name} + ' - ' + ${item.price}"
-                                        th:value="${item.id}"
-                                        th:selected="${item} == *{listOfServices[__${i.index}__].item}"
-                                ></option>
-                                </select>
-                                <input type="text" class="form-control toClean itemIdGen"
-                                       th:field="*{listOfServices[__${i.index}__].description}"
-                                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
-                                       'display:none' : 'display:inline'"
-                                />
-                            </td>
-                            <td th:text="${service.price}">5000</td>
-                            <!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
-
-                            <td>
-                                <select class="form-select itemIdGen" th:field="*{listOfServices[__${i.index}__].executorId}">
-                                    <option th:each="executor : ${usersAtr}"
-                                            th:text="${executor.fullName}"
-                                            th:value="${executor.id}"
-                                            th:selected="*{executorId} == ${service.executorId}"
-                                    >
-                                    </option>
-                                </select>
-                            </td>
-
-                            <td>
-                                <!--onclick="removeItemList(this);"-->
-                                <button
-                                        class="btn btn-danger float-end"
-                                        th:onclick="deleteWorkById('/services/delete?itemId=[[${service.serviceId}]]')"
-                                        type="button">
-                                    <i aria-hidden="true" class="fa fa-minus float-right"></i>
-                                </button>
-                                <button
-                                        class="btn btn-success"
-                                        type="button"
-                                        onclick="duplicateItemList(this);"
-                                >
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                                <button
-                                        class="btn btn-primary"
-                                        type="button"
-                                        onclick="exchange(this);"
-                                >
-                                    <i class="fas fa-exchange-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="form-group textArea-comments">
-                        <label for="textArea-comments1">Комментарии</label>
-                        <textarea
-                                th:field="*{fullDescription}"
-                                class="form-control"
-                                id="textArea-comments1"
-                                rows="5"
-                        ></textarea>
-                    </div>
-
-
-                    <!--                    <button-->
-                    <!--                            class="btn btn-primary btn-lg"-->
-                    <!--                            type="button"-->
-                    <!--                    >-->
-                    <!--                        Сохранить-->
-                    <!--                    </button>-->
-                    <input type="submit" value="Save">
-                </form>
+          <div class="order-info">
+            <div class="order-number">
+              <span class="text-for-order-number">Номер заказа:</span>
+              <span class="number-of-order" th:text="*{orderId}">7015</span>
             </div>
-        </div>
+            <div class="order-status">
+              <span class="text-for-order-status">Стату заказа:</span>
+              <span class="status-of-order" th:text="*{executeStatus}">Принят</span>
+            </div>
+            <div class="order-client">
+              <span class="text-for-order-client">Клиент:</span>
+              <span class="client-of-order" th:text="*{client.name}">Михаил Велосипедовский</span>
+            </div>
+            <div class="order-phone">
+              <span class="text-for-order-phone">Телефон:</span>
+              <span class="phone-of-order" th:text="*{client.phoneNumber}">89154446015</span>
+            </div>
+          </div>
+          <hr/>
+
+          <div class="vehicle-block">
+
+            <div class="vehicle-info">
+              <span class="text-for-vehicle-info">Что чиним:</span>
+              <span th:if="*{device}"
+                    class="value-of-vehicle-info"
+                    th:text="*{device.deviceName}">Велосипед красный</span>
+            </div>
+
+            <div class="input-group mb-3" th:unless="*{device}">
+              <!--Что чиним?-->
+              <input type="text" class="form-control toClean rowIdGen"
+                     th:field="*{device.deviceName}"
+                     placeholder="Что чиним?" aria-label="Что чиним?">
+              <span class="input-group-text toggle-button">
+                                        <i class="fas fa-bicycle"></i></span>
+              <!--Краткое описание-->
+              <input type="text" class="form-control toClean rowIdGen"
+                     th:field="*{device.description}"
+                     placeholder="Описание" aria-label="Описание">
+            </div>
+
+            <div class="vehicle-info-additional">
+              <span class="text-for-additional-info">Описание:</span>
+              <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
+              >Весь велосипед погнуло как буратину, наверное за зиму
+                  так.</span
+              >
+            </div>
+          </div>
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Количество</th>
+              <th scope="col">Работа</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Кто делает</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="service, i : *{listOfServices}" class="item-datalist">
+              <input type="hidden" class="itemIdGen deleteId"
+                     th:field="*{listOfServices[__${i.index}__].serviceId}">
+              <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].order}">
+              <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].price}">
+
+              <td>
+                <input type="number" class="qty form-control itemIdGen"
+                       th:field="*{listOfServices[__${i.index}__].qty}"
+                       value="1"
+                       placeholder="Количество" aria-label="Краткое описание">
+              </td>
+              <td>
+                <input
+                    class="datalist form-control itemIdGen"
+                    list="datalistOptions"
+                    placeholder="Что нужно сделать?"
+                    th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                       'display:inline' : 'display:none'"
+                >
+                <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
+                       th:field="*{listOfServices[__${i.index}__].item}">
+                <!--                  <option th:each="item, j : ${itemsAtr}"-->
+                <!--                          th:text="${item.name} + ' - ' + ${item.price}"-->
+                <!--                          th:value="${item.id}"-->
+                <!--                          th:selected="${item} == *{listOfServices[__${i.index}__].item}"-->
+                <!--                  ></option>-->
+                </input>
+                <input type="text" class="form-control input toClean itemIdGen"
+                       th:field="*{listOfServices[__${i.index}__].description}"
+                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                       'display:none' : 'display:block'"
+                />
+              </td>
+              <td>
+                  <span class="input-group-text toggle-button"
+                        th:text="*{listOfServices[__${i.index}__].price}"
+                        th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                      'display:block' : 'display:none'"
+                  >5000</span>
+                <input type="number" class="form-control price toClean rowIdGen itemIdGen"
+                       th:field="*{listOfServices[__${i.index}__].price}"
+                       placeholder="Цена" aria-label="Цена"
+                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
+                                       'display:none' : 'display:inline'">
+
+              </td>
+              <!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
+
+              <td>
+                <select class="form-select itemIdGen" th:field="*{listOfServices[__${i.index}__].executorId}">
+                  <option th:each="executor : ${usersAtr}"
+                          th:text="${executor.fullName}"
+                          th:value="${executor.id}"
+                          th:selected="*{executorId} == ${service.executorId}"
+                  >
+                  </option>
+                </select>
+              </td>
+
+              <td>
+                <!--onclick="removeItemList(this);"-->
+                <button
+                    class="btn btn-danger float-end"
+                    th:onclick="deleteWorkById('/services/delete?itemId=[[${service.serviceId}]]')"
+                    type="button">
+                  <i aria-hidden="true" class="fa fa-minus float-right"></i>
+                </button>
+                <button
+                    class="btn btn-success"
+                    type="button"
+                    onclick="duplicateItemList(this);"
+                >
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="exchange(this);"
+                >
+                  <i class="fas fa-exchange-alt"></i>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="form-group textArea-comments">
+            <label for="textArea-comments1">Комментарии</label>
+            <textarea
+                th:field="*{fullDescription}"
+                class="form-control"
+                id="textArea-comments1"
+                rows="5"
+            ></textarea>
+          </div>
+
+
+          <!--                    <button-->
+          <!--                            class="btn btn-primary btn-lg"-->
+          <!--                            type="button"-->
+          <!--                    >-->
+          <!--                        Сохранить-->
+          <!--                    </button>-->
+          <input type="submit" value="Save">
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <datalist id="datalistOptions">
-    <option value="Миша"></option>
-    <option value="Паша"></option>
-    <option value="Биша"></option>
-    <option value="Даша"></option>
+  <option th:each="item : ${itemsAtr}"
+          th:price="${item.price}"
+          th:value="${item.name}"
+          th:data-value="${item.id}"
+  >
+  </option>
 </datalist>
 
 <div th:insert="fragments/footer :: myFooter"></div>
 <script>
     window.onload = function () {
         hideAndDisplayDatalistButtons();
+        loadItemsFromHidden();
     }
 </script>
 </body>

@@ -59,7 +59,8 @@ function revaluateItemId() {
 function duplicateItemList(node) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
-    clone.querySelector("input").value = "";
+    clone.querySelector("input:not(.qty)").value = "";
+    clone.querySelector("input.qty").value = "1";
     let toDelete = clone.querySelector(".deleteId");
     if (toDelete) {
         clone.querySelector(".deleteId").value = "0";
@@ -81,8 +82,9 @@ function removeItemList(node) {
 
 function duplicateRow(node) {
     let element = node.parentNode.parentNode.parentNode.parentNode.parentNode;
+    orderSection.querySelector(".qty").value = "1";
     element.parentNode.appendChild(orderSection);
-    toggleDeviceSection(orderSection.querySelector(".toggle-button"));
+    //toggleDeviceSection(orderSection.querySelector(".toggle-button"));
     orderSection = orderSection.cloneNode(true);
     revaluateRowId();
     hideAndDisplayRowButtons();
@@ -161,22 +163,14 @@ function toggleDeviceSection(element) {
     let newDevice = element.parentNode.parentNode.parentNode
         .querySelector(".new-device-section");
 
-    if (deviceList != null && newDevice != null) {
-        deviceList.parentNode.removeChild(deviceList);
-        revaluateRowId();
-        return;
+    if (deviceList.style.display === 'none') {
+        deviceList.style = '';
+        newDevice.style.display = 'none';
+        return
     }
-    if (newDevice != null && deviceListSection != null) {
-        newDevice.parentNode.insertBefore(deviceListSection.cloneNode(true), newDevice);
-        newDevice.parentNode.removeChild(newDevice);
-        revaluateRowId();
-        //rewaluateIds
-        return;
-    }
-    if (deviceList != null) {
-        deviceList.parentNode.insertBefore(newDeviceSection.cloneNode(true), deviceList);
-        deviceList.parentNode.removeChild(deviceList);
-        revaluateRowId();
+    if (newDevice.style.display === 'none') {
+        newDevice.style = '';
+        deviceList.style.display = 'none';
     }
 }
 
@@ -203,7 +197,7 @@ function exchange(node) {
 
     if (select.style.display === "none") {
         select.style.display = "inline";
-        selectPrice.style.display = "inline";
+        selectPrice.style.display = "block";
         input.style.display = "none";
         inputPrice.style.display = "none";
     } else {
@@ -218,6 +212,7 @@ function saveOrder() {
     let r = confirm("Сохранить заказ?");
     if (r === true) {
         switchHiddenValues();
+        removeHidden();
         document.getElementById('form').submit();
     }
 }
@@ -226,6 +221,7 @@ function ordersFindClient() {
     let form = document.getElementById('form');
     form.setAttribute('action', '/orders/findClient');
     switchHiddenValues();
+    removeHidden();
     form.submit();
 }
 
@@ -284,6 +280,14 @@ function loadItemsFromHidden() {
     }
 }
 
+function removeHidden() {
+    let elements = document.querySelectorAll("[style]");
+    for (let el of elements) {
+        if (el.style.display === 'none') {
+            el.remove();
+        }
+    }
+}
 
 
 

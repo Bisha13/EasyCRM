@@ -29,6 +29,9 @@ public class Service {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "quantity")
+    private int qty;
+
     @Column(name = "price")
     private int price;
 
@@ -51,5 +54,6 @@ public class Service {
     public Service() {
         this.executorId = 20;
         this.description = "";
+        this.qty = 1;
     }
 }
