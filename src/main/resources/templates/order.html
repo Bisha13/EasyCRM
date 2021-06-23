@@ -19,7 +19,7 @@
   <div class="row sectionRow">
     <div class="card">
       <div class="card-body">
-        <form th:action="@{/orders/save}" th:object="${orderAtr}">
+        <form th:action="@{/orders/save}" th:object="${orderAtr}" id="form">
           <input type="hidden" th:field="*{orderId}">
           <input type="hidden" th:field="*{timestamp}">
           <input type="hidden" th:field="*{client}">
@@ -89,105 +89,96 @@
             </div>
           </div>
 
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col">Количество</th>
-              <th scope="col">Работа</th>
-              <th scope="col">Цена</th>
-              <th scope="col">Кто делает</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="service, i : *{listOfServices}" class="item-datalist">
-              <input type="hidden" class="itemIdGen deleteId"
-                     th:field="*{listOfServices[__${i.index}__].serviceId}">
-              <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].order}">
-              <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${i.index}__].price}">
 
-              <td>
-                <input type="number" class="qty form-control itemIdGen"
-                       th:field="*{listOfServices[__${i.index}__].qty}"
-                       value="1"
-                       placeholder="Количество" aria-label="Краткое описание">
-              </td>
-              <td>
-                <input
-                    class="datalist form-control itemIdGen"
-                    list="datalistOptions"
-                    placeholder="Что нужно сделать?"
-                    th:style="*{listOfServices[__${i.index}__].description} == '' ?
-                                       'display:inline' : 'display:none'"
-                >
-                <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
-                       th:field="*{listOfServices[__${i.index}__].item}">
-                <!--                  <option th:each="item, j : ${itemsAtr}"-->
-                <!--                          th:text="${item.name} + ' - ' + ${item.price}"-->
-                <!--                          th:value="${item.id}"-->
-                <!--                          th:selected="${item} == *{listOfServices[__${i.index}__].item}"-->
-                <!--                  ></option>-->
-                </input>
-                <input type="text" class="form-control input toClean itemIdGen"
-                       th:field="*{listOfServices[__${i.index}__].description}"
-                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
-                                       'display:none' : 'display:block'"
-                />
-              </td>
-              <td>
-                  <span class="input-group-text toggle-button"
-                        th:text="*{listOfServices[__${i.index}__].price}"
-                        th:style="*{listOfServices[__${i.index}__].description} == '' ?
-                                      'display:block' : 'display:none'"
-                  >5000</span>
-                <input type="number" class="form-control price toClean rowIdGen itemIdGen"
-                       th:field="*{listOfServices[__${i.index}__].price}"
-                       placeholder="Цена" aria-label="Цена"
-                       th:style="*{listOfServices[__${i.index}__].description} == '' ?
+
+
+
+
+
+
+
+
+
+          <div class="item-datalist input-group" th:each="service, j : *{listOfServices}">
+            <input type="hidden" class="itemIdGen deleteId"
+                                 th:field="*{listOfServices[__${j.index}__].serviceId}">
+            <input type="hidden" class="itemIdGen order" th:field="*{listOfServices[__${j.index}__].order}">
+<!--            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${j.index}__].price}">-->
+
+            <!-- Quantity input -->
+            <input type="number" class="qty form-control rowIdGen itemIdGen"
+                   th:field="*{listOfServices[__${j.index}__].qty}"
+                   value="1"
+                   placeholder="Количество" aria-label="Краткое описание">
+
+            <!-- DataList -->
+            <input
+                class="datalist form-control rowIdGen itemIdGen"
+                list="datalistOptions"
+                placeholder="Что нужно сделать?"
+                th:style="*{listOfServices[__${j.index}__].description} == '' ?
+                                        'display:inline' : 'display:none'"
+            >
+
+            <!--                Hidden Input for datalist-->
+            <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
+                   th:field="*{listOfServices[__${j.index}__].item}">
+
+            <!--Price span label-->
+            <span class="input-group-text price toggle-button"
+                  th:text="*{listOfServices[__${j.index}__].item.price}"
+                  th:style="*{listOfServices[__${j.index}__].description} == '' ?
+                                      'display:inline' : 'display:none'">Цена</span>
+
+            <!--Input description-->
+            <input type="text" class="input form-control toClean rowIdGen itemIdGen"
+                   th:field="*{listOfServices[__${j.index}__].description}"
+                   placeholder="Краткое описание" aria-label="Краткое описание"
+                   th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
 
-              </td>
-              <!--                            <td th:text="*{listOfWorks[__${i.index}__].item.name}">5000</td>-->
+            <input type="number" class="form-control price toClean rowIdGen itemIdGen"
+                   onchange="calculatePrice();"
+                   th:field="*{listOfServices[__${j.index}__].price}"
+                   placeholder="Цена" aria-label="Цена"
+                   th:style="*{listOfServices[__${j.index}__].description} == '' ?
+                                       'display:none' : 'display:inline'">
+            <select class="form-select itemIdGen" th:field="*{listOfServices[__${j.index}__].executorId}">
+              <option th:each="executor : ${usersAtr}"
+                      th:text="${executor.fullName}"
+                      th:value="${executor.id}"
+                      th:selected="*{executorId} == ${service.executorId}"
+              >
+              </option>
+            </select>
+            <!--Кнопки плюс и минус-->
+            <div>
+              <button
+                  class="btn btn-danger"
+                  th:onclick="deleteWorkById('/services/delete?itemId=[[${service.serviceId}]]')"
+                  type="button">
+                <i aria-hidden="true" class="fa fa-minus float-right"></i>
+              </button>
+              <button
+                  class="btn btn-success"
+                  type="button"
+                  onclick="duplicateItemList(this);">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+              </button>
+              <button
+                  style="display: none"
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="exchange(this);">
+                <i class="fas fa-exchange-alt"></i>
+              </button>
+            </div>
+          </div>
 
-              <td>
-                <select class="form-select itemIdGen" th:field="*{listOfServices[__${i.index}__].executorId}">
-                  <option th:each="executor : ${usersAtr}"
-                          th:text="${executor.fullName}"
-                          th:value="${executor.id}"
-                          th:selected="*{executorId} == ${service.executorId}"
-                  >
-                  </option>
-                </select>
-              </td>
 
-              <td>
-                <!--onclick="removeItemList(this);"-->
-                <button
-                    class="btn btn-danger float-end"
-                    th:onclick="deleteWorkById('/services/delete?itemId=[[${service.serviceId}]]')"
-                    type="button">
-                  <i aria-hidden="true" class="fa fa-minus float-right"></i>
-                </button>
-                <button
-                    class="btn btn-success"
-                    type="button"
-                    onclick="duplicateItemList(this);"
-                >
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                <button
-                    class="btn btn-primary"
-                    type="button"
-                    onclick="exchange(this);"
-                >
-                  <i class="fas fa-exchange-alt"></i>
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+
           <div class="form-group textArea-comments">
-            <label for="textArea-comments1">Комментарии</label>
+
             <textarea
                 th:field="*{fullDescription}"
                 class="form-control"
@@ -196,14 +187,24 @@
             ></textarea>
           </div>
 
+          <div class="price-text">
+            <span class="price-text-inner">Итого денег: </span>
+            <span class="price-text-sum">0 р.</span>
+          </div>
+          <button
+              class="btn btn-primary"
+              type="button"
+              onclick="saveOrder();"
+              id="confirm-order-button"
+          >
+            Сохранить заказ
+          </button>
 
-          <!--                    <button-->
-          <!--                            class="btn btn-primary btn-lg"-->
-          <!--                            type="button"-->
-          <!--                    >-->
-          <!--                        Сохранить-->
-          <!--                    </button>-->
-          <input type="submit" value="Save">
+
+
+
+
+
         </form>
       </div>
     </div>
@@ -223,7 +224,9 @@
 <script>
     window.onload = function () {
         hideAndDisplayDatalistButtons();
+        addListeners();
         loadItemsFromHidden();
+        calculatePrice();
     }
 </script>
 </body>

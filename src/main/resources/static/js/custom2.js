@@ -59,8 +59,15 @@ function revaluateItemId() {
 function duplicateItemList(node) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
-    clone.querySelector("input:not(.qty)").value = "";
+    clone.querySelectorAll("input:not(.qty):not(.order)")
+        .forEach(function (el) {
+            el.value = "";
+        });
+    clone.querySelector(".hiddenItem").value = "1";
+    clone.querySelector(".btn-primary").style.display = "inline";
     clone.querySelector("input.qty").value = "1";
+    clone.querySelector("span.price").innerHTML = "Цена";
+    clone.querySelector("input.price").value = "0";
     let toDelete = clone.querySelector(".deleteId");
     if (toDelete) {
         clone.querySelector(".deleteId").value = "0";
@@ -71,7 +78,7 @@ function duplicateItemList(node) {
     revaluateItemId();
     hideAndDisplayDatalistButtons();
     addListeners();
-}
+    }
 
 function removeItemList(node) {
     let datalistField = node.parentNode.parentNode;
@@ -206,6 +213,7 @@ function exchange(node) {
         input.style.display = "inline";
         inputPrice.style.display = "inline";
     }
+    calculatePrice();
 }
 
 function saveOrder() {
@@ -244,19 +252,22 @@ function addListeners() {
     let inputs = document.querySelectorAll('input[list]');
     for (let el of inputs) {
         el.addEventListener('input', function (e) {
-            var input = e.target,
+            let input = e.target,
                 list = input.getAttribute('list'),
                 options = document.querySelectorAll('#' + list + ' option'),
                 hiddenInput = this.nextElementSibling,
-                inputValue = input.value;
+                inputValue = input.value,
+                price = this.parentNode.querySelector("span.input-group-text");
 
-            hiddenInput.value = inputValue;
+            hiddenInput.value = 0;
 
             for (var i = 0; i < options.length; i++) {
                 var option = options[i];
 
                 if (option.value === inputValue) {
                     hiddenInput.value = option.getAttribute('data-value');
+                    price.innerHTML = option.getAttribute("price");
+                    calculatePrice();
                     break;
                 }
             }
@@ -267,7 +278,9 @@ function addListeners() {
 function loadItemsFromHidden() {
     let hiddenInputs = document.querySelectorAll(".hiddenItem");
     let options = document.querySelectorAll("#datalistOptions option");
-    if (!hiddenInputs[0].value) { return; }
+    if (!hiddenInputs[0].value) {
+        return;
+    }
     for (let input of hiddenInputs) {
         for (let i = 0; i < options.length; i++) {
             let option = options[i];
@@ -289,6 +302,22 @@ function removeHidden() {
     }
 }
 
+function calculatePrice() {
+    let prices = document.querySelectorAll(".price")
+    let sum = 0;
+    for (const el of prices) {
+        if (el.style.display !== 'none') {
+            if (el.innerHTML === "") {
+                sum += parseInt(el.value);
+            } else {
+                if (!isNaN(parseInt(el.innerHTML))) {
+                    sum += parseInt(el.innerHTML);
+                }
+            }
+        }
+    }
+    document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
+}
 
 
 
