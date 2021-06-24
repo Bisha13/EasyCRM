@@ -72,7 +72,7 @@ public class OrderController {
 
     @RequestMapping("orders/{id}")
     public String getOrder(@PathVariable int id, Model model) {
-        Order order = orderService.getOrder(id);
+        var order = orderService.getOrder(id);
 
         try {
             order.getDevice();
@@ -90,9 +90,10 @@ public class OrderController {
     }
 
     @RequestMapping("orders/saveWrapper")
-    public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+    public String saveOrder(@ModelAttribute("ordersWrapperAtr")
+                                final OrderWrapper orderWrapper,
                             @ModelAttribute("clientAtr") final Client client) {
-        Client someClient = clientService.saveClient(client);
+        var someClient = clientService.saveClient(client);
 
         for (Order order : orderWrapper.getOrderList()) {
             order.setClient(someClient);
@@ -113,9 +114,9 @@ public class OrderController {
 
     @RequestMapping
     public String newOrder(Model model) {
-        OrderWrapper ordersWrapper = new OrderWrapper();
+        var ordersWrapper = new OrderWrapper();
         ordersWrapper.addOrder(new Order());
-        Client client = new Client();
+        var client = new Client();
         List<Item> itemList = itemService.getAll();
 
         model.addAttribute("itemsAtr", itemList);
@@ -126,11 +127,12 @@ public class OrderController {
     }
 
     @RequestMapping("orders/findClient")
-    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
-                                      @ModelAttribute("clientAtr") final Client client, Model model) {
+    public String findClientAndLoadIt(
+            @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+            @ModelAttribute("clientAtr") final Client client, Model model) {
         List<Item> itemList = itemService.getAll();
 
-        Client foundClient = clientService
+        var foundClient = clientService
                 .findClientByNumber(client.getPhoneNumber());
 
         List<Device> deviceList = new ArrayList<>();

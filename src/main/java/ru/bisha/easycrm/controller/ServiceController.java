@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bisha.easycrm.service.ServiceService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/services")
 public class ServiceController {
@@ -14,9 +17,10 @@ public class ServiceController {
         ServiceService serviceService;
 
         @RequestMapping("/delete")
-        public String deleteService(@RequestParam("itemId") final int id) {
+        public String deleteService(@RequestParam("itemId") final int id,
+                                    HttpServletRequest request) {
             ServiceController.this.serviceService.deleteService(id);
-            return "redirect:/orders/259";
-            //todo return proper order
+            return "redirect:" + Optional.of(request.getHeader("referer"))
+                    .orElse("/orders/259");
         }
 }
