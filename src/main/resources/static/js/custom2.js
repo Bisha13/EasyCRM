@@ -63,7 +63,8 @@ function duplicateItemList(node) {
         .forEach(function (el) {
             el.value = "";
         });
-    clone.querySelector(".hiddenItem").value = "1";
+    //clone.querySelector(".hiddenItem").value = "1";
+    // clone.querySelector(".datalist").value = "1";
     clone.querySelector(".btn-primary").style.display = "inline";
     clone.querySelector("input.qty").value = "1";
     clone.querySelector("span.price").innerHTML = "Цена";
@@ -259,7 +260,7 @@ function addListeners() {
                 inputValue = input.value,
                 price = this.parentNode.querySelector("span.input-group-text");
 
-            hiddenInput.value = 0;
+            hiddenInput.value = inputValue;
 
             for (var i = 0; i < options.length; i++) {
                 var option = options[i];
@@ -270,6 +271,7 @@ function addListeners() {
                     calculatePrice();
                     break;
                 }
+                hiddenInput.value = 0;
             }
         });
     }

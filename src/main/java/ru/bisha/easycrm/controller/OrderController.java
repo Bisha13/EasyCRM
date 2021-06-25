@@ -115,9 +115,9 @@ public class OrderController {
     @RequestMapping
     public String newOrder(Model model) {
         var ordersWrapper = new OrderWrapper();
-        ordersWrapper.addOrder(new Order());
-        var client = new Client();
         List<Item> itemList = itemService.getAll();
+        ordersWrapper.addOrder(new Order(itemList.get(0)));
+        var client = new Client();
 
         model.addAttribute("itemsAtr", itemList);
         model.addAttribute("ordersWrapperAtr", ordersWrapper);

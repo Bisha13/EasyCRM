@@ -87,12 +87,13 @@
 
 <!--                Hidden Input for datalist-->
                 <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
+                       value="1"
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}">
 
                 <!--Price span label-->
                 <span class="input-group-text price toggle-button"
                       th:with="item=*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"
-                      th:text="${item} ? item.price : Цена"
+                      th:text="${item} ? ${item.price} : Цена"
                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
                                       'display:inline' : 'display:none'">Цена</span>
 
@@ -268,6 +269,10 @@
         hideAndDisplayRowButtons();
         addListeners();
         loadItemsFromHidden();
+        let datalists = document.querySelectorAll("input.datalist");
+        if (datalists.length === 1) {
+            datalists[0].value = '';
+        }
     }
 </script>
 </body>

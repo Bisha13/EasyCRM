@@ -56,4 +56,11 @@ public class Service {
         this.description = "";
         this.qty = 1;
     }
+
+    public Service(Item item) {
+        this.executorId = 20;
+        this.description = "";
+        this.qty = 1;
+        this.item = item;
+    }
 }
