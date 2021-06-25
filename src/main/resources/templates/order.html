@@ -126,7 +126,13 @@
 
             <!--Price span label-->
             <span class="input-group-text price toggle-button"
+                  th:if="*{listOfServices[__${j.index}__].item}"
                   th:text="*{listOfServices[__${j.index}__].item.price}"
+                  th:style="*{listOfServices[__${j.index}__].description} == '' ?
+                                      'display:inline' : 'display:none'">Цена</span>
+            <span class="input-group-text price toggle-button"
+                  th:unless="*{listOfServices[__${j.index}__].item}"
+                  th:text="*{listOfServices[__${j.index}__].price}"
                   th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                       'display:inline' : 'display:none'">Цена</span>
 
@@ -227,6 +233,8 @@
         addListeners();
         loadItemsFromHidden();
         calculatePrice();
+        document.querySelector("input.datalist")
+            .dispatchEvent(new Event('input'));
     }
 </script>
 </body>

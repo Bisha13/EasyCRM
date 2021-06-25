@@ -75,7 +75,7 @@ public class Order {
     private Device device;
 
     @Column(name = "order_description")
-    private String orderDescription; // сделать
+    private String orderDescription;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
@@ -88,6 +88,13 @@ public class Order {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service());
+    }
+
+    public Order(Item item) {
+        this.executeStatus = Status.NEW;
+        this.device = new Device();
+        this.listOfServices = new ArrayList<>();
+        listOfServices.add(new Service(item));
     }
 
     @PostLoad
