@@ -33,7 +33,6 @@
           <input type="hidden" th:field="*{paymentStatus}">
           <input type="hidden" th:field="*{device}">
           <input type="hidden" th:field="*{orderDescription}">
-          <input type="hidden" th:field="*{fullPrice}">
           <div th:if="*{timeClose != null}">
             <input type="hidden" th:field="*{timeClose}">
           </div>
@@ -108,7 +107,8 @@
             <input type="number" class="qty form-control rowIdGen itemIdGen"
                    th:field="*{listOfServices[__${j.index}__].qty}"
                    value="1"
-                   placeholder="Количество" aria-label="Краткое описание">
+                   placeholder="Количество" aria-label="Краткое описание"
+                   onchange="calculatePrice();">
 
             <!-- DataList -->
             <input
@@ -196,7 +196,8 @@
 
           <div class="price-text">
             <span class="price-text-inner">Итого денег: </span>
-            <span class="price-text-sum">0 р.</span>
+            <span class="price-text-sum" >30 000р.</span>
+            <input type="hidden" class="price-text-sum-hidden" th:field="*{fullPrice}">
           </div>
           <button
               class="btn btn-primary"
@@ -228,10 +229,11 @@
     window.onload = function () {
         hideAndDisplayDatalistButtons();
         addListeners();
-        loadItemsFromHidden();
+        // loadItemsFromHidden();
         calculatePrice();
         document.querySelector("input.datalist")
             .dispatchEvent(new Event('input'));
+        loadItemsFromHidden();
     }
 </script>
 </body>

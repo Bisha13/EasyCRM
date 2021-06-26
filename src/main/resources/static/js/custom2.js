@@ -63,7 +63,7 @@ function duplicateItemList(node) {
         .forEach(function (el) {
             el.value = "";
         });
-    //clone.querySelector(".hiddenItem").value = "1";
+    clone.querySelector(".hiddenItem").value = "1";
     // clone.querySelector(".datalist").value = "1";
     clone.querySelector(".btn-primary").style.display = "inline";
     clone.querySelector("input.qty").value = "1";
@@ -309,16 +309,18 @@ function calculatePrice() {
     let sum = 0;
     for (const el of prices) {
         if (el.style.display !== 'none') {
+            let qty = parseInt(el.parentNode.querySelector(".qty").value);
             if (el.innerHTML === "") {
-                sum += parseInt(el.value);
+                sum += parseInt(el.value) * qty;
             } else {
                 if (!isNaN(parseInt(el.innerHTML))) {
-                    sum += parseInt(el.innerHTML);
+                    sum += parseInt(el.innerHTML) * qty;
                 }
             }
         }
     }
     document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
+    document.querySelector(".price-text-sum-hidden").value = "" + sum;
 }
 
 

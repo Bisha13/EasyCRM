@@ -208,7 +208,7 @@
               <input
                   th:field="*{phoneNumber}"
                   type="text"
-                  class="form-control"
+                  class="form-control phoneNumber"
                   placeholder="Телефон"
                   aria-label="Recipient's username"
                   aria-describedby="search-phone-button"
@@ -270,7 +270,8 @@
         addListeners();
         loadItemsFromHidden();
         let datalists = document.querySelectorAll("input.datalist");
-        if (datalists.length === 1) {
+        if (datalists.length === 1
+            && !document.querySelector(".phoneNumber").value) {
             datalists[0].value = '';
         }
     }
