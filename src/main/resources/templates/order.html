@@ -45,15 +45,20 @@
             </div>
             <div class="order-status">
               <span class="text-for-order-status">Стату заказа:</span>
-              <span class="status-of-order" th:text="*{executeStatus}">Принят</span>
+              <span class="status-of-order"
+                    th:text="*{executeStatus}">Принят</span>
             </div>
-            <div class="order-client">
-              <span class="text-for-order-client">Клиент:</span>
-              <span class="client-of-order" th:text="*{client.name}">Михаил Велосипедовский</span>
-            </div>
-            <div class="order-phone">
-              <span class="text-for-order-phone">Телефон:</span>
-              <span class="phone-of-order" th:text="*{client.phoneNumber}">89154446015</span>
+
+            <!--            Client section-->
+            <div class="client-section">
+              <div class="order-client">
+                <span class="text-for-order-client">Клиент:</span>
+                <span class="client-of-order" th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</span>
+              </div>
+              <div class="order-phone">
+                <span class="text-for-order-phone">Телефон:</span>
+                <span class="phone-of-order" th:text="*{client != null} ? *{client.phoneNumber} : '- - -'">89154446015</span>
+              </div>
             </div>
           </div>
           <hr/>
@@ -82,7 +87,8 @@
 
             <div class="vehicle-info-additional">
               <span class="text-for-additional-info">Описание:</span>
-              <span class="value-of-additional-info" th:text="${orderAtr.fullDescription}"
+              <span class="value-of-additional-info"
+                    th:text="${orderAtr.fullDescription}"
               >Весь велосипед погнуло как буратину, наверное за зиму
                   так.</span
               >
@@ -90,20 +96,13 @@
           </div>
 
 
-
-
-
-
-
-
-
-
-
-          <div class="item-datalist input-group" th:each="service, j : *{listOfServices}">
+          <div class="item-datalist input-group"
+               th:each="service, j : *{listOfServices}">
             <input type="hidden" class="itemIdGen deleteId"
-                                 th:field="*{listOfServices[__${j.index}__].serviceId}">
-            <input type="hidden" class="itemIdGen order" th:field="*{listOfServices[__${j.index}__].order}">
-<!--            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${j.index}__].price}">-->
+                   th:field="*{listOfServices[__${j.index}__].serviceId}">
+            <input type="hidden" class="itemIdGen order"
+                   th:field="*{listOfServices[__${j.index}__].order}">
+            <!--            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${j.index}__].price}">-->
 
             <!-- Quantity input -->
             <input type="number" class="qty form-control rowIdGen itemIdGen"
@@ -137,19 +136,22 @@
                                       'display:inline' : 'display:none'">Цена</span>
 
             <!--Input description-->
-            <input type="text" class="input form-control toClean rowIdGen itemIdGen"
+            <input type="text"
+                   class="input form-control toClean rowIdGen itemIdGen"
                    th:field="*{listOfServices[__${j.index}__].description}"
                    placeholder="Краткое описание" aria-label="Краткое описание"
                    th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
 
-            <input type="number" class="form-control price toClean rowIdGen itemIdGen"
+            <input type="number"
+                   class="form-control price toClean rowIdGen itemIdGen"
                    onchange="calculatePrice();"
                    th:field="*{listOfServices[__${j.index}__].price}"
                    placeholder="Цена" aria-label="Цена"
                    th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
-            <select class="form-select itemIdGen" th:field="*{listOfServices[__${j.index}__].executorId}">
+            <select class="form-select itemIdGen"
+                    th:field="*{listOfServices[__${j.index}__].executorId}">
               <option th:each="executor : ${usersAtr}"
                       th:text="${executor.fullName}"
                       th:value="${executor.id}"
@@ -182,7 +184,6 @@
           </div>
 
 
-
           <div class="form-group textArea-comments">
 
             <textarea
@@ -205,10 +206,6 @@
           >
             Сохранить заказ
           </button>
-
-
-
-
 
 
         </form>

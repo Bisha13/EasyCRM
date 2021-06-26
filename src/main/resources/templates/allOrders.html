@@ -33,7 +33,8 @@
                     <tbody>
                     <tr th:each="order : ${orderListAttr}">
                         <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
-                        <td th:text="${order.client.name}">Глеб</td>
+                        <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
+                        <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>
                         <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
