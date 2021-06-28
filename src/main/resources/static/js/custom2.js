@@ -228,7 +228,7 @@ function saveOrder() {
 
 function ordersFindClient() {
     let form = document.getElementById('form');
-    form.setAttribute('action', '/orders/findClient');
+    form.setAttribute('action', '/orders/findByPhoneNumber');
     switchHiddenValues();
     removeHidden();
     form.submit();

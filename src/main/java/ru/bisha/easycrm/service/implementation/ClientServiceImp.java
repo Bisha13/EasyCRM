@@ -6,6 +6,8 @@ import ru.bisha.easycrm.db.entity.Client;
 import ru.bisha.easycrm.db.repository.ClientRepository;
 import ru.bisha.easycrm.service.ClientService;
 
+import java.util.List;
+
 @Service
 public class ClientServiceImp implements ClientService {
 
@@ -32,4 +34,16 @@ public class ClientServiceImp implements ClientService {
         return clientRepository.findClientByPhoneNumberLike(phoneLike);
     }
 
+    @Override
+    public List<Client> findClientByPhone(String phoneNumber) {
+        var parsedPhoneNumber = phoneNumber.trim().replaceAll("[^0-9]", "");
+
+        if (parsedPhoneNumber.length() >= 10 //9153332211 - 10 characters
+                && parsedPhoneNumber.startsWith("7")) {
+            parsedPhoneNumber = parsedPhoneNumber.replaceFirst("7", "");
+        }
+
+        return clientRepository
+                .findClientsByPhoneNumberContains(parsedPhoneNumber);
+    }
 }

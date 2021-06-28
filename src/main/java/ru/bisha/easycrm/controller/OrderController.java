@@ -35,6 +35,8 @@ public class OrderController {
 
     private final ItemService itemService;
 
+    private final StatusService statusService;
+
     private static final int DEFAULT_PAGE_SIZE = 100;
 
 
@@ -80,9 +82,11 @@ public class OrderController {
             order.setDevice(new Device());
         }
 
+        List<Status> statuses = statusService.getAll();
         List<User> users = userService.getAllUsers();
         List<Item> items = itemService.getAll();
 
+        model.addAttribute("statusesAtr", statuses);
         model.addAttribute("orderAtr", order);
         model.addAttribute("usersAtr", users);
         model.addAttribute("itemsAtr", items);
@@ -130,7 +134,6 @@ public class OrderController {
     public String findClientAndLoadIt(
             @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
             @ModelAttribute("clientAtr") final Client client, Model model) {
-        List<Item> itemList = itemService.getAll();
 
         var foundClient = clientService
                 .findClientByNumber(client.getPhoneNumber());
@@ -141,7 +144,7 @@ public class OrderController {
                     .getDevicesByUserId(foundClient.getId());
         }
 
-        model.addAttribute("itemsAtr", itemList);
+        model.addAttribute("itemsAtr", itemService.getAll());
         model.addAttribute("ordersWrapperAtr", orderWrapper);
         model.addAttribute("clientAtr",
                 foundClient != null ?
@@ -149,6 +152,31 @@ public class OrderController {
         if (!deviceList.isEmpty()) {
             model.addAttribute("devisesAtr", deviceList);
         }
+        return "newOrder";
+    }
+
+    @RequestMapping("orders/findByPhoneNumber")
+    public String findByPhoneNumber(
+            @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
+            @ModelAttribute("clientAtr") final Client client, Model model) {
+
+        List<Client> clients
+                = clientService.findClientByPhone(client.getPhoneNumber());
+
+        model.addAttribute("ordersWrapperAtr", orderWrapper);
+        model.addAttribute("itemsAtr", itemService.getAll());
+        if (clients.size() == 1) {
+            final Client foundClient = clients.get(0);
+            model.addAttribute("clientAtr", foundClient);
+            var deviceList = deviceService
+                    .getDevicesByUserId(foundClient.getId());
+            if (!deviceList.isEmpty()) {
+                model.addAttribute("devisesAtr", deviceList);
+            }
+        }
+        if (clients.isEmpty()) model.addAttribute("clientAtr", client);
+        if (clients.size() > 1) model.addAttribute("clientListAtr", clients);
+
         return "newOrder";
     }
 }

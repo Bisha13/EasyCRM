@@ -46,10 +46,9 @@ public class Order {
     @Column(name = "full_description")
     private String fullDescription;
 
-    @Column(name = "execute_status")
-    @Enumerated(EnumType.ORDINAL)
-    private Status executeStatus; // изменять когда редактируется заказ или
-    // много заказов
+    @OneToOne
+    @JoinColumn(name = "execute_status")
+    private Status executeStatus;
 
     @Column(name = "executor_id")
     private Integer executorId;
@@ -84,14 +83,12 @@ public class Order {
     private List<Service> listOfServices;
 
     public Order() {
-        this.executeStatus = Status.NEW;
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service());
     }
 
     public Order(Item item) {
-        this.executeStatus = Status.NEW;
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service(item));
@@ -106,26 +103,6 @@ public class Order {
         }
         catch (EntityNotFoundException e){
             setDevice(null);
-        }
-    }
-
-    enum Status {
-
-        NEW("Новый"),
-        WAITING("Ожидает"),
-        WAITING_GLEB("Ждёт Глеба"),
-        WAITING_PARTS("Ждёт запчастей"),
-        READY("Готов"),
-        CLOSED("Закрыт");
-
-        private final String value;
-
-        Status(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return this.value;
         }
     }
 

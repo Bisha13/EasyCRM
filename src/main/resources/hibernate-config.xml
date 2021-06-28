@@ -15,7 +15,7 @@
       <mapping class="ru.bisha.easycrm.db.entity.Parts"/>
       <mapping class="ru.bisha.easycrm.db.entity.Service"/>
       <mapping class="ru.bisha.easycrm.db.entity.User"/>
-    <mapping class="ru.bisha.easycrm.db.entity.Work"/>
+    <mapping class="ru.bisha.easycrm.db.entity.Status"/>
       <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

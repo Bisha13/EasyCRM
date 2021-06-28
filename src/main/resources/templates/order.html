@@ -24,7 +24,6 @@
           <input type="hidden" th:field="*{timestamp}">
           <input type="hidden" th:field="*{client}">
           <input type="hidden" th:field="*{smallDescription}">
-          <input type="hidden" th:field="*{executeStatus}">
           <input type="hidden" th:field="*{executorId}">
           <input type="hidden" th:field="*{partsPrice}">
           <input type="hidden" th:field="*{workPrice}">
@@ -42,25 +41,35 @@
               <span class="text-for-order-number">Номер заказа:</span>
               <span class="number-of-order" th:text="*{orderId}">7015</span>
             </div>
+
+
             <div class="order-status">
               <span class="text-for-order-status">Стату заказа:</span>
-              <span class="status-of-order"
-                    th:text="*{executeStatus}">Принят</span>
+              <!--              <span class="status-of-order"-->
+              <!--                    th:text="*{executeStatus}">Принят</span>-->
+              <select th:field="*{executeStatus}">
+                <option th:each="status : ${statusesAtr}"
+                        th:text="${status.name}"
+                        th:value="${status.id}"
+                        th:selected="${status.id == orderAtr.executeStatus.id}"
+                ></option>
+              </select>
             </div>
 
             <!--            Client section-->
             <div class="client-section">
               <div class="order-client">
                 <span class="text-for-order-client">Клиент:</span>
-                <span class="client-of-order" th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</span>
+                <span class="client-of-order"
+                      th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</span>
               </div>
               <div class="order-phone">
                 <span class="text-for-order-phone">Телефон:</span>
-                <span class="phone-of-order" th:text="*{client != null} ? *{client.phoneNumber} : '- - -'">89154446015</span>
+                <span class="phone-of-order"
+                      th:text="*{client != null} ? *{client.phoneNumber} : '- - -'">89154446015</span>
               </div>
             </div>
           </div>
-          <hr/>
 
           <div class="vehicle-block">
 
@@ -83,17 +92,8 @@
                      th:field="*{device.description}"
                      placeholder="Описание" aria-label="Описание">
             </div>
-
-            <div class="vehicle-info-additional">
-              <span class="text-for-additional-info">Описание:</span>
-              <span class="value-of-additional-info"
-                    th:text="${orderAtr.fullDescription}"
-              >Весь велосипед погнуло как буратину, наверное за зиму
-                  так.</span
-              >
-            </div>
           </div>
-
+          <br>
 
           <div class="item-datalist input-group"
                th:each="service, j : *{listOfServices}">
@@ -101,7 +101,6 @@
                    th:field="*{listOfServices[__${j.index}__].serviceId}">
             <input type="hidden" class="itemIdGen order"
                    th:field="*{listOfServices[__${j.index}__].order}">
-            <!--            <input type="hidden" class="itemIdGen" th:field="*{listOfServices[__${j.index}__].price}">-->
 
             <!-- Quantity input -->
             <input type="number" class="qty form-control rowIdGen itemIdGen"
@@ -119,7 +118,7 @@
                                         'display:inline' : 'display:none'"
             >
 
-            <!--                Hidden Input for datalist-->
+            <!--Hidden Input for datalist-->
             <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
                    th:field="*{listOfServices[__${j.index}__].item}">
 
@@ -186,6 +185,7 @@
 
           <div class="form-group textArea-comments">
 
+            <label for="textArea-comments1">Описание</label>
             <textarea
                 th:field="*{fullDescription}"
                 class="form-control"
@@ -196,8 +196,9 @@
 
           <div class="price-text">
             <span class="price-text-inner">Итого денег: </span>
-            <span class="price-text-sum" >30 000р.</span>
-            <input type="hidden" class="price-text-sum-hidden" th:field="*{fullPrice}">
+            <span class="price-text-sum">30 000р.</span>
+            <input type="hidden" class="price-text-sum-hidden"
+                   th:field="*{fullPrice}">
           </div>
           <button
               class="btn btn-primary"
@@ -231,9 +232,9 @@
         addListeners();
         // loadItemsFromHidden();
         calculatePrice();
+        loadItemsFromHidden();
         document.querySelector("input.datalist")
             .dispatchEvent(new Event('input'));
-        loadItemsFromHidden();
     }
 </script>
 </body>

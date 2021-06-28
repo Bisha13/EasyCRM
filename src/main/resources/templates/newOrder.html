@@ -195,7 +195,7 @@
               <span class="price-text-inner">Итого денег: </span>
               <span class="price-text-sum">0 р.</span>
             </div>
-            <div class="input-group mb-3" th:object="${clientAtr}">
+            <div th:unless="${clientListAtr}" class="input-group mb-3" th:object="${clientAtr}">
               <input type="hidden" th:field="*{id}">
               <input type="hidden" th:field="*{phoneNumber2}">
               <input type="hidden" th:field="*{phoneNumber3}">
@@ -271,7 +271,8 @@
         loadItemsFromHidden();
         let datalists = document.querySelectorAll("input.datalist");
         if (datalists.length === 1
-            && !document.querySelector(".phoneNumber").value) {
+            && datalists[0].parentNode
+                .querySelector(".hiddenItem").value === "169") {
             datalists[0].value = '';
         }
     }

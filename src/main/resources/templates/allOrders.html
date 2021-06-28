@@ -41,7 +41,7 @@
                         <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
 
                         <td th:text="${order.smallDescription}">Красный</td>
-                        <td th:text="${order.executeStatus.value}">Обрабатывается</td>
+                        <td th:text="${order.executeStatus.name}">Обрабатывается</td>
                         <td th:text="${order.orderDescription}">Сегодня!</td>
                         <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
                     </tr>
