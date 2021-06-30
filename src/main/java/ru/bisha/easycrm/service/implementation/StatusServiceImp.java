@@ -17,4 +17,9 @@ public class StatusServiceImp implements StatusService {
     public List<Status> getAll() {
         return statusRepository.findAll();
     }
+
+    @Override
+    public Status findById(long id) {
+        return statusRepository.findById(id).orElseThrow();
+    }
 }

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.bisha.easycrm.service.StatusService;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -88,16 +90,17 @@ public class Order {
         listOfServices.add(new Service());
     }
 
-    public Order(Item item) {
+    public Order(Item item, Status status) {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service(item));
+        this.executeStatus = status;
     }
 
     @PostLoad
     public void postLoad(){
         try {
-            if(getDevice() != null && getDevice().getDeviceId() == 0){
+            if (getDevice() != null && getDevice().getDeviceId() == 0) {
                 setDevice(null);
             }
         }

@@ -195,18 +195,37 @@
               <span class="price-text-inner">Итого денег: </span>
               <span class="price-text-sum">0 р.</span>
             </div>
-            <div th:unless="${clientListAtr}" class="input-group mb-3" th:object="${clientAtr}">
-              <input type="hidden" th:field="*{id}">
-              <input type="hidden" th:field="*{phoneNumber2}">
-              <input type="hidden" th:field="*{phoneNumber3}">
-              <input type="hidden" th:field="*{address}">
-              <input type="hidden" th:field="*{discount}">
-              <input type="hidden" th:field="*{vkId}">
-              <input type="hidden" th:field="*{fbId}">
-              <input type="hidden" th:field="*{instagramId}">
-              <input type="hidden" th:field="*{mailingApproval}">
+            <div th:if="${clientListAtr}" class="input-group mb-3" >
+              <select th:field="*{client}" class="form-control">
+                <option th:each="client : ${clientListAtr}"
+                        th:text="'' + ${client.phoneNumber} + ' : ' + ${client.name}"
+                        th:value="${client.id}"
+                        th:selected="*{client} == ${client}"
+                >
+              </select>
+
+              <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  onclick="selectClient();"
+                  id="confirm-order-button"
+              >
+                Выбрать
+              </button>
+            </div>
+
+            <div th:unless="${clientListAtr}" class="input-group mb-3" th:field="*{client}">
+              <input type="hidden" th:field="*{client.id}">
+              <input type="hidden" th:field="*{client.phoneNumber2}">
+              <input type="hidden" th:field="*{client.phoneNumber3}">
+              <input type="hidden" th:field="*{client.address}">
+              <input type="hidden" th:field="*{client.discount}">
+              <input type="hidden" th:field="*{client.vkId}">
+              <input type="hidden" th:field="*{client.fbId}">
+              <input type="hidden" th:field="*{client.instagramId}">
+              <input type="hidden" th:field="*{client.mailingApproval}">
               <input
-                  th:field="*{phoneNumber}"
+                  th:field="*{client.phoneNumber}"
                   type="text"
                   class="form-control phoneNumber"
                   placeholder="Телефон"
@@ -222,7 +241,7 @@
                 Искать
               </button>
               <input
-                  th:field="*{name}"
+                  th:field="*{client.name}"
                   type="text"
                   class="form-control"
                   placeholder="Имя"
@@ -233,11 +252,14 @@
                   class="btn btn-outline-secondary"
                   type="button"
                   onclick="saveOrder();"
+                  th:disabled="*{client.name} ? 'false' : 'disabled'"
                   id="confirm-order-button"
               >
                 Оформить заказ
               </button>
             </div>
+
+
           </div>
         </div>
       </div>

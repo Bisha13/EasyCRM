@@ -234,6 +234,14 @@ function ordersFindClient() {
     form.submit();
 }
 
+function selectClient() {
+    let form = document.getElementById('form');
+    form.setAttribute('action', '/orders/findClient');
+    switchHiddenValues();
+    removeHidden();
+    form.submit();
+}
+
 function switchHiddenValues() {
     let dataListOptions = document.querySelectorAll('[hiddenValue]');
     for (let el of dataListOptions) {

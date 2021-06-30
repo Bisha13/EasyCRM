@@ -95,9 +95,9 @@ public class OrderController {
 
     @RequestMapping("orders/saveWrapper")
     public String saveOrder(@ModelAttribute("ordersWrapperAtr")
-                                final OrderWrapper orderWrapper,
-                            @ModelAttribute("clientAtr") final Client client) {
-        var someClient = clientService.saveClient(client);
+                                final OrderWrapper orderWrapper) {
+        var someClient =
+                clientService.saveClient(orderWrapper.getClient());
 
         for (Order order : orderWrapper.getOrderList()) {
             order.setClient(someClient);
@@ -120,35 +120,33 @@ public class OrderController {
     public String newOrder(Model model) {
         var ordersWrapper = new OrderWrapper();
         List<Item> itemList = itemService.getAll();
-        ordersWrapper.addOrder(new Order(itemList.get(0)));
-        var client = new Client();
+        ordersWrapper.addOrder(
+                new Order(itemList.get(0), statusService.findById(1)));
 
         model.addAttribute("itemsAtr", itemList);
         model.addAttribute("ordersWrapperAtr", ordersWrapper);
-        model.addAttribute("clientAtr", client);
 
         return "newOrder";
     }
 
     @RequestMapping("orders/findClient")
-    public String findClientAndLoadIt(
-            @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
-            @ModelAttribute("clientAtr") final Client client, Model model) {
+    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr")
+                                 final OrderWrapper orderWrapper, Model model) {
 
+        var client = orderWrapper.getClient();
         var foundClient = clientService
                 .findClientByNumber(client.getPhoneNumber());
 
         List<Device> deviceList = new ArrayList<>();
         if (foundClient != null) {
+            orderWrapper.setClient(foundClient);
             deviceList = deviceService
                     .getDevicesByUserId(foundClient.getId());
         }
 
+
         model.addAttribute("itemsAtr", itemService.getAll());
         model.addAttribute("ordersWrapperAtr", orderWrapper);
-        model.addAttribute("clientAtr",
-                foundClient != null ?
-                        foundClient : client);
         if (!deviceList.isEmpty()) {
             model.addAttribute("devisesAtr", deviceList);
         }
@@ -157,26 +155,27 @@ public class OrderController {
 
     @RequestMapping("orders/findByPhoneNumber")
     public String findByPhoneNumber(
-            @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper,
-            @ModelAttribute("clientAtr") final Client client, Model model) {
+            @ModelAttribute("ordersWrapperAtr")
+            final OrderWrapper orderWrapper, Model model) {
 
         List<Client> clients
-                = clientService.findClientByPhone(client.getPhoneNumber());
+                = clientService.findClientByPhone(
+                        orderWrapper.getClient().getPhoneNumber());
 
-        model.addAttribute("ordersWrapperAtr", orderWrapper);
-        model.addAttribute("itemsAtr", itemService.getAll());
         if (clients.size() == 1) {
             final Client foundClient = clients.get(0);
-            model.addAttribute("clientAtr", foundClient);
+            orderWrapper.setClient(foundClient);
             var deviceList = deviceService
                     .getDevicesByUserId(foundClient.getId());
             if (!deviceList.isEmpty()) {
                 model.addAttribute("devisesAtr", deviceList);
             }
         }
-        if (clients.isEmpty()) model.addAttribute("clientAtr", client);
-        if (clients.size() > 1) model.addAttribute("clientListAtr", clients);
-
+        if (clients.size() > 1) {
+            model.addAttribute("clientListAtr", clients);
+        }
+        model.addAttribute("ordersWrapperAtr", orderWrapper);
+        model.addAttribute("itemsAtr", itemService.getAll());
         return "newOrder";
     }
 }
