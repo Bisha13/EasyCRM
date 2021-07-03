@@ -24,4 +24,9 @@ public class DeviceServiceImp implements DeviceService {
     public List<Device> getDevicesByUserId(int id) {
         return deviceRepository.getDevicesByOwnerId(id);
     }
+
+    @Override
+    public void saveDevice(Device device) {
+        deviceRepository.save(device);
+    }
 }

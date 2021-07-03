@@ -226,7 +226,7 @@ function saveOrder() {
     }
 }
 
-function saveClient() {
+function submitForm() {
     let r = confirm("Сохранить изменения?");
     if (r === true) {
         document.getElementById('form').submit();
