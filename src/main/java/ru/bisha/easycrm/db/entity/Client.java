@@ -55,4 +55,40 @@ public class Client {
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
+    public String getPhoneNumber() {
+        if (phoneNumber == null) {
+            return null;
+        }
+        phoneNumber = this.phoneNumber.replaceAll("[^0-9]", "").trim();
+        if (phoneNumber.length() < 10) {
+            return phoneNumber;
+        }
+
+        var phoneSb = new StringBuilder();
+        if (phoneNumber.length() == 11) {
+            phoneSb.append(
+                    phoneNumber.charAt(0) == '8' || phoneNumber.charAt(0) == '7' ?
+                            "+7" : phoneNumber.charAt(0));
+            phoneSb.append("(");
+            phoneSb.append(phoneNumber, 1, 4);
+            phoneSb.append(")");
+            phoneSb.append(phoneNumber, 4, 7);
+            phoneSb.append("-");
+            phoneSb.append(phoneNumber, 7, 9);
+            phoneSb.append("-");
+            phoneSb.append(phoneNumber, 9, 11);
+        }
+
+        if (phoneNumber.length() == 10) {
+            phoneSb.append("+7(");
+            phoneSb.append(phoneNumber, 0, 3);
+            phoneSb.append(")");
+            phoneSb.append(phoneNumber, 3, 6);
+            phoneSb.append("-");
+            phoneSb.append(phoneNumber, 6, 8);
+            phoneSb.append("-");
+            phoneSb.append(phoneNumber, 8, 10);
+        }
+        return phoneSb.toString();
+    }
 }

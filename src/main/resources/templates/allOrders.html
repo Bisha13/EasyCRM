@@ -31,7 +31,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="order : ${orderListAttr}">
+                    <tr th:each="order : ${orderListAttr}" th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''" class="table-row">
                         <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
                         <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
                         <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>

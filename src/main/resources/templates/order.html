@@ -77,7 +77,9 @@
               <span class="text-for-vehicle-info">Что чиним:</span>
               <span th:if="*{device}"
                     class="value-of-vehicle-info"
-                    th:text="*{device.deviceName}">Велосипед красный</span>
+                    th:text="*{device.deviceName} != null ?
+                    *{device.deviceName} :
+                    *{device.vendor} + ' ' + *{device.model}">Велосипед красный</span>
             </div>
 
             <div class="input-group mb-3" th:unless="*{device}">
@@ -196,7 +198,7 @@
 
           <div class="price-text">
             <span class="price-text-inner">Итого денег: </span>
-            <span class="price-text-sum">30 000р.</span>
+            <span class="price-text-sum">- р.</span>
             <input type="hidden" class="price-text-sum-hidden"
                    th:field="*{fullPrice}">
           </div>
