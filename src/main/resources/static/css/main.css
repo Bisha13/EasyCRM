@@ -44,3 +44,6 @@ tr.table-row:hover{
     background-color: hsl(0,0%,90%);
     cursor: pointer;
 }
+.input-group-text.order-labels {
+    min-width: 8em;
+}

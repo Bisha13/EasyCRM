@@ -226,6 +226,13 @@ function saveOrder() {
     }
 }
 
+function saveClient() {
+    let r = confirm("Сохранить изменения?");
+    if (r === true) {
+        document.getElementById('form').submit();
+    }
+}
+
 function ordersFindClient() {
     let form = document.getElementById('form');
     form.setAttribute('action', '/orders/findByPhoneNumber');

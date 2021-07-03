@@ -10,6 +10,8 @@ public interface OrderService {
 
     List<Order> getAllOrders();
 
+    List<Order> getOrdersByClientId(int id);
+
     Order getOrder(int id);
 
     Order saveOrder(Order order);

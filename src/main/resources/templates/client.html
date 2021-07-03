@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
+
+<head>
+  <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('clients')"></div>
+
+<div class="container">
+  <div class="row sectionRow">
+    <div class="card">
+      <div class="card-body">
+        <form id="form" th:action="@{/clients/save}" th:object="${clientAtr}">
+          <input type="hidden" th:field="*{id}">
+          <div class="input-group">
+            <span class="input-group-text order-labels">ФИО    </span>
+            <input type="text" th:field="*{name}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">Телефон 1</span>
+            <input type="text" th:field="*{phoneNumber}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">Телефон 2</span>
+            <input type="text" th:field="*{phoneNumber2}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">Телефон 3</span>
+            <input type="text" th:field="*{phoneNumber3}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">Адрес</span>
+            <textarea class="form-control" aria-label="With textarea"
+                      th:field="*{address}"></textarea>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">Скидка</span>
+            <input type="number" th:field="*{discount}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">vkId</span>
+            <input type="text" th:field="*{vkId}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">fbId</span>
+            <input type="text" th:field="*{fbId}" class="form-control">
+          </div>
+          <div class="input-group">
+            <span class="input-group-text order-labels">instagramId</span>
+            <input type="text" th:field="*{instagramId}" class="form-control">
+          </div>
+          <div th:if="*{timestamp}" th:text="'Дата создания - ' + *{timestamp}"></div>
+          <button
+              class="btn btn-primary"
+              type="button"
+              onclick="saveClient();"
+              id="confirm-order-button"
+          >
+            Сохранить
+          </button>
+        </form>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Номер заказа</th>
+          <th scope="col">Клиент</th>
+          <th scope="col">Что чиним</th>
+          <th scope="col">Кратко</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Особые пометки</th>
+          <th scope="col">Когда приняли</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orderListAttr}" th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''" class="table-row">
+          <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
+          <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
+          <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>
+          <td th:if="${order.device}" th:text="${order.device.deviceName != null}
+                        ? ${order.device.deviceName}
+                        : ${order.device.vendor} + ' ' + ${order.device.model}">
+          <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
+
+          <td th:text="${order.smallDescription}">Красный</td>
+          <td th:text="${order.executeStatus.name}">Обрабатывается</td>
+          <td th:text="${order.orderDescription}">Сегодня!</td>
+          <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap js -->
+<div th:insert="fragments/footer :: myFooter"></div>
+</body>
+</html>

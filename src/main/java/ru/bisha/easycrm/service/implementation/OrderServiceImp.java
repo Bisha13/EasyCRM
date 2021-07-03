@@ -21,6 +21,11 @@ public class OrderServiceImp implements OrderService {
         return orderRepository.findAll(Sort.by("orderId").descending());
     }
 
+    @Override
+    public List<Order> getOrdersByClientId(int id) {
+        return orderRepository.findAllByClientId(id);
+    }
+
     public Order getOrder(int id) {
         return orderRepository.findById(id)
                 .orElseGet(Order::new);
