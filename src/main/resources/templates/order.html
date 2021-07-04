@@ -60,8 +60,8 @@
             <div class="client-section">
               <div class="order-client">
                 <span class="text-for-order-client">Клиент:</span>
-                <span class="client-of-order"
-                      th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</span>
+                <a th:if="*{client}" th:href="@{/clients/{id}(id=*{client.id})}" class="client-of-order"
+                      th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</a>
               </div>
               <div class="order-phone">
                 <span class="text-for-order-phone">Телефон:</span>
@@ -75,11 +75,12 @@
 
             <div class="vehicle-info">
               <span class="text-for-vehicle-info">Что чиним:</span>
-              <span th:if="*{device}"
+              <a th:if="*{device}"
                     class="value-of-vehicle-info"
+                    th:href="@{/devices/{id}(id=*{device.deviceId})}"
                     th:text="*{device.deviceName} != null ?
                     *{device.deviceName} :
-                    *{device.vendor} + ' ' + *{device.model}">Велосипед красный</span>
+                    *{device.vendor} + ' ' + *{device.model}">Велосипед красный</a>
             </div>
 
             <div class="input-group mb-3" th:unless="*{device}">

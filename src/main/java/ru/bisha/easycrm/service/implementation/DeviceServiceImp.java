@@ -2,6 +2,8 @@
 package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.bisha.easycrm.db.entity.Device;
 import ru.bisha.easycrm.db.repository.DeviceRepository;
@@ -26,7 +28,17 @@ public class DeviceServiceImp implements DeviceService {
     }
 
     @Override
+    public List<Device> getAll() {
+        return deviceRepository.findAll();
+    }
+
+    @Override
     public void saveDevice(Device device) {
         deviceRepository.save(device);
+    }
+
+    @Override
+    public Page<Device> getPageOfDevices(PageRequest request) {
+        return deviceRepository.findAll(request);
     }
 }

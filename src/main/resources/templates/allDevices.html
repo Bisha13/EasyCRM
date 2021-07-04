@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.thymeleaf.org "
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="ru"
+>
+<head>
+    <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('devices')"></div>
+
+<div class="container">
+    <div class="row">
+        <nav th:replace="fragments/pagination :: allDevicesPagination"></nav>
+        <div class="card">
+            <div class="card-body">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Номер девайса</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Производитель</th>
+                        <th scope="col">Модель</th>
+<!--                        <th scope="col">Серийный номер</th>-->
+                        <th scope="col">Описание</th>
+                        <th scope="col">Когда приняли</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="device : ${deviceListAtr}" th:onclick="'window.location=\'' + @{/devices/} + ${device.deviceId}+ '\''" class="table-row">
+                        <td><a th:href="@{/devices/} + ${device.deviceId}" th:text="${device.deviceId}">0</a></td>
+                        <td th:text="${#strings.defaultString(device.deviceName, ' - - - ')}">Название</td>
+                        <td th:text="${#strings.defaultString(device.vendor, ' - - - ')}">Производитель</td>
+                        <td th:text="${#strings.defaultString(device.model, ' - - - ')}">Модель</td>
+<!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
+                        <td th:text="${#strings.defaultString(device.description, ' - - - ')}">Описание</td>
+                        <td th:text="${#dates.format(device.timestamp, 'yyyy.MM.dd HH:mm')}">Описание</td>
+<!--                        <td th:unless="${device.client}" th:text="'Неизвестный клиент'">Глеб</td>-->
+<!--                        <td th:if="${device.device}" th:text="${device.device.deviceName != null}-->
+<!--                        ? ${device.device.deviceName}-->
+<!--                        : ${device.device.vendor} + ' ' + ${device.device.model}">-->
+<!--                        <td th:unless="${device.device}" th:text="Неизвестный">Велосипед</td>-->
+
+<!--                        <td th:text="${device.smallDescription}">Красный</td>-->
+<!--                        <td th:text="${device.executeStatus.name}">Обрабатывается</td>-->
+<!--                        <td th:text="${device.deviceDescription}">Сегодня!</td>-->
+<!--                        <td th:text="${#dates.format(device.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <nav th:replace="fragments/pagination :: allDevicesPagination"></nav>
+</div>
+
+<div th:replace="fragments/footer :: myFooter"></div>
+</body>
+</html>

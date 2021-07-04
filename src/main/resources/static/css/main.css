@@ -45,5 +45,5 @@ tr.table-row:hover{
     cursor: pointer;
 }
 .input-group-text.order-labels {
-    min-width: 8em;
+    min-width: 9em;
 }

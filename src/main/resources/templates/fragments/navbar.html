@@ -30,6 +30,10 @@
                         ? 'nav-link active' : 'nav-link'"  href="#">Клиенты</a>
                     </li>
                     <li class="nav-item">
+                        <a th:class="${#strings.equals(activeLink, 'devices')}
+                        ? 'nav-link active' : 'nav-link'" th:href="@{/devices/page/?size=100&page=1}">Девайсы</a>
+                    </li>
+                    <li class="nav-item">
                         <a th:class="${#strings.equals(activeLink, 'masters')}
                         ? 'nav-link active' : 'nav-link'" href="#">Мастера</a>
                     </li>
