@@ -28,7 +28,7 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "procent")
-    private String percent;
+    private Integer percent;
 
     @Column(name = "access_level")
     private Integer accessLevel;

@@ -27,7 +27,7 @@ public class Order {
     private int orderId;
 
     @Column(name = "full_price")
-    private Integer fullPrice; // когда редактируется заказ
+    private Double fullPrice; // когда редактируется заказ
 
     @Column(name = "time_close")
     private Date timeClose; // подумать
@@ -56,10 +56,10 @@ public class Order {
     private Integer executorId;
 
     @Column(name = "parts_price")
-    private Integer partsPrice; // Не знаю, нужно вообще или нет
+    private Double partsPrice; // Не знаю, нужно вообще или нет
 
     @Column(name = "work_price")
-    private Integer workPrice; // same
+    private Double workPrice; // same
 
     @Column(name = "parts")
     private String parts;

@@ -25,7 +25,7 @@ public class Item {
     private String description;
 
     @Column(name = "price")
-    private int price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

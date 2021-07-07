@@ -34,7 +34,7 @@ public class Service {
     private int qty;
 
     @Column(name = "price")
-    private int price;
+    private Double price;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
@@ -47,10 +47,10 @@ public class Service {
     private Timestamp timeStamp;
 
     @Column(name = "executor_money")
-    private Integer executorMoney;
+    private Double executorMoney;
 
     @Column(name = "profit")
-    private Integer profit;
+    private Double profit;
 
     public Service() {
         this.description = "";

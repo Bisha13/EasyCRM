@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.Service;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
 
 import java.util.List;
 
-@Service
+@org.springframework.stereotype.Service
 public class OrderServiceImp implements OrderService {
 
     @Autowired
@@ -33,7 +33,39 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Order saveOrder(Order order) {
+        List<Service> list = order.getListOfServices();
+        var sum = 0.0;
+        for (Service service : list) {
+            if (service.getExecutorMoney() != null
+                        || service.getProfit() != null) {
+                continue;
+            }
+            Double price = 0.0;
+            if (!service.getDescription().isEmpty()) {
+                price = service.getPrice();
+            }
+            if (service.getDescription().isEmpty()) {
+                price = service.getItem().getPrice();
+            }
+            price = price * service.getQty();
+            price = applyDiscount(price, order.getClient().getDiscount());
+            double executorMoney = (price / 100.0)
+                    * service.getExecutor().getPercent();
+            service.setExecutorMoney(executorMoney);
+            service.setProfit(price - executorMoney);
+            sum += price;
+        }
+
+        order.setWorkPrice(sum);
+
         return orderRepository.save(order);
+    }
+
+    private double applyDiscount(double sum, Integer discount) {
+        if (discount == null) {
+            return sum;
+        }
+        return sum - (sum / 100 * discount);
     }
 
     @Override

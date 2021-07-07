@@ -68,6 +68,12 @@
                 <span class="phone-of-order"
                       th:text="*{client != null} ? *{client.phoneNumber} : '- - -'">89154446015</span>
               </div>
+              <div th:if="*{client.discount}" class="order-discount">
+                <span class="text-for-order-discount">Скидка:</span>
+                <span class="discount-of-order"
+                      th:text="*{client.discount}">- - -</span>
+                <span class="text-for-order-discount">%</span>
+              </div>
             </div>
           </div>
 

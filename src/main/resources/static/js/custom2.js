@@ -257,7 +257,6 @@ function switchHiddenValues() {
 }
 
 function deleteWorkById(url) {
-    // var url = document.getElementById('id_Элемента');
     let r = confirm("Удалить работу?");
     if (r === true) {
         document.location.href = url;
@@ -334,8 +333,10 @@ function calculatePrice() {
             }
         }
     }
+    if (document.querySelector(".discount-of-order")) {
+        sum -= sum / 100 * parseInt(document.querySelector(".discount-of-order").innerHTML);
+    }
     document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
-    document.querySelector(".price-text-sum-hidden").value = "" + sum;
 }
 
 
