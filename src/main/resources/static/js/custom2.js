@@ -339,6 +339,14 @@ function calculatePrice() {
     document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
 }
 
+function setExecutor(node) {
+    let value = node.value;
+    let selects = document.querySelectorAll(".executor-select");
+    for (let i = 0; i < selects.length; i++) {
+        selects[i].value = value;
+    }
+}
+
 
 
 

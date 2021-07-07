@@ -44,7 +44,7 @@
 
 
             <div class="order-status">
-              <span class="text-for-order-status">Стату заказа:</span>
+              <span class="text-for-order-status">Статус заказа:</span>
               <!--              <span class="status-of-order"-->
               <!--                    th:text="*{executeStatus}">Принят</span>-->
               <select th:field="*{executeStatus}">
@@ -55,13 +55,24 @@
                 ></option>
               </select>
             </div>
-
+            <div class="order-executor">
+              <span class="text-for-order-executor">Исполнитель:</span>
+              <select onchange="setExecutor(this)">
+                <option th:each="executor : ${usersAtr}"
+                        th:text="${executor.fullName}"
+                        th:value="${executor.id}"
+                >
+                </option>
+              </select>
+            </div>
             <!--            Client section-->
             <div class="client-section">
               <div class="order-client">
                 <span class="text-for-order-client">Клиент:</span>
-                <a th:if="*{client}" th:href="@{/clients/{id}(id=*{client.id})}" class="client-of-order"
-                      th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил Велосипедовский</a>
+                <a th:if="*{client}" th:href="@{/clients/{id}(id=*{client.id})}"
+                   class="client-of-order"
+                   th:text="*{client != null} ? *{client.name} : 'Неизвестный клиент'">Михаил
+                  Велосипедовский</a>
               </div>
               <div class="order-phone">
                 <span class="text-for-order-phone">Телефон:</span>
@@ -82,11 +93,12 @@
             <div class="vehicle-info">
               <span class="text-for-vehicle-info">Что чиним:</span>
               <a th:if="*{device}"
-                    class="value-of-vehicle-info"
-                    th:href="@{/devices/{id}(id=*{device.deviceId})}"
-                    th:text="*{device.deviceName} != null ?
+                 class="value-of-vehicle-info"
+                 th:href="@{/devices/{id}(id=*{device.deviceId})}"
+                 th:text="*{device.deviceName} != null ?
                     *{device.deviceName} :
-                    *{device.vendor} + ' ' + *{device.model}">Велосипед красный</a>
+                    *{device.vendor} + ' ' + *{device.model}">Велосипед
+                красный</a>
             </div>
 
             <div class="input-group mb-3" th:unless="*{device}">
@@ -158,7 +170,7 @@
                    placeholder="Цена" aria-label="Цена"
                    th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
-            <select class="form-select itemIdGen"
+            <select class="form-select executor-select itemIdGen"
                     th:field="*{listOfServices[__${j.index}__].executor}">
               <option th:each="executor : ${usersAtr}"
                       th:text="${executor.fullName}"
