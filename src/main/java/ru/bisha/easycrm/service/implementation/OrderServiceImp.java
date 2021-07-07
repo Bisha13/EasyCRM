@@ -72,4 +72,10 @@ public class OrderServiceImp implements OrderService {
     public Page<Order> getPageOfOrders(PageRequest request) {
         return orderRepository.findAll(request);
     }
+
+    @Override
+    public List<Order> getFiltered(String search) {
+        search = "%" + search.toLowerCase() + "%";
+        return orderRepository.findByString(search);
+    }
 }

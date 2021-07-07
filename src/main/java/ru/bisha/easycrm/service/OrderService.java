@@ -17,4 +17,6 @@ public interface OrderService {
     Order saveOrder(Order order);
 
     Page<Order> getPageOfOrders(PageRequest request);
+
+    List<Order> getFiltered(String search);
 }
