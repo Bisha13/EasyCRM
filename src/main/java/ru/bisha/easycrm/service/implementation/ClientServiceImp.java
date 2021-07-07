@@ -1,6 +1,8 @@
 package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.bisha.easycrm.db.entity.Client;
 import ru.bisha.easycrm.db.repository.ClientRepository;
@@ -45,5 +47,10 @@ public class ClientServiceImp implements ClientService {
 
         return clientRepository
                 .findClientsByPhoneNumberContains(parsedPhoneNumber);
+    }
+
+    @Override
+    public Page<Client> getPageOfClients(PageRequest request) {
+        return clientRepository.findAll(request);
     }
 }

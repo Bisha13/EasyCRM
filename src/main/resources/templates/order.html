@@ -153,11 +153,11 @@
                    th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
             <select class="form-select itemIdGen"
-                    th:field="*{listOfServices[__${j.index}__].executorId}">
+                    th:field="*{listOfServices[__${j.index}__].executor}">
               <option th:each="executor : ${usersAtr}"
                       th:text="${executor.fullName}"
                       th:value="${executor.id}"
-                      th:selected="*{executorId} == ${service.executorId}"
+                      th:selected="${executor} == *{listOfServices[__${j.index}__].executor}"
               >
               </option>
             </select>

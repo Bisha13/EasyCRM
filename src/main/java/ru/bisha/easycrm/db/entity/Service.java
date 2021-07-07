@@ -23,8 +23,9 @@ public class Service {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "executor_id")
-    private int executorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "executor_id")
+    private User executor;
 
     @Column(name = "description")
     private String description;
@@ -52,13 +53,11 @@ public class Service {
     private Integer profit;
 
     public Service() {
-        this.executorId = 20;
         this.description = "";
         this.qty = 1;
     }
 
     public Service(Item item) {
-        this.executorId = 20;
         this.description = "";
         this.qty = 1;
         this.item = item;

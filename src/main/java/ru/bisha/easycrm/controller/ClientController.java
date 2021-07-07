@@ -1,17 +1,26 @@
 package ru.bisha.easycrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.bisha.easycrm.db.entity.Client;
+import ru.bisha.easycrm.db.entity.Device;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.service.ClientService;
+import ru.bisha.easycrm.service.DeviceService;
 import ru.bisha.easycrm.service.OrderService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/clients")
@@ -23,12 +32,20 @@ public class ClientController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private DeviceService deviceService;
+
+    private static final int DEFAULT_PAGE_SIZE = 100;
+
     @RequestMapping("/{id}")
     public String getClient(@PathVariable("id") final int id, Model model) {
         var client = clientService.getClient(id);
         List<Order> orders = orderService.getOrdersByClientId(client.getId());
+        List<Device> devices = deviceService.getDevicesByUserId(client.getId());
         model.addAttribute("clientAtr", client);
         model.addAttribute("orderListAttr", orders);
+        model.addAttribute("deviceListAtr", devices);
+
         return "client";
     }
 
@@ -36,6 +53,31 @@ public class ClientController {
     public String saveClient(@ModelAttribute("clientAtr") final Client client) {
         clientService.saveClient(client);
         return "redirect:/clients/" + client.getId();
+    }
+
+    @RequestMapping("/page/" )
+    public String getAllClients(Model model,
+                                @RequestParam("page") Optional<Integer> page,
+                                @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
+
+        Page<Client> clientPage = clientService.getPageOfClients(
+                PageRequest.of(currentPage - 1, pageSize,
+                        Sort.by("id").descending()));
+
+        model.addAttribute("clientListAtr", clientPage);
+
+        int totalPages = clientPage.getTotalPages();
+
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+        return "allClients";
     }
 
 }

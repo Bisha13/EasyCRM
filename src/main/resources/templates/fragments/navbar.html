@@ -27,7 +27,7 @@
                     </li>
                     <li class="nav-item">
                         <a th:class="${#strings.equals(activeLink, 'clients')}
-                        ? 'nav-link active' : 'nav-link'"  href="#">Клиенты</a>
+                        ? 'nav-link active' : 'nav-link'"  th:href="@{/clients/page/?size=100&page=1}">Клиенты</a>
                     </li>
                     <li class="nav-item">
                         <a th:class="${#strings.equals(activeLink, 'devices')}

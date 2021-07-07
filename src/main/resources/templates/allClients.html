@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.thymeleaf.org "
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="ru"
+>
+<head>
+    <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('clients')"></div>
+
+<div class="container">
+    <div class="row">
+        <nav th:replace="fragments/pagination :: allClientsPagination"></nav>
+        <div class="card">
+            <div class="card-body">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Телефон</th>
+                        <th scope="col">Дата</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="client : ${clientListAtr}" th:onclick="'window.location=\'' + @{/clients/} + ${client.id}+ '\''" class="table-row">
+                        <td><a th:href="@{/clients/} + ${client.id}" th:text="${client.id}">0</a></td>
+                        <td th:text="${#strings.defaultString(client.name, ' - - - ')}">Имя</td>
+                        <td th:text="${#strings.defaultString(client.phoneNumber, ' - - - ')}">Телефон</td>
+                        <td th:text="${#dates.format(client.timestamp, 'yyyy.MM.dd HH:mm')}">Дата</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <nav th:replace="fragments/pagination :: allClientsPagination"></nav>
+</div>
+
+<div th:replace="fragments/footer :: myFooter"></div>
+</body>
+</html>

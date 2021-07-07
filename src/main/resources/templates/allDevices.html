@@ -39,16 +39,6 @@
 <!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
                         <td th:text="${#strings.defaultString(device.description, ' - - - ')}">Описание</td>
                         <td th:text="${#dates.format(device.timestamp, 'yyyy.MM.dd HH:mm')}">Описание</td>
-<!--                        <td th:unless="${device.client}" th:text="'Неизвестный клиент'">Глеб</td>-->
-<!--                        <td th:if="${device.device}" th:text="${device.device.deviceName != null}-->
-<!--                        ? ${device.device.deviceName}-->
-<!--                        : ${device.device.vendor} + ' ' + ${device.device.model}">-->
-<!--                        <td th:unless="${device.device}" th:text="Неизвестный">Велосипед</td>-->
-
-<!--                        <td th:text="${device.smallDescription}">Красный</td>-->
-<!--                        <td th:text="${device.executeStatus.name}">Обрабатывается</td>-->
-<!--                        <td th:text="${device.deviceDescription}">Сегодня!</td>-->
-<!--                        <td th:text="${#dates.format(device.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
                     </tr>
                     </tbody>
                 </table>

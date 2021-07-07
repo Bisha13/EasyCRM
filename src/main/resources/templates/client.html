@@ -12,85 +12,158 @@
   <div class="row sectionRow">
     <div class="card">
       <div class="card-body">
-        <form id="form" th:action="@{/clients/save}" th:object="${clientAtr}">
-          <input type="hidden" th:field="*{id}">
-          <div class="input-group">
-            <span class="input-group-text order-labels">ФИО    </span>
-            <input type="text" th:field="*{name}" class="form-control">
+
+
+
+
+
+
+<!--Navigation-->
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Инфо</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Заказы</button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Девайсы</button>
+            <button class="nav-link" id="nav-edit-tab" data-bs-toggle="tab" data-bs-target="#nav-edit" type="button" role="tab" aria-controls="nav-edit" aria-selected="false">Редактировать</button>
           </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Телефон 1</span>
-            <input type="text" th:field="*{phoneNumber}" class="form-control">
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+<!--Info-->
+          <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+            <br>
+            <div th:text="${#strings.defaultString('Имя - ' + clientAtr.name, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Телефон - ' + clientAtr.phoneNumber, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Телефон 2 - ' + clientAtr.phoneNumber2, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Телефон 3 - ' + clientAtr.phoneNumber3, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Адрес - ' + clientAtr.address, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Скидка  - ' + clientAtr.discount, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Вк - ' + clientAtr.vkId, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('FaceBook - ' + clientAtr.fbId, ' - - - ')}"></div>
+            <div th:text="${#strings.defaultString('Instagramm - ' + clientAtr.instagramId, ' - - - ')}"></div>
+            <div th:text="'Дата создания - ' + ${#dates.format(clientAtr.timestamp, 'dd.MM.yyyy')}"></div>
+
           </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Телефон 2</span>
-            <input type="text" th:field="*{phoneNumber2}" class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Телефон 3</span>
-            <input type="text" th:field="*{phoneNumber3}" class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Адрес</span>
-            <textarea class="form-control" aria-label="With textarea"
-                      th:field="*{address}"></textarea>
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Скидка</span>
-            <input type="number" th:field="*{discount}" class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">vkId</span>
-            <input type="text" th:field="*{vkId}" class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">fbId</span>
-            <input type="text" th:field="*{fbId}" class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">instagramId</span>
-            <input type="text" th:field="*{instagramId}" class="form-control">
-          </div>
-          <div th:if="*{timestamp}" th:text="'Дата создания - ' + *{timestamp}"></div>
-          <button
-              class="btn btn-primary"
-              type="button"
-              onclick="submitForm();"
-              id="confirm-order-button"
-          >
-            Сохранить
-          </button>
-        </form>
-      </div>
-      <table class="table">
-        <thead>
-        <tr>
-          <th scope="col">Номер заказа</th>
-          <th scope="col">Клиент</th>
-          <th scope="col">Что чиним</th>
-          <th scope="col">Кратко</th>
-          <th scope="col">Статус</th>
-          <th scope="col">Особые пометки</th>
-          <th scope="col">Когда приняли</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orderListAttr}" th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''" class="table-row">
-          <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
-          <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
-          <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>
-          <td th:if="${order.device}" th:text="${order.device.deviceName != null}
+
+<!--Заказы-->
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Номер заказа</th>
+              <th scope="col">Клиент</th>
+              <th scope="col">Что чиним</th>
+              <th scope="col">Кратко</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Особые пометки</th>
+              <th scope="col">Когда приняли</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orderListAttr}" th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''" class="table-row">
+              <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
+              <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
+              <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>
+              <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
-          <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
+              <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
 
-          <td th:text="${order.smallDescription}">Красный</td>
-          <td th:text="${order.executeStatus.name}">Обрабатывается</td>
-          <td th:text="${order.orderDescription}">Сегодня!</td>
-          <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
-        </tr>
-        </tbody>
-      </table>
+              <td th:text="${order.smallDescription}">Красный</td>
+              <td th:text="${order.executeStatus.name}">Обрабатывается</td>
+              <td th:text="${order.orderDescription}">Сегодня!</td>
+              <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
+            </tr>
+            </tbody>
+          </table>
+          </div>
+
+
+<!--Devices-->
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Номер девайса</th>
+                <th scope="col">Название</th>
+                <th scope="col">Производитель</th>
+                <th scope="col">Модель</th>
+                <!--                        <th scope="col">Серийный номер</th>-->
+                <th scope="col">Описание</th>
+                <th scope="col">Когда приняли</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="device : ${deviceListAtr}" th:onclick="'window.location=\'' + @{/devices/} + ${device.deviceId}+ '\''" class="table-row">
+                <td><a th:href="@{/devices/} + ${device.deviceId}" th:text="${device.deviceId}">0</a></td>
+                <td th:text="${#strings.defaultString(device.deviceName, ' - - - ')}">Название</td>
+                <td th:text="${#strings.defaultString(device.vendor, ' - - - ')}">Производитель</td>
+                <td th:text="${#strings.defaultString(device.model, ' - - - ')}">Модель</td>
+                <!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
+                <td th:text="${#strings.defaultString(device.description, ' - - - ')}">Описание</td>
+                <td th:text="${#dates.format(device.timestamp, 'yyyy.MM.dd HH:mm')}">Описание</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+
+<!--Edit-->
+        <div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+          <form id="form" th:action="@{/clients/save}" th:object="${clientAtr}">
+            <input type="hidden" th:field="*{id}">
+            <div class="input-group">
+              <span class="input-group-text order-labels">ФИО    </span>
+              <input type="text" th:field="*{name}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">Телефон 1</span>
+              <input type="text" th:field="*{phoneNumber}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">Телефон 2</span>
+              <input type="text" th:field="*{phoneNumber2}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">Телефон 3</span>
+              <input type="text" th:field="*{phoneNumber3}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">Адрес</span>
+              <textarea class="form-control" aria-label="With textarea"
+                        th:field="*{address}"></textarea>
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">Скидка</span>
+              <input type="number" th:field="*{discount}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">vkId</span>
+              <input type="text" th:field="*{vkId}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">fbId</span>
+              <input type="text" th:field="*{fbId}" class="form-control">
+            </div>
+            <div class="input-group">
+              <span class="input-group-text order-labels">instagramId</span>
+              <input type="text" th:field="*{instagramId}" class="form-control">
+            </div>
+            <div th:if="*{timestamp}" th:text="'Дата создания - ' + *{timestamp}"></div>
+            <button
+                class="btn btn-primary"
+                type="button"
+                onclick="submitForm();"
+                id="confirm-order-button"
+            >
+              Сохранить
+            </button>
+          </form>
+        </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
