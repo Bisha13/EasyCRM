@@ -17,12 +17,12 @@
     margin-bottom: 1em;
 }
 .price-text span.price-text-inner {
-    font-size: 1.5em;
-    font-weight: 600;
+    /*font-size: 1.5em;*/
+    /*font-weight: 600;*/
 }
 .price-text span.price-text-sum {
-    font-size: 1.5em;
-    font-weight: 600;
+    /*font-size: 1.5em;*/
+    /*font-weight: 600;*/
 }
 hr {
     box-shadow: 2px 2px 2px cornflowerblue;
@@ -37,7 +37,7 @@ td button.btn-danger {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.price, .qty {
+.price, .price2, .partPrice, .qty {
     max-width: 100px;
 }
 tr.table-row:hover{
