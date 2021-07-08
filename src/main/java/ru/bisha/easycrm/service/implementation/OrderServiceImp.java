@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.Part;
 import ru.bisha.easycrm.db.entity.Service;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
@@ -33,11 +34,26 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Order saveOrder(Order order) {
-        List<Service> list = order.getListOfServices();
+        var services = order.getListOfServices();
+        setSumFromServices(order, services);
+
+        var parts = order.getListOfParts();
+        setSumFromParts(order, parts);
+        if (parts.size() == 1 && parts.get(0).getName().isEmpty()) {
+            order.setListOfParts(null);
+        }
+
+        parts.forEach(p -> p.setOrder(order));
+
+        return orderRepository.save(order);
+    }
+
+    private void setSumFromServices(Order order, List<Service> list) {
         var sum = 0.0;
         for (Service service : list) {
             if (service.getExecutorMoney() != null
-                        || service.getProfit() != null) {
+                        || service.getProfit() != null
+                                || service.getExecutor() == null) {
                 continue;
             }
             Double price = 0.0;
@@ -55,10 +71,21 @@ public class OrderServiceImp implements OrderService {
             service.setProfit(price - executorMoney);
             sum += price;
         }
-
         order.setWorkPrice(sum);
+    }
 
-        return orderRepository.save(order);
+    private void setSumFromParts(Order order, List<Part> list) {
+        var sum = 0.0;
+        var purchasePrice = 0.0;
+        for (Part part : list) {
+            sum += part.getPrice();
+            if (part.getPurchasePrice() != null) {
+                purchasePrice += part.getPurchasePrice();
+            }
+        }
+        var discount = order.getClient().getDiscount();
+        purchasePrice += applyDiscount(sum - purchasePrice, discount);
+        order.setPartsPrice(purchasePrice);
     }
 
     private double applyDiscount(double sum, Integer discount) {

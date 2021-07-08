@@ -94,7 +94,7 @@
                 <!--Price span label-->
                 <span class="input-group-text price toggle-button"
                       th:with="item=*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}"
-                      th:text="${item} ? ${item.price} : Цена"
+                      th:text="${item.price} == '0.0' ? 'Цена' : ${item.price}"
                       th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
                                       'display:inline' : 'display:none'">Цена</span>
 
@@ -116,14 +116,14 @@
                   <button
                       class="btn btn-danger"
                       type="button"
-                      onclick="removeItemList(this);"
+                      onclick="removeItemList(this, false);"
                       style="display: none">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </button>
                   <button
                       class="btn btn-success"
                       type="button"
-                      onclick="duplicateItemList(this);">
+                      onclick="duplicateItemList(this, false);">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </button>
                   <button
@@ -136,18 +136,72 @@
 
               </div>
               <br/>
+              <div class="price-text text-end">
+                <span class="price-text-inner ">Сумма работ: </span>
+                <span class="price-text-sum calculate">- р.</span>
+              </div>
               <br/>
 
 
+<!-- Parts line -->
+              <div class="item-datalist parts input-group" th:each="part, j : ${order.listOfParts}">
+
+<!-- Quantity input -->
+                <input type="number" class="qty form-control rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].qty}"
+                       value="1"
+                       placeholder="Кол-во" aria-label="Краткое описание"
+                       onchange="calculatePartsPrice();">
+
+<!--Input description-->
+                <input type="text" class="input form-control toClean rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].name}"
+                       placeholder="Название запчасти" aria-label="Название запчасти">
+                <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
+                       value="0">
+
+                <input type="number" class="form-control price2 toClean rowIdGen itemIdGen"
+                       onchange="changePrice(this, 30, true);"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].purchasePrice}"
+                       placeholder="Закупка" aria-label="Закупка">
+                <input type="number" class="form-control partPrice toClean rowIdGen itemIdGen"
+                       onchange="calculatePartsPrice();"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].price}"
+                       placeholder="Цена" aria-label="Цена">
+<!--Кнопки плюс и минус-->
+                <div>
+                  <button
+                      class="btn btn-danger"
+                      type="button"
+                      onclick="removeItemList(this, true);"
+                      style="display: none">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </button>
+                  <button
+                      class="btn btn-success"
+                      type="button"
+                      onclick="duplicateItemList(this, true);">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+                <br>
+              <div class="price-text text-end">
+                <span class="price-parts-text-inner ">Сумма за запчасти: </span>
+                <span class="price-parts-text-sum calculate">- р.</span>
+              </div>
+                <br>
+                <br>
+<!--Description section-->
               <div class="order-title-section">
                 <div class="input-group mb-3">
-                  <!--Краткое описание-->
+<!--Краткое описание-->
                   <input type="text" class="form-control toClean rowIdGen"
                          th:field="*{orderList[__${i.index}__].smallDescription}"
                          placeholder="Краткое описание" aria-label="Краткое описание">
                   <span class="input-group-text">
                                         <i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
-                  <!--Особые отметки-->
+<!--Особые отметки-->
                   <input type="text" class="form-control toClean rowIdGen"
                          th:field="*{orderList[__${i.index}__].orderDescription}"
                          placeholder="Особые отметки" aria-label="Особые отметки">
@@ -194,7 +248,7 @@
           <div class="card-body">
             <div class="price-text">
               <span class="price-text-inner">Итого денег: </span>
-              <span class="price-text-sum">0 р.</span>
+              <span class="total-sum">0 р.</span>
             </div>
 
             <div th:if="${clientListAtr}" class="input-group mb-3" >
@@ -290,14 +344,15 @@
         saveOrderSection();
         saveDeviceSection();
         hideAndDisplayDatalistButtons();
+        hideAndDisplayDatalistButtons(true);
         hideAndDisplayRowButtons();
         addListeners();
         loadItemsFromHidden();
-        let datalists = document.querySelectorAll("input.datalist");
-        if (datalists.length === 1
-            && datalists[0].parentNode
+        let dataLists = document.querySelectorAll("input.datalist");
+        if (dataLists.length === 1
+            && dataLists[0].parentNode
                 .querySelector(".hiddenItem").value === "169") {
-            datalists[0].value = '';
+            dataLists[0].value = '';
         }
     }
 </script>

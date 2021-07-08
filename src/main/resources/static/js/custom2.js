@@ -28,26 +28,28 @@ function revaluateRowId() {
 function revaluateItemId() {
     let rows = document.querySelectorAll(".row.sectionRow");
     rows.forEach(function (row) {
-        let items = row.querySelectorAll(".item-datalist");
-        process(items);
+        let items = row.querySelectorAll(".item-datalist:not(.parts)");
+        process(items, 'listOfServices');
+        let parts = row.querySelectorAll(".item-datalist.parts");
+        process(parts, 'listOfParts');
     });
 
-    function process(items) {
+    function process(items, selector) {
         for (let i = 0; i < items.length; i++) {
             items[i]
                 .querySelectorAll(".itemIdGen")
                 .forEach(function (el) {
                     let splitId = el.id.split(".");
                     for (let j = 0; j < splitId.length; j++) {
-                        if (splitId[j].includes("listOfServices")) {
-                            splitId[j] = `listOfServices${i}`;
+                        if (splitId[j].includes(selector)) {
+                            splitId[j] = `${selector}${i}`;
                             el.id = splitId.join(".");
                         }
                     }
                     let splitName = el.name.split(".");
                     for (let j = 0; j < splitName.length; j++) {
-                        if (splitName[j].includes("listOfServices")) {
-                            splitName[j] = `listOfServices[${i}]`;
+                        if (splitName[j].includes(selector)) {
+                            splitName[j] = `${selector}[${i}]`;
                             el.name = splitName.join(".");
                         }
                     }
@@ -56,7 +58,7 @@ function revaluateItemId() {
     }
 }
 
-function duplicateItemList(node) {
+function duplicateItemList(node, isPart) {
     let elem = node.parentNode.parentNode;
     let clone = elem.cloneNode(true);
     clone.querySelectorAll("input:not(.qty):not(.order)")
@@ -65,9 +67,11 @@ function duplicateItemList(node) {
         });
     clone.querySelector(".hiddenItem").value = "1";
     // clone.querySelector(".datalist").value = "1";
-    clone.querySelector(".btn-primary").style.display = "inline";
+    if (!isPart) {
+        clone.querySelector(".btn-primary").style.display = "inline";
+        clone.querySelector("span.price").innerHTML = "Цена";
+    }
     clone.querySelector("input.qty").value = "1";
-    clone.querySelector("span.price").innerHTML = "Цена";
     clone.querySelector("input.price").value = "0";
     let toDelete = clone.querySelector(".deleteId");
     if (toDelete) {
@@ -75,17 +79,18 @@ function duplicateItemList(node) {
     }
     elem.after(clone);
     clone.querySelector(".btn-danger")
-        .setAttribute("onclick", "javascript: removeItemList(this);");
+        .setAttribute("onclick",
+            "javascript: removeItemList(this," + isPart + ");");
     revaluateItemId();
-    hideAndDisplayDatalistButtons();
+    hideAndDisplayDatalistButtons(isPart);
     addListeners();
     }
 
-function removeItemList(node) {
+function removeItemList(node, isPart) {
     let datalistField = node.parentNode.parentNode;
     datalistField.remove();
     revaluateItemId();
-    hideAndDisplayDatalistButtons();
+    hideAndDisplayDatalistButtons(isPart);
 }
 
 function duplicateRow(node) {
@@ -95,24 +100,27 @@ function duplicateRow(node) {
     //toggleDeviceSection(orderSection.querySelector(".toggle-button"));
     orderSection = orderSection.cloneNode(true);
     revaluateRowId();
-    hideAndDisplayRowButtons();
+    hideAndDisplayRowButtons(true);
+    hideAndDisplayRowButtons(false);
     addListeners();
 }
 
 function removeRow(node) {
     node.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
     revaluateRowId();
-    hideAndDisplayRowButtons();
+    hideAndDisplayRowButtons(true);
+    hideAndDisplayRowButtons(false);
 }
 
-function hideAndDisplayDatalistButtons() {
+function hideAndDisplayDatalistButtons(isPart) {
     let rowButtons = document.querySelectorAll(".row.sectionRow");
     rowButtons.forEach(function (row) {
-        process(row);
+        process(row, isPart);
     });
 
-    function process(item) {
-        let listOfDatalists = item.querySelectorAll(".item-datalist");
+    function process(item,  isPart) {
+        let selector = isPart ? ".item-datalist.parts" : ".item-datalist:not(.parts)";
+        let listOfDatalists = item.querySelectorAll(selector);
         listOfDatalists.forEach(function (list) {
             list.querySelector(".btn-success").style.display = "none";
             list.querySelector(".btn-danger").style.display = "inline";
@@ -187,12 +195,19 @@ function clean(node) {
         .forEach(function (item) {
             item.value = "";
         });
-    let datalists = node.querySelectorAll(".item-datalist");
+    let datalists = node.querySelectorAll(".item-datalist:not(.parts)");
     if (datalists.length != 0) {
         datalists[0].querySelector("input").value = "";
     }
     for (let i = 1; i < datalists.length; i++) {
         datalists[i].remove();
+    }
+    let parts = node.querySelectorAll(".item-datalist.parts");
+    if (parts.length != 0) {
+        parts[0].querySelector("input").value = "";
+    }
+    for (let i = 1; i < parts.length; i++) {
+        parts[i].remove();
     }
 }
 
@@ -257,7 +272,7 @@ function switchHiddenValues() {
 }
 
 function deleteWorkById(url) {
-    let r = confirm("Удалить работу?");
+    let r = confirm("Удалить пункт?");
     if (r === true) {
         document.location.href = url;
     }
@@ -325,7 +340,9 @@ function calculatePrice() {
         if (el.style.display !== 'none') {
             let qty = parseInt(el.parentNode.querySelector(".qty").value);
             if (el.innerHTML === "") {
-                sum += parseInt(el.value) * qty;
+                if (!isNaN(parseInt(el.value))) {
+                    sum += parseInt(el.value) * qty;
+                }
             } else {
                 if (!isNaN(parseInt(el.innerHTML))) {
                     sum += parseInt(el.innerHTML) * qty;
@@ -337,6 +354,39 @@ function calculatePrice() {
         sum -= sum / 100 * parseInt(document.querySelector(".discount-of-order").innerHTML);
     }
     document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
+    calculateSum();
+}
+
+function calculatePartsPrice() {
+    let prices = document.querySelectorAll(".partPrice")
+    let sum = 0;
+    for (const el of prices) {
+        if (el.style.display !== 'none') {
+            let qty = parseInt(el.parentNode.querySelector(".qty").value);
+            if (el.innerHTML === "") {
+                sum += parseInt(el.value) * qty;
+            } else {
+                if (!isNaN(parseInt(el.innerHTML))) {
+                    sum += parseInt(el.innerHTML) * qty;
+                }
+            }
+        }
+    }
+    document.querySelector(".price-parts-text-sum").innerHTML = sum + ' руб.';
+    calculateSum();
+}
+
+function calculateSum() {
+    let prices = document.querySelectorAll(".calculate");
+    let sum = 0;
+    for (const el of prices) {
+        let price = parseInt(el.innerHTML);
+        if (!isNaN(price)) {
+            sum += price;
+        }
+    }
+    document.querySelector(".total-sum").innerHTML = sum + ' руб.';
+
 }
 
 function setExecutor(node) {
@@ -344,6 +394,16 @@ function setExecutor(node) {
     let selects = document.querySelectorAll(".executor-select");
     for (let i = 0; i < selects.length; i++) {
         selects[i].value = value;
+    }
+}
+
+function changePrice(node, add, isPart) {
+    let price = parseInt(node.value);
+    node.nextElementSibling.value = price + (price / 100 * add);
+    if (isPart) {
+        calculatePartsPrice();
+    } else {
+        calculatePrice();
     }
 }
 

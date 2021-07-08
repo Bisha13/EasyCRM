@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.bisha.easycrm.service.StatusService;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -84,10 +81,18 @@ public class Order {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE })
     private List<Service> listOfServices;
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "order",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Part> listOfParts;
+
     public Order() {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service());
+        this.listOfParts = new ArrayList<>();
+        listOfParts.add(new Part());
     }
 
     public Order(Item item, Status status) {
@@ -95,6 +100,8 @@ public class Order {
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service(item));
         this.executeStatus = status;
+        this.listOfParts = new ArrayList<>();
+        listOfParts.add(new Part());
     }
 
     @PostLoad

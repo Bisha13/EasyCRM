@@ -82,6 +82,12 @@ public class OrderController {
             order.setDevice(new Device());
         }
 
+        if (order.getListOfParts().isEmpty()) {
+            var listOfParts = new ArrayList<Part>();
+            listOfParts.add(new Part());
+            order.setListOfParts(listOfParts);
+        }
+
         List<Status> statuses = statusService.getAll();
         List<User> users = userService.getAllUsers();
         List<Item> items = itemService.getAll();
@@ -105,13 +111,19 @@ public class OrderController {
             for (Service service : order.getListOfServices()) {
                 service.setOrder(order);
             }
+            for (Part part : order.getListOfParts()) {
+                part.setOrder(order);
+            }
             orderService.saveOrder(order);
         }
         return "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE + "&page=1";
     }
 
     @RequestMapping("orders/save")
-    public String saveSeveral(@ModelAttribute("orderAtr") final Order order) {
+    public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
+        for (Part part : order.getListOfParts()) {
+            part.setOrder(order);
+        }
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }
@@ -163,7 +175,7 @@ public class OrderController {
                         orderWrapper.getClient().getPhoneNumber());
 
         if (clients.size() == 1) {
-            final Client foundClient = clients.get(0);
+            var foundClient = clients.get(0);
             orderWrapper.setClient(foundClient);
             var deviceList = deviceService
                     .getDevicesByUserId(foundClient.getId());
