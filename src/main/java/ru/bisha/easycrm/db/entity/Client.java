@@ -55,6 +55,15 @@ public class Client {
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
+    public void setPhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.trim().replaceAll("[^0-9]", "");
+        if (phoneNumber.length() == 11 && (
+                phoneNumber.startsWith("8")
+                        || phoneNumber.startsWith("7"))) {
+            this.phoneNumber = phoneNumber.substring(1);
+        } else this.phoneNumber = phoneNumber;
+    }
+
     public String getPhoneNumber() {
         if (phoneNumber == null) {
             return null;

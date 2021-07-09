@@ -29,7 +29,7 @@ public class ClientServiceImp implements ClientService {
     @Override
     public Client findClientByNumber(String phoneNumber) {
         String shorter = phoneNumber.replaceAll("[()+-]", "");
-        if (shorter.startsWith("7")) {
+        if (shorter.length() >= 11 && shorter.startsWith("7")) {
             shorter = shorter.replaceFirst("7", "");
         }
         String phoneLike = "%" + shorter;
