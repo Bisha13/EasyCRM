@@ -304,6 +304,15 @@ function addListeners() {
             }
         });
     }
+    let formControl = document.querySelector(".form-control.phoneNumber");
+    if (formControl) {
+        formControl.addEventListener('keydown', (e) => {
+            if (e.key === "Enter") {
+                ordersFindClient();
+            }
+        });
+    }
+
 }
 
 function loadItemsFromHidden() {
@@ -406,7 +415,6 @@ function changePrice(node, add, isPart) {
         calculatePrice();
     }
 }
-
 
 
 
