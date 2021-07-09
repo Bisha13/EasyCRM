@@ -13,14 +13,16 @@ import java.util.Optional;
 @RequestMapping("/services")
 public class ServiceController {
 
-        @Autowired
-        ServiceService serviceService;
+    @Autowired
+    ServiceService serviceService;
 
-        @RequestMapping("/delete")
-        public String deleteService(@RequestParam("itemId") final int id,
-                                    HttpServletRequest request) {
-            ServiceController.this.serviceService.deleteService(id);
-            return "redirect:" + Optional.of(request.getHeader("referer"))
-                    .orElse("/orders/259");
+    @RequestMapping("/delete")
+    public String deleteService(@RequestParam("itemId") final int id,
+                                HttpServletRequest request) {
+        if (id != 0) {
+            serviceService.deleteService(id);
         }
+        return "redirect:" + Optional.of(request.getHeader("referer"))
+                .orElse("/orders/259");
+    }
 }

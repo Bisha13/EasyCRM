@@ -88,6 +88,12 @@ public class OrderController {
             order.setListOfParts(listOfParts);
         }
 
+        if (order.getListOfServices().isEmpty()) {
+            var listOfServices = new ArrayList<Service>();
+            listOfServices.add(new Service());
+            order.setListOfServices(listOfServices);
+        }
+
         List<Status> statuses = statusService.getAll();
         List<User> users = userService.getAllUsers();
         List<Item> items = itemService.getAll();
@@ -123,6 +129,9 @@ public class OrderController {
     public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
         for (Part part : order.getListOfParts()) {
             part.setOrder(order);
+        }
+        for (Service service : order.getListOfServices()) {
+            service.setOrder(order);
         }
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();

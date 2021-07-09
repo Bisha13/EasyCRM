@@ -152,7 +152,8 @@
                                       'display:inline' : 'display:none'">Цена</span>
             <span class="input-group-text price toggle-button"
                   th:unless="*{listOfServices[__${j.index}__].item}"
-                  th:text="*{listOfServices[__${j.index}__].price}"
+                  th:text="*{listOfServices[__${j.index}__].price}
+                  ? *{listOfServices[__${j.index}__].price} : 'Цена'"
                   th:style="*{listOfServices[__${j.index}__].description} == '' ?
                                       'display:inline' : 'display:none'">Цена</span>
 
@@ -263,7 +264,7 @@
                 th:field="*{fullDescription}"
                 class="form-control"
                 id="textArea-comments1"
-                rows="5"
+                th:rows="*{fullDescription.split('\n').length}" rows="5"
             ></textarea>
           </div>
 

@@ -70,9 +70,9 @@ function duplicateItemList(node, isPart) {
     if (!isPart) {
         clone.querySelector(".btn-primary").style.display = "inline";
         clone.querySelector("span.price").innerHTML = "Цена";
+        clone.querySelector("input.price").value = "0";
     }
     clone.querySelector("input.qty").value = "1";
-    clone.querySelector("input.price").value = "0";
     let toDelete = clone.querySelector(".deleteId");
     if (toDelete) {
         clone.querySelector(".deleteId").value = "0";

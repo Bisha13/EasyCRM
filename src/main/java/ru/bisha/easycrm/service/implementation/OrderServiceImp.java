@@ -60,7 +60,7 @@ public class OrderServiceImp implements OrderService {
             if (!service.getDescription().isEmpty()) {
                 price = service.getPrice();
             }
-            if (service.getDescription().isEmpty()) {
+            if (service.getDescription().isEmpty() && service.getPrice() != null) {
                 price = service.getItem().getPrice();
             }
             price = price * service.getQty();

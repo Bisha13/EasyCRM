@@ -16,9 +16,13 @@ public class PartsController {
     private PartService partService;
 
     @RequestMapping("/delete")
-    public String deleteService(@RequestParam("itemId") final int id,
+    public String deleteService(@RequestParam("itemId") final String id,
                                 HttpServletRequest request) {
-        partService.deletePart(id);
+        try {
+            int parsedId = Integer.parseInt(id);
+            partService.deletePart(parsedId);
+        } catch (NumberFormatException ignored) {
+        }
         return "redirect:" + Optional.of(request.getHeader("referer"))
                 .orElse("/orders/259");
     }
