@@ -96,7 +96,7 @@
                  class="value-of-vehicle-info"
                  th:href="@{/devices/{id}(id=*{device.deviceId})}"
                  th:text="*{device.deviceName} != null ?
-                    *{device.deviceName} :
+                    '- ' +  *{device.deviceName} :
                     *{device.vendor} + ' ' + *{device.model}">Велосипед
                 красный</a>
             </div>

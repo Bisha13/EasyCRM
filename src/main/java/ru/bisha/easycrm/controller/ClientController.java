@@ -80,4 +80,26 @@ public class ClientController {
         return "allClients";
     }
 
+    @RequestMapping("/searchClient/")
+    public String getAllClients(Model model,
+                                @RequestParam("search") String search,
+                                @RequestParam("page") Optional<Integer> page,
+                                @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
+
+        Page<Client> clientsPage = clientService.getPageOfClientsBySearch(
+                search, PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("clientListAtr", clientsPage);
+
+        int totalPages = clientsPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return "allClients";
+    }
+
 }

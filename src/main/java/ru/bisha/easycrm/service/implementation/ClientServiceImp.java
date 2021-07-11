@@ -53,4 +53,10 @@ public class ClientServiceImp implements ClientService {
     public Page<Client> getPageOfClients(PageRequest request) {
         return clientRepository.findAll(request);
     }
+
+    @Override
+    public Page<Client> getPageOfClientsBySearch(String search,
+                                                 PageRequest request) {
+        return clientRepository.getClientsBySearch("%" + search + "%", request);
+    }
 }

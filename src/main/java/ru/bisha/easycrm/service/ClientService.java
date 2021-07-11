@@ -17,4 +17,6 @@ public interface ClientService {
     List<Client> findClientByPhone(String phoneNumber);
 
     Page<Client> getPageOfClients(PageRequest request);
+
+    Page<Client> getPageOfClientsBySearch(String search, PageRequest request);
 }
