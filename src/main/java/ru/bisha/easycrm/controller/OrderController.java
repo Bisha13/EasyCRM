@@ -39,18 +39,14 @@ public class OrderController {
 
     private static final int DEFAULT_PAGE_SIZE = 100;
 
+    private final String defaultAllOrdersRedirect
+            = "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE + "&page=1";
 
-    @RequestMapping("orders/")
-    public String getAllOrders(Model model) {
-        List<Order> orderList = orderService.getAllOrders();
-        model.addAttribute("orderListAttr", orderList);
-        return "allOrders";
-    }
 
     @RequestMapping("orders/page/")
     public String getAllOrders(
                     Model model,
-                    @RequestParam("page") Optional<Integer> page,
+                    @RequestParam("page") Optional<Integer> page,    
                     @RequestParam("size") Optional<Integer> size) {
 
         int currentPage = page.orElse(1);
@@ -72,9 +68,21 @@ public class OrderController {
         return "allOrders";
     }
 
+    @RequestMapping("searchOrder")
+    public String searchOrder(@RequestParam("id") String id) {
+        if (id.isEmpty()) {
+            return defaultAllOrdersRedirect;
+        }
+        return "redirect:/orders/" + Integer.parseInt(id);
+    }
+
     @RequestMapping("orders/{id}")
     public String getOrder(@PathVariable int id, Model model) {
         var order = orderService.getOrder(id);
+        if (order.getOrderId() == 0) {
+            return "redirect:/orders/page/?size="
+                    + DEFAULT_PAGE_SIZE + "&page=1";
+        }
 
         try {
             order.getDevice();

@@ -1,7 +1,7 @@
 <html>
 <body>
 <nav th:fragment="allOrdersPagination" aria-label="Page navigation">
-  <ul th:if="${orderListAttr.totalPages > 0}" class="pagination justify-content-end">
+  <ul th:if="${orderListAttr.totalPages > 1}" class="pagination justify-content-end">
     <li th:class="${#request.getParameter('page')} == 1 ? 'page-item disabled' : 'page-item'">
       <a class="page-link"
          th:href="@{/orders/page/(size=${orderListAttr.size}, page=${#request.getParameter('page')} - 1)}"

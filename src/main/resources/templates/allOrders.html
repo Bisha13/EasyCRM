@@ -6,51 +6,72 @@
       lang="ru"
 >
 <head>
-    <div th:replace="fragments/header :: myHeader"></div>
+  <div th:replace="fragments/header :: myHeader"></div>
 </head>
 <body>
 <!-- Navbar -->
 <div th:insert="fragments/navbar :: navbar('orders')"></div>
 
 <div class="container">
-    <div class="row">
-        <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
-        <div class="card">
-            <div class="card-body">
+  <div class="row">
+    <div>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Номер заказа</th>
-                        <th scope="col">Клиент</th>
-                        <th scope="col">Что чиним</th>
-                        <th scope="col">Кратко</th>
-                        <th scope="col">Статус</th>
-                        <th scope="col">Особые пометки</th>
-                        <th scope="col">Когда приняли</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="order : ${orderListAttr}" th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''" class="table-row">
-                        <td><a th:href="@{/orders/} + ${order.orderId}" th:text="${order.orderId}">0</a></td>
-                        <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
-                        <td th:unless="${order.client}" th:text="'Неизвестный клиент'">Глеб</td>
-                        <td th:if="${order.device}" th:text="${order.device.deviceName != null}
+    <form th:action="@{/searchOrder/}" class="search ">
+      <div class="input-group justify-content-end">
+        <div class="form-outline">
+          <input type="number" th:name="id" id="form1"
+                 class="form-control" placeholder="Номер заказа"/>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Номер заказа</th>
+            <th scope="col">Клиент</th>
+            <th scope="col">Что чиним</th>
+            <th scope="col">Кратко</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Особые пометки</th>
+            <th scope="col">Когда приняли</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="order : ${orderListAttr}"
+              th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''"
+              class="table-row">
+            <td><a th:href="@{/orders/} + ${order.orderId}"
+                   th:text="${order.orderId}">0</a></td>
+            <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
+            <td th:unless="${order.client}" th:text="'Неизвестный клиент'">
+              Глеб
+            </td>
+            <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
-                        <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
+            <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
 
-                        <td th:text="${order.smallDescription}">Красный</td>
-                        <td th:text="${order.executeStatus.name}">Обрабатывается</td>
-                        <td th:text="${order.orderDescription}">Сегодня!</td>
-                        <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <td th:text="${order.smallDescription}">Красный</td>
+            <td th:text="${order.executeStatus.name}">Обрабатывается</td>
+            <td th:text="${order.orderDescription}">Сегодня!</td>
+            <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">
+              21/12/2012
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
+  </div>
+  <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
 </div>
 
 <div th:replace="fragments/footer :: myFooter"></div>

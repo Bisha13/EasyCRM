@@ -47,3 +47,6 @@ tr.table-row:hover{
 .input-group-text.order-labels {
     min-width: 9em;
 }
+.search {
+    padding: 10px 0 10px 0;
+}
