@@ -41,4 +41,9 @@ public class DeviceServiceImp implements DeviceService {
     public Page<Device> getPageOfDevices(PageRequest request) {
         return deviceRepository.findAll(request);
     }
+
+    @Override
+    public Page<Device> getDevicesBySearch(String search, PageRequest request) {
+        return deviceRepository.getDevicesBySearch("%" + search + "%", request);
+    }
 }

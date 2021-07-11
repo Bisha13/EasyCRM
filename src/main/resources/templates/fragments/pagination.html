@@ -1,7 +1,7 @@
 <html>
 <body>
 <nav th:fragment="allOrdersPagination" aria-label="Page navigation">
-  <ul th:if="${orderListAttr.totalPages > 1}" class="pagination justify-content-end">
+  <ul th:if="${orderListAttr.totalPages > 1 && #request.getParameter('page') != null}" class="pagination justify-content-end">
     <li th:class="${#request.getParameter('page')} == 1 ? 'page-item disabled' : 'page-item'">
       <a class="page-link"
          th:href="@{/orders/page/(size=${orderListAttr.size}, page=${#request.getParameter('page')} - 1)}"
@@ -20,7 +20,7 @@
 </nav>
 
 <nav th:fragment="allDevicesPagination" aria-label="Page navigation">
-  <ul th:if="${deviceListAtr.totalPages > 0}" class="pagination justify-content-end">
+  <ul th:if="${deviceListAtr.totalPages > 0 && #request.getParameter('page') != null}" class="pagination justify-content-end">
     <li th:class="${#request.getParameter('page')} == 1 ? 'page-item disabled' : 'page-item'">
       <a class="page-link"
          th:href="@{/devices/page/(size=${deviceListAtr.size}, page=${#request.getParameter('page')} - 1)}"
@@ -40,7 +40,7 @@
 
 
 <nav th:fragment="allClientsPagination" aria-label="Page navigation">
-  <ul th:if="${clientListAtr.totalPages > 0}" class="pagination justify-content-end">
+  <ul th:if="${clientListAtr.totalPages > 0 && #request.getParameter('page') != null}" class="pagination justify-content-end">
     <li th:class="${#request.getParameter('page')} == 1 ? 'page-item disabled' : 'page-item'">
       <a class="page-link"
          th:href="@{/clients/page/(size=${clientListAtr.size}, page=${#request.getParameter('page')} - 1)}"

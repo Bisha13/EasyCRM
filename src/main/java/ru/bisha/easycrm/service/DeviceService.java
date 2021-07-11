@@ -12,4 +12,6 @@ public interface DeviceService {
     List<Device> getAll();
     void saveDevice(Device device);
     Page<Device> getPageOfDevices(PageRequest request);
+    Page<Device> getDevicesBySearch(String search, PageRequest request);
+
 }

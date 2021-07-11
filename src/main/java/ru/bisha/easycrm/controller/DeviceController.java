@@ -46,7 +46,7 @@ public class DeviceController {
         return "redirect:/devices/" + device.getDeviceId();
     }
 
-    @RequestMapping("/page/" )
+    @RequestMapping("/page/")
     public String getAllDevices(Model model,
                                 @RequestParam("page") Optional<Integer> page,
                                 @RequestParam("size") Optional<Integer> size) {
@@ -55,7 +55,7 @@ public class DeviceController {
 
         Page<Device> devicePage = deviceService.getPageOfDevices(
                 PageRequest.of(currentPage - 1, pageSize,
-                Sort.by("deviceId").descending()));
+                        Sort.by("deviceId").descending()));
 
         model.addAttribute("deviceListAtr", devicePage);
 
@@ -71,4 +71,25 @@ public class DeviceController {
         return "allDevices";
     }
 
+    @RequestMapping("/searchDevice/")
+    public String getAllDevices(Model model,
+                                @RequestParam("search") String search,
+                                @RequestParam("page") Optional<Integer> page,
+                                @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
+
+        Page<Device> devicePage = deviceService.getDevicesBySearch(
+                search, PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("deviceListAtr", devicePage);
+
+        int totalPages = devicePage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        return "allDevices";
+    }
 }
