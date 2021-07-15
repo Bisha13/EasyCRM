@@ -95,13 +95,13 @@ public class Order {
         listOfParts.add(new Part());
     }
 
-    public Order(Item item, Status status) {
+    public Order(Item item, Stock stock, Status status) {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new Service(item));
         this.executeStatus = status;
         this.listOfParts = new ArrayList<>();
-        listOfParts.add(new Part());
+        listOfParts.add(new Part(stock));
     }
 
     @PostLoad

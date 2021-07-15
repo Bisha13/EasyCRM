@@ -34,33 +34,55 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Order saveOrder(Order order) {
-        var services = order.getListOfServices();
-        setSumFromServices(order, services);
+        setSumFromServices(order);
 
+        setSumFromParts(order);
         var parts = order.getListOfParts();
-        setSumFromParts(order, parts);
-        if (parts.size() == 1 && parts.get(0).getName().isEmpty()) {
+        setOrders(order);
+        if (parts.size() == 1 && parts.get(0).getName() == null) {
             order.setListOfParts(null);
         }
-
-        parts.forEach(p -> p.setOrder(order));
-
         return orderRepository.save(order);
     }
 
-    private void setSumFromServices(Order order, List<Service> list) {
+    @Override
+    public Page<Order> getPageOfOrders(PageRequest request) {
+        return orderRepository.findAll(request);
+    }
+
+    @Override
+    public List<Order> getFiltered(String search) {
+        search = "%" + search.toLowerCase() + "%";
+        return orderRepository.findByString(search);
+    }
+
+    private double applyDiscount(double sum, Integer discount) {
+        if (discount == null) {
+            return sum;
+        }
+        return sum - (sum / 100 * discount);
+    }
+
+    private void setSumFromParts(Order order) {
+        order.setPartsPrice(order.getListOfParts().stream()
+                .mapToDouble(Part::getPrice)
+                .sum());
+    }
+
+    private void setSumFromServices(Order order) {
+        var services = order.getListOfServices();
         var sum = 0.0;
-        for (Service service : list) {
+        for (Service service : services) {
             if (service.getExecutorMoney() != null
-                        || service.getProfit() != null
-                                || service.getExecutor() == null) {
+                    || service.getProfit() != null
+                    || service.getExecutor() == null) {
                 continue;
             }
             Double price = 0.0;
-            if (!service.getDescription().isEmpty()) {
+            if (service.getIsCustom()) {
                 price = service.getPrice();
             }
-            if (service.getDescription().isEmpty() && service.getPrice() != null) {
+            if (!service.getIsCustom()) {
                 price = service.getItem().getPrice();
             }
             price = price * service.getQty();
@@ -74,35 +96,12 @@ public class OrderServiceImp implements OrderService {
         order.setWorkPrice(sum);
     }
 
-    private void setSumFromParts(Order order, List<Part> list) {
-        var sum = 0.0;
-        var purchasePrice = 0.0;
-        for (Part part : list) {
-            sum += part.getPrice();
-            if (part.getPurchasePrice() != null) {
-                purchasePrice += part.getPurchasePrice();
-            }
+    private void setOrders(Order order) {
+        for (Part part : order.getListOfParts()) {
+            part.setOrder(order);
         }
-        var discount = order.getClient().getDiscount();
-        purchasePrice += applyDiscount(sum - purchasePrice, discount);
-        order.setPartsPrice(purchasePrice);
-    }
-
-    private double applyDiscount(double sum, Integer discount) {
-        if (discount == null) {
-            return sum;
+        for (Service service : order.getListOfServices()) {
+            service.setOrder(order);
         }
-        return sum - (sum / 100 * discount);
-    }
-
-    @Override
-    public Page<Order> getPageOfOrders(PageRequest request) {
-        return orderRepository.findAll(request);
-    }
-
-    @Override
-    public List<Order> getFiltered(String search) {
-        search = "%" + search.toLowerCase() + "%";
-        return orderRepository.findByString(search);
     }
 }

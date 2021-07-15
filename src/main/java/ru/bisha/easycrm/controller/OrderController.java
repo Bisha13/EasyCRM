@@ -37,6 +37,8 @@ public class OrderController {
 
     private final StatusService statusService;
 
+    private final StockService stockService;
+
     private static final int DEFAULT_PAGE_SIZE = 100;
 
     private final String defaultAllOrdersRedirect
@@ -84,6 +86,11 @@ public class OrderController {
                     + DEFAULT_PAGE_SIZE + "&page=1";
         }
 
+        List<Status> statuses = statusService.getAll();
+        List<User> users = userService.getAllUsers();
+        List<Item> items = itemService.getAll();
+        List<Stock> stockList = stockService.getAllStockParts();
+
         try {
             order.getDevice();
         } catch (Exception e) {
@@ -92,7 +99,7 @@ public class OrderController {
 
         if (order.getListOfParts().isEmpty()) {
             var listOfParts = new ArrayList<Part>();
-            listOfParts.add(new Part());
+            listOfParts.add(new Part(stockList.get(0)));
             order.setListOfParts(listOfParts);
         }
 
@@ -102,10 +109,7 @@ public class OrderController {
             order.setListOfServices(listOfServices);
         }
 
-        List<Status> statuses = statusService.getAll();
-        List<User> users = userService.getAllUsers();
-        List<Item> items = itemService.getAll();
-
+        model.addAttribute("stockAtr", stockList);
         model.addAttribute("statusesAtr", statuses);
         model.addAttribute("orderAtr", order);
         model.addAttribute("usersAtr", users);
@@ -135,12 +139,6 @@ public class OrderController {
 
     @RequestMapping("orders/save")
     public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
-        for (Part part : order.getListOfParts()) {
-            part.setOrder(order);
-        }
-        for (Service service : order.getListOfServices()) {
-            service.setOrder(order);
-        }
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }
@@ -149,10 +147,14 @@ public class OrderController {
     public String newOrder(Model model) {
         var ordersWrapper = new OrderWrapper();
         List<Item> itemList = itemService.getAll();
+        List<Stock> stockList = stockService.getAllStockParts();
         ordersWrapper.addOrder(
-                new Order(itemList.get(0), statusService.findById(1)));
+                new Order(itemList.get(0),
+                        stockList.get(0),
+                        statusService.findById(1)));
 
         model.addAttribute("itemsAtr", itemList);
+        model.addAttribute("stockAtr", stockList);
         model.addAttribute("ordersWrapperAtr", ordersWrapper);
 
         return "newOrder";
@@ -172,8 +174,9 @@ public class OrderController {
             deviceList = deviceService
                     .getDevicesByUserId(foundClient.getId());
         }
+        List<Stock> stockList = stockService.getAllStockParts();
 
-
+        model.addAttribute("stockAtr", stockList);
         model.addAttribute("itemsAtr", itemService.getAll());
         model.addAttribute("ordersWrapperAtr", orderWrapper);
         if (!deviceList.isEmpty()) {
@@ -203,6 +206,9 @@ public class OrderController {
         if (clients.size() > 1) {
             model.addAttribute("clientListAtr", clients);
         }
+        List<Stock> stockList = stockService.getAllStockParts();
+
+        model.addAttribute("stockAtr", stockList);
         model.addAttribute("ordersWrapperAtr", orderWrapper);
         model.addAttribute("itemsAtr", itemService.getAll());
         return "newOrder";

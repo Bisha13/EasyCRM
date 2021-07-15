@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      lang="en">
 
 <head>
   <div th:replace="fragments/header :: myHeader"></div>
@@ -10,7 +11,8 @@
 <div th:insert="fragments/navbar :: navbar('home')"></div>
 
 <!-- Section with orders -->
-<form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}" id="form" some="s">
+<form th:action="@{/orders/saveWrapper}" th:object="${ordersWrapperAtr}"
+      id="form" some="s">
   <div class="container orderSection" id="orderSectionId">
     <div class="row sectionRow" th:each="order, i : *{orderList}">
       <div class="col"></div>
@@ -18,7 +20,8 @@
         <div class="card">
           <div class="card-body">
             <div class="order-segment">
-              <input type="hidden" class="rowIdGen" th:field="*{orderList[__${i.index}__].executeStatus}">
+              <input type="hidden" class="rowIdGen"
+                     th:field="*{orderList[__${i.index}__].executeStatus}">
 
 
               <!--Device section-->
@@ -44,12 +47,15 @@
                 </select>
 
                 <!--Кнопочка с велосипедиком-->
-                <span class="input-group-text toggle-button" onclick="toggleDeviceSection(this);"
-                      th:if="${devisesAtr}"><i class="fas fa-bicycle"></i></span>
+                <span class="input-group-text toggle-button"
+                      onclick="toggleDeviceSection(this);"
+                      th:if="${devisesAtr}"><i
+                    class="fas fa-bicycle"></i></span>
               </div>
 
               <!--New Device-->
-              <div class="new-device-section" th:style="${devisesAtr} ? 'display:none' : ''">
+              <div class="new-device-section"
+                   th:style="${devisesAtr} ? 'display:none' : ''">
                 <div class="input-group mb-3">
                   <!--Что чиним?-->
                   <input type="text" class="form-control toClean rowIdGen"
@@ -57,7 +63,8 @@
                          placeholder="Что чиним?" aria-label="Что чиним?">
                   <span class="input-group-text toggle-button"
                         th:if="${devisesAtr}"
-                        onclick="toggleDeviceSection(this)"><i class="fas fa-bicycle"></i></span>
+                        onclick="toggleDeviceSection(this)"><i
+                      class="fas fa-bicycle"></i></span>
                   <span class="input-group-text toggle-button"
                         th:unless="${devisesAtr}"><i class="fas fa-bicycle"></i></span>
                   <!--Краткое описание-->
@@ -68,7 +75,8 @@
               </div>
 
               <!-- Service line -->
-              <div class="item-datalist input-group" th:each="service, j : ${order.listOfServices}">
+              <div class="item-datalist input-group"
+                   th:each="service, j : ${order.listOfServices}">
 
                 <!-- Quantity input -->
                 <input type="number" class="qty form-control rowIdGen itemIdGen"
@@ -86,9 +94,9 @@
                                         'display:inline' : 'display:none'"
                 >
 
-<!--                Hidden Input for datalist-->
+                <!--Hidden Input for datalist-->
                 <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
-                       value="1"
+                       value="0"
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].item}">
 
                 <!--Price span label-->
@@ -99,18 +107,27 @@
                                       'display:inline' : 'display:none'">Цена</span>
 
                 <!--Input description-->
-                <input type="text" class="input form-control toClean rowIdGen itemIdGen"
+                <input type="text"
+                       class="input form-control toClean rowIdGen itemIdGen"
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description}"
-                       placeholder="Краткое описание" aria-label="Краткое описание"
+                       placeholder="Краткое описание"
+                       aria-label="Краткое описание"
                        th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
-
-                <input type="number" class="form-control price toClean rowIdGen itemIdGen"
+                <!--Input price-->
+                <input type="number"
+                       class="form-control price toClean rowIdGen itemIdGen"
                        onchange="calculatePrice();"
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].price}"
                        placeholder="Цена" aria-label="Цена"
                        th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
                                        'display:none' : 'display:inline'">
+                <!--Checkbox isCustom-->
+                <input type="checkbox" class="checkbox rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].isCustom}"
+                       style="display:none;"
+                >
+
                 <!--Кнопки плюс и минус-->
                 <div>
                   <button
@@ -143,32 +160,86 @@
               <br/>
 
 
-<!-- Parts line -->
-              <div class="item-datalist parts input-group" th:each="part, j : ${order.listOfParts}">
+              <!-- Parts line -->
+              <div class="item-datalist parts input-group"
+                   th:each="part, j : ${order.listOfParts}">
 
-<!-- Quantity input -->
+                <!-- Quantity input -->
                 <input type="number" class="qty form-control rowIdGen itemIdGen"
                        th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].qty}"
                        value="1"
                        placeholder="Кол-во" aria-label="Краткое описание"
                        onchange="calculatePartsPrice();">
 
-<!--Input description-->
-                <input type="text" class="input form-control toClean rowIdGen itemIdGen"
-                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].name}"
-                       placeholder="Название запчасти" aria-label="Название запчасти">
-                <input type="hidden" class="hiddenItem rowIdGen itemIdGen"
-                       value="0">
+                <!-- DataList -->
+                <input
+                    class="datalist form-control rowIdGen itemIdGen"
+                    list="partListOptions"
+                    placeholder="Запчасть"
+                    th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} ?
+                                        'display:inline' : 'display:none'"
+                >
 
-                <input type="number" class="form-control price2 toClean rowIdGen itemIdGen"
-                       onchange="changePrice(this, 30, true);"
+                <!--Hidden Input for datalist-->
+                <input type="hidden" class="hiddenItem part rowIdGen itemIdGen"
+                       value="0"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].stock}">
+
+                <!--Price span label-->
+                <span class="input-group-text partPrice toClean toggle-button"
+                      th:with="stock=*{orderList[__${i.index}__].listOfParts[__${j.index}__].stock}"
+                      th:text="${stock.price} == '0.0' ? 'Цена' : ${stock.price}"
+                      th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} ?
+                                      'display:inline' : 'display:none'">Цена</span>
+
+                <!--Input description-->
+                <input type="text"
+                       class="input form-control toClean rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].name}"
+                       placeholder="Название запчасти"
+                       aria-label="Название запчасти"
+                       th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
+                                      'display:inline' : 'display:none'">
+
+                <!--Purchase price-->
+                <input type="number"
+                       class="form-control price2 toClean rowIdGen itemIdGen"
+                       onchange="changePrice(this, true);"
                        th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].purchasePrice}"
-                       placeholder="Закупка" aria-label="Закупка">
-                <input type="number" class="form-control partPrice toClean rowIdGen itemIdGen"
+                       placeholder="Закупка" aria-label="Закупка"
+                       th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
+                                      'display:inline' : 'display:none'">
+                <select class="form-control extra"
+                        onchange="changePrice(this.previousElementSibling, true);"
+                        th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
+                                      'display:inline' : 'display:none'">
+                  <option value="00">00</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="40">40</option>
+                  <option value="50">50</option>
+                  <option value="60">60</option>
+                  <option value="70">70</option>
+                  <option value="80">80</option>
+                  <option value="90">90</option>
+                  <option value="100">100</option>
+                </select>
+                <!--Price-->
+                <input type="number"
+                       readonly
+                       class="form-control partPrice toClean rowIdGen itemIdGen"
                        onchange="calculatePartsPrice();"
                        th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].price}"
-                       placeholder="Цена" aria-label="Цена">
-<!--Кнопки плюс и минус-->
+                       placeholder="Цена" aria-label="Цена"
+                       th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
+                                      'display:inline' : 'display:none'">
+                <!--Checkbox isCustom-->
+                <input type="checkbox" class="checkbox rowIdGen itemIdGen"
+                       th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock}"
+                       style="display:none;"
+                >
+                <!--Кнопки плюс и минус-->
                 <div>
                   <button
                       class="btn btn-danger"
@@ -183,37 +254,47 @@
                       onclick="duplicateItemList(this, true);">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </button>
+                  <button
+                      class="btn btn-primary"
+                      type="button"
+                      onclick="exchange(this);">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
                 </div>
               </div>
-                <br>
+              <br>
               <div class="price-text text-end">
                 <span class="price-parts-text-inner ">Сумма за запчасти: </span>
                 <span class="price-parts-text-sum calculate">- р.</span>
               </div>
-                <br>
-                <br>
-<!--Description section-->
+              <br>
+              <br>
+              <!--Description section-->
               <div class="order-title-section">
                 <div class="input-group mb-3">
-<!--Краткое описание-->
+                  <!--Краткое описание-->
                   <input type="text" class="form-control toClean rowIdGen"
                          th:field="*{orderList[__${i.index}__].smallDescription}"
-                         placeholder="Краткое описание" aria-label="Краткое описание">
+                         placeholder="Краткое описание"
+                         aria-label="Краткое описание">
                   <span class="input-group-text">
-                                        <i class="fa fa-pencil-alt" aria-hidden="true"></i></span>
-<!--Особые отметки-->
+                                        <i class="fa fa-pencil-alt"
+                                           aria-hidden="true"></i></span>
+                  <!--Особые отметки-->
                   <input type="text" class="form-control toClean rowIdGen"
                          th:field="*{orderList[__${i.index}__].orderDescription}"
-                         placeholder="Особые отметки" aria-label="Особые отметки">
+                         placeholder="Особые отметки"
+                         aria-label="Особые отметки">
                 </div>
               </div>
 
               <div class="form-group textArea-comments">
-                                <textarea th:field="*{orderList[__${i.index}__].fullDescription}"
-                                          class="form-control toClean rowIdGen"
-                                          id="textArea-comments1"
-                                          placeholder="Комментарии"
-                                          rows="5"
+                                <textarea
+                                    th:field="*{orderList[__${i.index}__].fullDescription}"
+                                    class="form-control toClean rowIdGen"
+                                    id="textArea-comments1"
+                                    placeholder="Комментарии"
+                                    rows="5"
                                 ></textarea>
               </div>
               <button
@@ -251,7 +332,7 @@
               <span class="total-sum">0 р.</span>
             </div>
 
-            <div th:if="${clientListAtr}" class="input-group mb-3" >
+            <div th:if="${clientListAtr}" class="input-group mb-3">
               <select th:field="*{client}" class="form-control">
                 <option th:each="client : ${clientListAtr}"
                         th:text="'' + ${client.phoneNumber} + ' : ' + ${client.name}"
@@ -270,7 +351,8 @@
               </button>
             </div>
 
-            <div th:unless="${clientListAtr}" class="input-group mb-3" th:field="*{client}">
+            <div th:unless="${clientListAtr}" class="input-group mb-3"
+                 th:field="*{client}">
               <input type="hidden" th:field="*{client.id}">
               <input type="hidden" th:field="*{client.phoneNumber2}">
               <input type="hidden" th:field="*{client.phoneNumber3}">
@@ -337,6 +419,14 @@
   >
   </option>
 </datalist>
+<datalist id="partListOptions">
+  <option th:each="item : ${stockAtr}"
+          th:price="${item.price}"
+          th:value="${item.name}"
+          th:data-value="${item.id}"
+  >
+  </option>
+</datalist>
 <!-- Bootstrap js -->
 <div th:insert="fragments/footer :: myFooter"></div>
 <script>
@@ -348,10 +438,12 @@
         hideAndDisplayRowButtons();
         addListeners();
         loadItemsFromHidden();
+        calculatePartsPrice();
+        calculatePrice();
         let dataLists = document.querySelectorAll("input.datalist");
         if (dataLists.length === 1
             && dataLists[0].parentNode
-                .querySelector(".hiddenItem").value === "169") {
+                .querySelector(".hiddenItem").value === "0") {
             dataLists[0].value = '';
         }
     }

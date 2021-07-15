@@ -2,6 +2,7 @@ package ru.bisha.easycrm.db.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "parts")
 @EqualsAndHashCode
 @Getter @Setter
+@NoArgsConstructor
 public class Part {
 
     @Id
@@ -32,4 +34,23 @@ public class Part {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
+
+    @Column(name = "is_stock")
+    private boolean isStock;
+
+    public boolean getIsStock() {
+        return isStock;
+    }
+
+    public void setIsStock(boolean stock) {
+        isStock = stock;
+    }
+
+    public Part(Stock stock) {
+        this.stock = stock;
+    }
 }

@@ -52,6 +52,17 @@ public class Service {
     @Column(name = "profit")
     private Double profit;
 
+    @Column(name = "is_custom")
+    private boolean isCustom;
+
+    public boolean getIsCustom() {
+        return isCustom;
+    }
+
+    public void setIsCustom(boolean custom) {
+        isCustom = custom;
+    }
+
     public Service() {
         this.description = "";
         this.qty = 1;
