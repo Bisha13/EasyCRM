@@ -302,7 +302,7 @@ function switchHiddenValues() {
 }
 
 function deleteWorkById(url) {
-    let r = confirm("Удалить пункт?");
+    let r = confirm("Удалить?");
     if (r === true) {
         document.location.href = url;
     }

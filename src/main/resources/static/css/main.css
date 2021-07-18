@@ -59,3 +59,7 @@ tr.table-row:hover{
 .form-control.extra {
     max-width: 60px;
 }
+
+.create-item {
+    margin: 10px 0;
+}
