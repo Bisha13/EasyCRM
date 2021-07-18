@@ -14,20 +14,41 @@
 
 <div class="container">
   <div class="row">
-    <div>
-
-    <form th:action="@{/searchOrder/}" class="search ">
-      <div class="input-group justify-content-end">
-        <div class="form-outline">
-          <input type="number" th:name="id" id="form1"
-                 class="form-control" placeholder="Номер заказа"/>
+    <div class="col">
+      <form th:action="@{/orders/page/}" class="status-filter">
+        <input type="hidden" name="size" value="100">
+        <input type="hidden" name="page" value="1">
+        <div class="input-group">
+          <select class="form-select" aria-label="Select with button"
+                  name="statusId">
+            <option value="">Все</option>
+            <option
+                th:each="st : ${statusesAtr}"
+                th:text="${st.name}"
+                th:value="${st.id}"
+                th:selected="${#request.getParameter('statusId')} == ${st.id}"
+            ></option>
+          </select>
+          <button type="submit" class="btn btn-outline-secondary">Искать
+          </button>
         </div>
-        <button type="submit" class="btn btn-primary">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-    </form>
+      </form>
     </div>
+
+    <div class="col">
+      <form th:action="@{/searchOrder/}" class="search ">
+        <div class="input-group justify-content-end">
+          <div class="form-outline">
+            <input type="number" th:name="id" id="form1"
+                   class="form-control" placeholder="Номер заказа"/>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+
 
     <div class="card">
       <div class="card-body">
@@ -50,14 +71,16 @@
               class="table-row">
             <td><a th:href="@{/orders/} + ${order.orderId}"
                    th:text="${order.orderId}">0</a></td>
-            <td th:if="${order.client}" th:text="${order.client.name}">Глеб</td>
+            <td th:if="${order.client}" th:text="${order.client.name}">Глеб
+            </td>
             <td th:unless="${order.client}" th:text="'Неизвестный клиент'">
               Глеб
             </td>
             <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
                         : ${order.device.vendor} + ' ' + ${order.device.model}">
-            <td th:unless="${order.device}" th:text="Неизвестный">Велосипед</td>
+            <td th:unless="${order.device}" th:text="Неизвестный">Велосипед
+            </td>
 
             <td th:text="${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
@@ -70,10 +93,9 @@
         </table>
       </div>
     </div>
+    <div th:replace="fragments/ordersPagination :: allOrdersPagination"></div>
   </div>
-  <nav th:replace="fragments/pagination :: allOrdersPagination"></nav>
-</div>
 
-<div th:replace="fragments/footer :: myFooter"></div>
+  <div th:replace="fragments/footer :: myFooter"></div>
 </body>
 </html>

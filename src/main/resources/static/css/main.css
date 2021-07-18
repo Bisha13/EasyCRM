@@ -51,6 +51,11 @@ tr.table-row:hover{
     padding: 10px 0 10px 0;
 }
 
+.status-filter {
+    padding: 10px 0 10px 0;
+    max-width: 300px;
+}
+
 .form-control.extra {
-    max-width: 50px;
+    max-width: 60px;
 }

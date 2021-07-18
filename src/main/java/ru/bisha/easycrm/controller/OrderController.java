@@ -41,24 +41,36 @@ public class OrderController {
 
     private static final int DEFAULT_PAGE_SIZE = 100;
 
-    private final String defaultAllOrdersRedirect
+    private static final String DEFAULT_ALL_ORDERS_REDIRECT
+
             = "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE + "&page=1";
 
 
     @RequestMapping("orders/page/")
     public String getAllOrders(
-                    Model model,
-                    @RequestParam("page") Optional<Integer> page,    
-                    @RequestParam("size") Optional<Integer> size) {
+            Model model,
+            @RequestParam("page") Optional<Integer> page,
+            @RequestParam("size") Optional<Integer> size,
+            @RequestParam("statusId") Optional<Integer> status) {
 
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Order> orderPage = orderService.getPageOfOrders(
-                PageRequest.of(currentPage - 1, pageSize,
-                        Sort.by("orderId").descending()));
+        Page<Order> orderPage;
 
+        if (status.isEmpty()) {
+            orderPage = orderService.getPageOfOrders(
+                    PageRequest.of(currentPage - 1, pageSize,
+                            Sort.by("orderId").descending()));
+        } else {
+            orderPage = orderService.getByStatusId(status.get(),
+                    PageRequest.of(currentPage - 1, pageSize,
+                            Sort.by("orderId").descending()));
+        }
+
+        model.addAttribute("statusesAtr", statusService.getAll());
         model.addAttribute("orderListAttr", orderPage);
+        model.addAttribute("statusAtr", new Status());
 
         int totalPages = orderPage.getTotalPages();
         if (totalPages > 0) {
@@ -73,7 +85,7 @@ public class OrderController {
     @RequestMapping("searchOrder")
     public String searchOrder(@RequestParam("id") String id) {
         if (id.isEmpty()) {
-            return defaultAllOrdersRedirect;
+            return DEFAULT_ALL_ORDERS_REDIRECT;
         }
         return "redirect:/orders/" + Integer.parseInt(id);
     }

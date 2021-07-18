@@ -18,5 +18,7 @@ public interface OrderService {
 
     Page<Order> getPageOfOrders(PageRequest request);
 
+    Page<Order> getByStatusId(long id, PageRequest request);
+
     List<Order> getFiltered(String search);
 }

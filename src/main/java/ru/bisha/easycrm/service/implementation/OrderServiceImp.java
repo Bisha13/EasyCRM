@@ -51,6 +51,11 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public Page<Order> getByStatusId(long id, PageRequest request) {
+        return orderRepository.findAllByExecuteStatusId(id, request);
+    }
+     
+    @Override
     public List<Order> getFiltered(String search) {
         search = "%" + search.toLowerCase() + "%";
         return orderRepository.findByString(search);

@@ -29,7 +29,8 @@
             </form>
 
         </div>
-<!--        <nav th:replace="fragments/pagination :: allDevicesPagination"></nav>-->
+
+<!--        <div th:replace="fragments/pagination :: allDevicesPagination"></div>-->
         <div class="card">
             <div class="card-body">
 
@@ -59,10 +60,11 @@
                 </table>
             </div>
         </div>
-    </div>
-    <nav th:replace="fragments/pagination :: allDevicesPagination"></nav>
-</div>
 
+<!--        <nav th:replace="fragments/pagination :: allClientsPagination"></nav>-->
+    </div>
+</div>
+<nav th:replace="fragments/devicesPagination :: allDevicesPagination"></nav>
 <div th:replace="fragments/footer :: myFooter"></div>
 </body>
 </html>
