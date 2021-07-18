@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      lang="en">
+
+<head>
+  <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('settings')"></div>
+
+<div class="container">
+  <div class="row sectionRow">
+    <div class="card">
+      <div class="card-body">
+
+        <a href="/items" class="link-info">Список работ</a>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap js -->
+<div th:insert="fragments/footer :: myFooter"></div>
+</body>
+</html>

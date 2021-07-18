@@ -37,6 +37,10 @@
                         <a th:class="${#strings.equals(activeLink, 'masters')}
                         ? 'nav-link active' : 'nav-link'" href="#">Мастера</a>
                     </li>
+                    <li class="nav-item">
+                        <a th:class="${#strings.equals(activeLink, 'settings')}
+                        ? 'nav-link active' : 'nav-link'" href="/settigns">Настройки</a>
+                    </li>
                 </ul>
             </div>
         </div>
