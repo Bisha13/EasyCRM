@@ -460,6 +460,18 @@ function changePrice(node, isPart) {
     }
 }
 
+function addExtra() {
+    let purchase = parseInt(document.querySelector(".purchase").value),
+        extra = parseInt(document.querySelector(".stockExtra").value),
+        price = document.querySelector(".stockPrice");
+
+    if (isNaN(extra)) {
+        extra = 0;
+    }
+    let fullPrice = purchase + (purchase / 100 * extra);
+    price.value = (fullPrice | 0);
+}
+
 
 
 

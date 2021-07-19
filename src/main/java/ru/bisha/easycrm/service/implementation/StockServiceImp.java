@@ -6,6 +6,7 @@ import ru.bisha.easycrm.db.entity.Stock;
 import ru.bisha.easycrm.db.repository.StockRepository;
 import ru.bisha.easycrm.service.StockService;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StockServiceImp implements StockService {
@@ -30,7 +31,12 @@ public class StockServiceImp implements StockService {
     }
 
     @Override
-    public void addStockPart(Stock part) {
+    public void save(Stock part) {
         repository.save(part);
+    }
+
+    @Override
+    public Optional<Stock> getById(int id) {
+        return repository.findById(id);
     }
 }

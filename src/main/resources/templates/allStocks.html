@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.thymeleaf.org "
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="ru"
+>
+<head>
+  <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('settings')"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Артикул</th>
+            <th scope="col">Название</th>
+            <th scope="col">Закупочная цена</th>
+            <th scope="col">Наценка %</th>
+            <th scope="col">Цена</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="stock : ${stockListAtr}"
+              class="table-row"
+              th:onclick="'window.location=\'' + @{/stocks/} + ${stock.id}+ '\''"
+          >
+            <td><a
+                th:href="@{/stocks/} + ${stock.id}"
+                th:text="${stock.id}">0
+            </a></td>
+            <td th:text="${#strings.defaultString(stock.article, ' - - - ')}">
+              Артикл
+            </td>
+            <td th:text="${#strings.defaultString(stock.name, ' - - - ')}">
+              Название
+            </td>
+            <td th:text="${#strings.defaultString(stock.purchase, ' - - - ')}">
+              Закупочная
+            </td>
+            <td th:text="${#strings.defaultString(stock.extra, ' - - - ')}">
+              Наценка
+            </td>
+            <td th:text="${#strings.defaultString(stock.price, ' - - - ')}">
+              Цена
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <form action="/stocks/new">
+      <button class="btn btn-success create-stock">
+        Создать
+      </button>
+    </form>
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: myFooter"></div>
+</body>
+</html>
