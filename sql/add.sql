@@ -188,6 +188,6 @@ VALUES ('AMFTZ5007428CP',
 
 
 INSERT INTO item (name, description, price, category_id, priority)
-VALUES (null, null, 0, 1, 1);
+VALUES (null, null, 0, 1, -100);
 
 UPDATE item t SET t.id = 0  WHERE t.id = LAST_INSERT_ID();

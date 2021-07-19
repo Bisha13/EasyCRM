@@ -379,11 +379,14 @@
                   aria-label="Recipient's username"
                   aria-describedby="confirm-order-button"
               />
+            </div>
+
+            <div class="d-grid gap-2">
               <button
-                  class="btn btn-outline-secondary"
+                  class="btn btn-outline-secondary btn-lg"
                   type="button"
                   onclick="saveOrder();"
-                  th:disabled="*{client.name} ? 'false' : 'disabled'"
+                  th:disabled="*{client.name} and ${clientListAtr} == null ? 'false' : 'disabled'"
                   id="confirm-order-button"
               >
                 Оформить заказ

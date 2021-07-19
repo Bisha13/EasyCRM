@@ -96,8 +96,9 @@
                  class="value-of-vehicle-info"
                  th:href="@{/devices/{id}(id=*{device.deviceId})}"
                  th:text="*{device.deviceName} != null ?
-                    '- ' +  *{device.deviceName} :
-                    *{device.vendor} + ' ' + *{device.model}">Велосипед
+                    '- ' +  *{device.deviceName} + ': ' + *{device.description} :
+                    *{device.vendor} + ' ' + *{device.model}  + ': '
+                    + *{device.description} " >Велосипед
                 красный</a>
             </div>
 
@@ -203,7 +204,9 @@
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
               <button
-                  style="display: none"
+
+                  th:style=" *{listOfServices[__${j.index}__].order} == null
+                  ? 'display: inline' : 'display: none'"
                   class="btn btn-primary"
                   type="button"
                   onclick="exchange(this);">
@@ -312,7 +315,8 @@
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
               <button
-                  style="display: none"
+                  th:style=" *{listOfParts[__${j.index}__].order} == null
+                  ? 'display: inline' : 'display: none'"
                   class="btn btn-primary"
                   type="button"
                   onclick="exchange(this);">
@@ -333,7 +337,7 @@
                 th:field="*{fullDescription}"
                 class="form-control"
                 id="textArea-comments1"
-                th:rows="*{fullDescription.split('\n').length} + 2" rows="5"
+                th:rows="*{fullDescription} ? *{fullDescription.split('\n').length} + 2 : 5" rows="5"
             ></textarea>
           </div>
 
