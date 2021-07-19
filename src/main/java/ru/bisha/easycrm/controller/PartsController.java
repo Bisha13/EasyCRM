@@ -16,7 +16,7 @@ public class PartsController {
     private PartService partService;
 
     @RequestMapping("/delete")
-    public String deleteService(@RequestParam("itemId") final String id,
+    public String deletePart(@RequestParam("itemId") final String id,
                                 HttpServletRequest request) {
         try {
             int parsedId = Integer.parseInt(id);

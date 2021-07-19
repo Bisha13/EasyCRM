@@ -7,6 +7,7 @@ import ru.bisha.easycrm.db.repository.UserRepository;
 import ru.bisha.easycrm.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -16,5 +17,20 @@ public class UserServiceImp implements UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> getById(int id) {
+        return userRepository.findById(id);
     }
 }

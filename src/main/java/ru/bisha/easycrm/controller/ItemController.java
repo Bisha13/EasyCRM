@@ -50,7 +50,7 @@ public class ItemController {
     }
 
     @RequestMapping("/delete")
-    public String deleteService(@RequestParam("itemId") final int id,
+    public String deleteItem(@RequestParam("itemId") final int id,
                                 HttpServletRequest request) {
         if (id != 0) {
             itemService.delete(id);

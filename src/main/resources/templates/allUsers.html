@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.thymeleaf.org "
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="ru"
+>
+<head>
+  <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('users')"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Имя</th>
+            <th scope="col">логин</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Процент</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user : ${userListAtr}"
+              class="table-row"
+              th:onclick="'window.location=\'' + @{/users/} + ${user.id}+ '\''"
+          >
+            <td><a
+                th:href="@{/users/} + ${user.id}"
+                th:text="${user.id}">0
+            </a></td>
+            <td th:text="${#strings.defaultString(user.fullName, ' - - - ')}">
+              Имя
+            </td>
+            <td th:text="${#strings.defaultString(user.login, ' - - - ')}">
+              Логин
+            </td>
+            <td th:text="${#strings.defaultString(user.phoneNumber, ' - - - ')}">
+              Телефон
+            </td>
+            <td th:text="${#strings.defaultString(user.percent, ' - - - ')}">
+              Процент
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <form action="/users/new">
+      <button class="btn btn-success create-user">
+        Создать
+      </button>
+    </form>
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: myFooter"></div>
+</body>
+</html>
