@@ -238,7 +238,8 @@
                    th:field="*{listOfParts[__${j.index}__].qty}"
                    value="1"
                    placeholder="Кол-во" aria-label="Краткое описание"
-                   onchange="calculatePartsPrice();">
+                   onkeyup="changePrice(this, true);"
+                   onchange="changePrice(this, true);">
 
             <!-- DataList -->
             <input
@@ -251,7 +252,7 @@
 
             <!--Hidden Input for datalist-->
             <input type="hidden" class="hiddenItem part rowIdGen itemIdGen"
-                   value="0"
+                   value="1"
                    th:field="*{listOfParts[__${j.index}__].stock}">
 
             <!--Price span label-->
@@ -272,13 +273,15 @@
             <!--Purchase price-->
             <input type="number"
                    class="form-control price2 toClean rowIdGen itemIdGen"
+                   onkeyup="changePrice(this, true);"
                    onchange="changePrice(this, true);"
                    th:field="*{listOfParts[__${j.index}__].purchasePrice}"
                    placeholder="Закупка" aria-label="Закупка"
                    th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
             <select class="form-control extra"
-                    onchange="changePrice(this.previousElementSibling, true);"
+                    onkeyup="changePrice(this, true);"
+                    onchange="changePrice(this, true);"
                     th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
               <option value="20">20%</option>
@@ -287,7 +290,7 @@
             <!--Price-->
             <input type="number"
                    readonly
-                   class="form-control partPrice toClean rowIdGen itemIdGen"
+                   class="form-control partPrice custom toClean rowIdGen itemIdGen"
                    onchange="calculatePartsPrice();"
                    th:field="*{listOfParts[__${j.index}__].price}"
                    placeholder="Цена" aria-label="Цена"
@@ -315,8 +318,7 @@
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </button>
               <button
-                  th:style=" *{listOfParts[__${j.index}__].order} == null
-                  ? 'display: inline' : 'display: none'"
+                  th:with="part = *{listOfParts[__${j.index}__]}"
                   class="btn btn-primary"
                   type="button"
                   onclick="exchange(this);">
@@ -398,9 +400,12 @@
         hideAndDisplayDatalistButtons(true);
         addListeners();
         // loadItemsFromHidden();
-        calculatePrice();
-        calculatePartsPrice();
         loadItemsFromHidden();
+        let dataLists = document.querySelectorAll("input.datalist");
+        dataLists.forEach((d) => {
+            calculatePrice(d);
+            calculatePartsPrice(d);
+        });
         document.querySelector("input.datalist")
             .dispatchEvent(new Event('input'));
     }

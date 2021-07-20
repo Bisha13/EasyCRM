@@ -76,7 +76,9 @@ INSERT IGNORE INTO `status` (`statusid`, `name`) VALUES
 (10, 'Ожидает выдачи клиенту'),
 (11, 'Ожидает доставки клиенту'),
 (12, 'Ожидает курьера'),
-(13, 'Неизвестный статус');
+(13, 'Неизвестный статус'),
+(14, 'Отменен'),
+(15, 'Закрыт');
 UPDATE `orderstable` SET `execute_status` = '13' WHERE `execute_status` = '0';
 -- Foreign key
 ALTER TABLE `orderstable`
@@ -182,9 +184,12 @@ VALUES ('00-011073',
 INSERT INTO stock (article_number, name, purchase_price, extra,
                    price)
 VALUES ('AMFTZ5007428CP',
-        'Трещотка Shimano MF-TZ500, на 7 скоростейб зведы 14-28', 687, null,
+        'Трещотка Shimano MF-TZ500, на 7 скоростей, зведы 14-28', 687, null,
         1100);
-
+INSERT INTO stock (article_number, name, purchase_price, extra,
+                   price)
+VALUES (null, null, 0, 0, 0);
+UPDATE stock s SET s.part_id = 0  WHERE s.part_id = LAST_INSERT_ID();
 
 
 INSERT INTO item (name, description, price, category_id, priority)

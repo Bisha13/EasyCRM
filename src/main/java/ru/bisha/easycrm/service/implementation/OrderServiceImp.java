@@ -39,7 +39,8 @@ public class OrderServiceImp implements OrderService {
         setSumFromParts(order);
         var parts = order.getListOfParts();
         setOrders(order);
-        if (parts.size() == 1 && parts.get(0).getName() == null) {
+        if (parts.size() == 1 &&
+                parts.get(0).getName() == null && !parts.get(0).getIsStock()) {
             order.setListOfParts(null);
         }
         return orderRepository.save(order);

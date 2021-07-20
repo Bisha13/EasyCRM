@@ -74,6 +74,8 @@
                 </div>
               </div>
 
+
+
               <!-- Service line -->
               <div class="item-datalist input-group"
                    th:each="service, j : ${order.listOfServices}">
@@ -83,7 +85,7 @@
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].qty}"
                        value="1"
                        placeholder="Количество" aria-label="Краткое описание"
-                       onchange="calculatePrice();"
+                       onchange="calculatePrice(this);"
                        min="1">
 
                 <!-- DataList -->
@@ -118,7 +120,7 @@
                 <!--Input price-->
                 <input type="number"
                        class="form-control price toClean rowIdGen itemIdGen"
-                       onchange="calculatePrice();"
+                       onchange="calculatePrice(this);"
                        th:field="*{orderList[__${i.index}__].listOfServices[__${j.index}__].price}"
                        placeholder="Цена" aria-label="Цена"
                        th:style="*{orderList[__${i.index}__].listOfServices[__${j.index}__].description} == '' ?
@@ -170,7 +172,7 @@
                        th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].qty}"
                        value="1"
                        placeholder="Кол-во" aria-label="Краткое описание"
-                       onchange="calculatePartsPrice();"
+                       onchange="changePrice(this, true);"
                        min="1">
 
                 <!-- DataList -->
@@ -221,8 +223,8 @@
                 <!--Price-->
                 <input type="number"
                        readonly
-                       class="form-control partPrice toClean rowIdGen itemIdGen"
-                       onchange="calculatePartsPrice();"
+                       class="form-control partPrice custom toClean rowIdGen itemIdGen"
+                       onchange="calculatePartsPrice(this);"
                        th:field="*{orderList[__${i.index}__].listOfParts[__${j.index}__].price}"
                        placeholder="Цена" aria-label="Цена"
                        th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
@@ -383,7 +385,7 @@
 
             <div class="d-grid gap-2">
               <button
-                  class="btn btn-outline-secondary btn-lg"
+                  class="btn btn-success btn-lg"
                   type="button"
                   onclick="saveOrder();"
                   th:disabled="*{client.name} and ${clientListAtr} == null ? 'false' : 'disabled'"
@@ -434,14 +436,16 @@
         hideAndDisplayRowButtons();
         addListeners();
         loadItemsFromHidden();
-        calculatePartsPrice();
-        calculatePrice();
         let dataLists = document.querySelectorAll("input.datalist");
         if (dataLists.length === 1
             && dataLists[0].parentNode
                 .querySelector(".hiddenItem").value === "0") {
             dataLists[0].value = '';
         }
+        dataLists.forEach((d) => {
+            calculatePrice(d);
+            calculatePartsPrice(d);
+        });
     }
 </script>
 </body>

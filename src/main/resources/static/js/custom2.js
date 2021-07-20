@@ -73,6 +73,7 @@ function duplicateItemList(node, isPart) {
         clone.querySelector("input.price").value = "0";
     } else {
         clone.querySelector("span.partPrice").innerHTML = "Цена";
+        clone.querySelector("input.partPrice").value = "0.0";
     }
     clone.querySelector("input.qty").value = "1";
     let toDelete = clone.querySelector(".deleteId");
@@ -87,6 +88,8 @@ function duplicateItemList(node, isPart) {
             "javascript: removeItemList(this," + isPart + ");");
     revaluateItemId();
     hideAndDisplayDatalistButtons(isPart);
+    calculatePrice(node);
+    calculatePartsPrice(node);
     addListeners();
     }
 
@@ -99,7 +102,8 @@ function removeItemList(node, isPart) {
 
 function duplicateRow(node) {
     let element = node.parentNode.parentNode.parentNode.parentNode.parentNode;
-    orderSection.querySelector(".qty").value = "1";
+    orderSection.querySelectorAll(".qty").forEach(el => el.value = "1");
+    orderSection.querySelector("input.partPrice").value = "0.0"
     element.parentNode.appendChild(orderSection);
     //toggleDeviceSection(orderSection.querySelector(".toggle-button"));
     orderSection = orderSection.cloneNode(true);
@@ -209,6 +213,7 @@ function clean(node) {
     let parts = node.querySelectorAll(".item-datalist.parts");
     if (parts.length != 0) {
         parts[0].querySelector("input").value = "";
+
     }
     for (let i = 1; i < parts.length; i++) {
         parts[i].remove();
@@ -259,7 +264,7 @@ function exchange(node) {
         checkBox.value = true;
     }
 
-    calculatePrice();
+    calculatePrice(node);
 }
 
 function saveOrder() {
@@ -328,9 +333,9 @@ function addListeners() {
                     hiddenInput.value = option.getAttribute('data-value');
                     price.innerHTML = option.getAttribute("price");
                     if (list.includes("part")) {
-                        calculatePartsPrice();
+                        calculatePartsPrice(input);
                     } else {
-                        calculatePrice();
+                        calculatePrice(input);
                     }
                     break;
                 }
@@ -382,8 +387,8 @@ function removeHidden() {
     }
 }
 
-function calculatePrice() {
-    let prices = document.querySelectorAll(".price")
+function calculatePrice(node) {
+    let prices = node.parentNode.parentNode.parentNode.querySelectorAll(".price")
     let sum = 0;
     for (const el of prices) {
         if (el.style.display !== 'none') {
@@ -402,12 +407,12 @@ function calculatePrice() {
     if (document.querySelector(".discount-of-order")) {
         sum -= sum / 100 * parseInt(document.querySelector(".discount-of-order").innerHTML);
     }
-    document.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
+    node.parentNode.parentNode.parentNode.querySelector(".price-text-sum").innerHTML = sum + ' руб.';
     calculateSum();
 }
 
-function calculatePartsPrice() {
-    let prices = document.querySelectorAll(".partPrice")
+function calculatePartsPrice(node) {
+    let prices = node.parentNode.parentNode.parentNode.querySelectorAll(".partPrice")
     let sum = 0;
     for (const el of prices) {
         if (el.style.display !== 'none') {
@@ -421,7 +426,7 @@ function calculatePartsPrice() {
             }
         }
     }
-    document.querySelector(".price-parts-text-sum").innerHTML = sum + ' руб.';
+    node.parentNode.parentNode.parentNode.querySelector(".price-parts-text-sum").innerHTML = sum + ' руб.';
     calculateSum();
 }
 
@@ -447,16 +452,22 @@ function setExecutor(node) {
 }
 
 function changePrice(node, isPart) {
-    let price = parseInt(node.value);
-    let extra = parseInt(node.nextElementSibling.value);
-    let sum = price + (price / 100 * extra);
-    node.nextElementSibling
-        .nextElementSibling.value = sum;
-    node.nextElementSibling.nextElementSibling.setAttribute("value", sum);
+    let papa = node.parentNode;
+    let qty = parseInt(papa.querySelector(".qty").value);
+    if (isNaN(qty)) qty = 0;
+    let purchasePrice = parseInt(papa.querySelector(".price2").value);
+    if (isNaN(purchasePrice)) purchasePrice = 0;
+    let extra = parseInt(papa.querySelector(".extra").value);
+    if (isNaN(extra)) extra = 0;
+    let sumField = papa.querySelector(".partPrice.custom");
+    let sum = (purchasePrice + (purchasePrice / 100 * extra)) * qty;
+
+    sumField.value = sum;
+    sumField.setAttribute("value", sum);
     if (isPart) {
-        calculatePartsPrice();
+        calculatePartsPrice(node);
     } else {
-        calculatePrice();
+        calculatePrice(node);
     }
 }
 
