@@ -10,6 +10,7 @@ import ru.bisha.easycrm.db.entity.Order;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,Integer> {
+
     List<Order> findAllByClientId(int id);
 
     @Query(value = "select o from Order o where o.device.deviceName like lower(:search) or " +
@@ -17,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     List<Order> findByString(@Param("search") String search);
 
     Page<Order> findAllByExecuteStatusId (long id, Pageable pageable);
+
+    Page<Order> findAllByExecuteStatusIdNot(long id, Pageable pageable);
 }

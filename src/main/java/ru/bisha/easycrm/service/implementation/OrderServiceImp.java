@@ -52,6 +52,11 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public Page<Order> getByStatusIdNot(long id, PageRequest request) {
+        return orderRepository.findAllByExecuteStatusIdNot(id, request);
+    }
+
+    @Override
     public Page<Order> getByStatusId(long id, PageRequest request) {
         return orderRepository.findAllByExecuteStatusId(id, request);
     }

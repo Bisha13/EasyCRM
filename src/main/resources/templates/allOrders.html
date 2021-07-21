@@ -21,6 +21,7 @@
         <div class="input-group">
           <select class="form-select" aria-label="Select with button"
                   name="statusId">
+            <option value="-1">Все активные</option>
             <option value="">Все</option>
             <option
                 th:each="st : ${statusesAtr}"
@@ -53,7 +54,7 @@
     <div class="card">
       <div class="card-body">
 
-        <table class="table">
+        <table class="table table-striped">
           <thead>
           <tr>
             <th scope="col">Номер заказа</th>

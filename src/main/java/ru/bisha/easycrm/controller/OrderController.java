@@ -61,11 +61,18 @@ public class OrderController {
         if (status.isEmpty()) {
             orderPage = orderService.getPageOfOrders(
                     PageRequest.of(currentPage - 1, pageSize,
-                            Sort.by("orderId").descending()));
+                            Sort.by("orderId")));
         } else {
-            orderPage = orderService.getByStatusId(status.get(),
-                    PageRequest.of(currentPage - 1, pageSize,
-                            Sort.by("orderId").descending()));
+
+            if (status.get() == -1) {
+                orderPage = orderService.getByStatusIdNot(14,
+                        PageRequest.of(currentPage - 1, pageSize,
+                                Sort.by("orderId")));
+            } else {
+                orderPage = orderService.getByStatusId(status.get(),
+                        PageRequest.of(currentPage - 1, pageSize,
+                                Sort.by("orderId")));
+            }
         }
 
         model.addAttribute("statusesAtr", statusService.getAll());
@@ -130,8 +137,7 @@ public class OrderController {
     }
 
     @RequestMapping("orders/saveWrapper")
-    public String saveOrder(@ModelAttribute("ordersWrapperAtr")
-                                final OrderWrapper orderWrapper) {
+    public String saveOrder(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper) {
         var someClient =
                 clientService.saveClient(orderWrapper.getClient());
 
@@ -173,8 +179,7 @@ public class OrderController {
     }
 
     @RequestMapping("orders/findClient")
-    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr")
-                                 final OrderWrapper orderWrapper, Model model) {
+    public String findClientAndLoadIt(@ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper, Model model) {
 
         var client = orderWrapper.getClient();
         var foundClient = clientService
@@ -199,12 +204,11 @@ public class OrderController {
 
     @RequestMapping("orders/findByPhoneNumber")
     public String findByPhoneNumber(
-            @ModelAttribute("ordersWrapperAtr")
-            final OrderWrapper orderWrapper, Model model) {
+            @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper, Model model) {
 
         List<Client> clients
                 = clientService.findClientByPhone(
-                        orderWrapper.getClient().getPhoneNumber());
+                orderWrapper.getClient().getPhoneNumber());
 
         if (clients.size() == 1) {
             var foundClient = clients.get(0);

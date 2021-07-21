@@ -77,8 +77,8 @@ INSERT IGNORE INTO `status` (`statusid`, `name`) VALUES
 (11, 'Ожидает доставки клиенту'),
 (12, 'Ожидает курьера'),
 (13, 'Неизвестный статус'),
-(14, 'Отменен'),
-(15, 'Закрыт');
+(14, 'Закрыт'),
+(15, 'Отменен');
 UPDATE `orderstable` SET `execute_status` = '13' WHERE `execute_status` = '0';
 -- Foreign key
 ALTER TABLE `orderstable`
