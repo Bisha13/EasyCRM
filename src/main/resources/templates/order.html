@@ -55,16 +55,6 @@
                 ></option>
               </select>
             </div>
-            <div class="order-executor">
-              <span class="text-for-order-executor">Исполнитель:</span>
-              <select onchange="setExecutor(this)">
-                <option th:each="executor : ${usersAtr}"
-                        th:text="${executor.fullName}"
-                        th:value="${executor.id}"
-                >
-                </option>
-              </select>
-            </div>
             <!--            Client section-->
             <div class="client-section">
               <div class="order-client">
@@ -96,7 +86,7 @@
                  class="value-of-vehicle-info"
                  th:href="@{/devices/{id}(id=*{device.deviceId})}"
                  th:text="*{device.deviceName} != null ?
-                    '- ' +  *{device.deviceName} + ': ' + *{device.description} :
+                    ' _ ' +  *{device.deviceName} + ' _ ' + *{device.description} :
                     *{device.vendor} + ' ' + *{device.model}  + ': '
                     + *{device.description} " >Велосипед
                 красный</a>
@@ -115,7 +105,23 @@
                      placeholder="Описание" aria-label="Описание">
             </div>
           </div>
+
+
+          <div class="order-executor">
+            <span class="text-for-order-executor">Исполнитель:</span>
+            <select class="form-select w-25" onchange="setExecutor(this)">
+              <option value="20">---</option>
+              <option th:each="executor : ${usersAtr}"
+                      th:text="${executor.fullName}"
+                      th:value="${executor.id}"
+              >
+              </option>
+            </select>
+          </div>
+
           <br>
+          <br>
+
           <!--Services-->
           <span>Работы</span>
           <div class="item-datalist input-group"
@@ -218,14 +224,8 @@
 
 
 
-
-
-
-
-
-
-
           <!-- Parts line2 -->
+          <span>Запчасти</span>
           <div class="item-datalist parts input-group"
                th:each="part, j : *{listOfParts}">
             <input type="hidden" class="itemIdGen deleteId"

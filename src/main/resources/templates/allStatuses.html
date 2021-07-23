@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      lang="en">
+
+<head>
+  <div th:replace="fragments/header :: myHeader"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="fragments/navbar :: navbar('settings')"></div>
+
+<div class="container">
+  <div class="row sectionRow">
+    <div class="card">
+      <div class="card-body">
+
+        <form th:object="${statusWrapperAtr}" th:action="@{/statuses/save}">
+          <div th:each="status, i : *{statusList}">
+            <input type="hidden" th:value="${status.id}">
+            <input type="hidden" th:value="*{statusList[__${i.index}__].id}">
+            <div class="input-group mb-3">
+              <span class="input-group-text" th:text="*{statusList[__${i.index}__].id}">@</span>
+              <input type="text" class="form-control" th:field="*{statusList[__${i.index}__].name}">
+            </div>
+          </div>
+          <button type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap js -->
+<div th:insert="fragments/footer :: myFooter"></div>
+</body>
+</html>

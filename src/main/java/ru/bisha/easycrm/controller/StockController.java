@@ -41,7 +41,7 @@ public class StockController {
     @RequestMapping("/save")
     public String save(@ModelAttribute("stockAtr") Stock stock) {
         stockService.save(stock);
-        return "redirect:/stocks/" + stock.getId();
+        return "redirect:/stocks";
     }
 
     @RequestMapping("/delete")
@@ -50,8 +50,7 @@ public class StockController {
         if (id != 0) {
             stockService.deleteStockPart(id);
         }
-        return "redirect:" + Optional.of(request.getHeader("referer"))
-                .orElse("/stocks/");
+        return "redirect:/stocks";
     }
 
     @RequestMapping("/new")

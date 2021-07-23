@@ -22,4 +22,9 @@ public class StatusServiceImp implements StatusService {
     public Status findById(long id) {
         return statusRepository.findById(id).orElseThrow();
     }
+
+    @Override
+    public void save(Status status) {
+        statusRepository.save(status);
+    }
 }

@@ -5,7 +5,8 @@ import ru.bisha.easycrm.db.entity.Status;
 import java.util.List;
 
 public interface StatusService {
-    List<Status> getAll();
 
+    List<Status> getAll();
     Status findById(long id);
+    void save(Status status);
 }

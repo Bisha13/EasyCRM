@@ -152,7 +152,8 @@ public class OrderController {
             }
             orderService.saveOrder(order);
         }
-        return "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE + "&page=1";
+        return "redirect:/orders/page/?size=" + DEFAULT_PAGE_SIZE +
+                "&page=1&statusId=-1";
     }
 
     @RequestMapping("orders/save")

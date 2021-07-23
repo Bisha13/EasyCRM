@@ -42,17 +42,15 @@ public class UserController {
     @RequestMapping("/save")
     public String saveUser(@ModelAttribute("itemAtr") User user) {
         userService.save(user);
-        return "redirect:/users/" + user.getId();
+        return "redirect:/users";
     }
 
     @RequestMapping("/delete")
-    public String deleteItem(@RequestParam("itemId") final int id,
-                                HttpServletRequest request) {
+    public String deleteItem(@RequestParam("itemId") final int id) {
         if (id != 0) {
             userService.delete(id);
         }
-        return "redirect:" + Optional.of(request.getHeader("referer"))
-                .orElse("/users/");
+        return "redirect:/users";
     }
 
     @RequestMapping("/new")

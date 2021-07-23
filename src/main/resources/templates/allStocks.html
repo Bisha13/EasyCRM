@@ -32,6 +32,7 @@
           <tr th:each="stock : ${stockListAtr}"
               class="table-row"
               th:onclick="'window.location=\'' + @{/stocks/} + ${stock.id}+ '\''"
+              th:if="${stock.id} != 0"
           >
             <td><a
                 th:href="@{/stocks/} + ${stock.id}"

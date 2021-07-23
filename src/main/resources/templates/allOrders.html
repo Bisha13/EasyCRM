@@ -54,12 +54,13 @@
     <div class="card">
       <div class="card-body">
 
-        <table class="table table-striped">
+        <table class="table table-striped table-sm">
           <thead>
           <tr>
             <th scope="col">Номер заказа</th>
             <th scope="col">Клиент</th>
             <th scope="col">Что чиним</th>
+            <th scope="col">Описание</th>
             <th scope="col">Кратко</th>
             <th scope="col">Статус</th>
             <th scope="col">Особые пометки</th>
@@ -83,6 +84,7 @@
             <td th:unless="${order.device}" th:text="Неизвестный">Велосипед
             </td>
 
+            <td th:text="${#strings.defaultString(order.device.description, ' - - - ')}">Красный</td>
             <td th:text="${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
             <td th:text="${order.orderDescription}">Сегодня!</td>
