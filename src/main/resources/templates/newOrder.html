@@ -217,6 +217,7 @@
                         onchange="changePrice(this.previousElementSibling, true);"
                         th:style="*{orderList[__${i.index}__].listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
+                  <option value="0">0%</option>
                   <option value="20">20%</option>
                   <option value="30">30%</option>
                 </select>

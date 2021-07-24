@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.db.entity.Part;
 import ru.bisha.easycrm.db.entity.Service;
+import ru.bisha.easycrm.db.entity.Stock;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
 
@@ -60,7 +61,7 @@ public class OrderServiceImp implements OrderService {
     public Page<Order> getByStatusId(long id, PageRequest request) {
         return orderRepository.findAllByExecuteStatusId(id, request);
     }
-     
+
     @Override
     public List<Order> getFiltered(String search) {
         search = "%" + search.toLowerCase() + "%";
@@ -75,9 +76,18 @@ public class OrderServiceImp implements OrderService {
     }
 
     private void setSumFromParts(Order order) {
-        order.setPartsPrice(order.getListOfParts().stream()
+        final List<Part> listOfParts = order.getListOfParts();
+        Double partsPrice = listOfParts.stream()
                 .mapToDouble(Part::getPrice)
-                .sum());
+                .sum();
+        Double stockPrice = listOfParts.stream()
+                .filter(part -> part.getIsStock())
+                .map(Part::getStock)
+                .mapToDouble(Stock::getPrice)
+                .sum();
+
+        order.setPartsPrice(partsPrice + stockPrice);
+
     }
 
     private void setSumFromServices(Order order) {

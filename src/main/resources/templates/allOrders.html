@@ -57,14 +57,14 @@
         <table class="table table-striped table-sm">
           <thead>
           <tr>
-            <th scope="col">Номер заказа</th>
+            <th scope="col">#</th>
             <th scope="col">Клиент</th>
             <th scope="col">Что чиним</th>
             <th scope="col">Описание</th>
             <th scope="col">Кратко</th>
             <th scope="col">Статус</th>
             <th scope="col">Особые пометки</th>
-            <th scope="col">Когда приняли</th>
+<!--            <th scope="col">Когда приняли</th>-->
           </tr>
           </thead>
           <tbody>
@@ -88,9 +88,7 @@
             <td th:text="${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
             <td th:text="${order.orderDescription}">Сегодня!</td>
-            <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">
-              21/12/2012
-            </td>
+<!--            <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
           </tr>
           </tbody>
         </table>

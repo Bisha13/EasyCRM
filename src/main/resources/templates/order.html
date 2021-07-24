@@ -284,6 +284,7 @@
                     onchange="changePrice(this, true);"
                     th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
+              <option value="0">0%</option>
               <option value="20">20%</option>
               <option value="30">30%</option>
             </select>
@@ -299,7 +300,7 @@
             <!--Checkbox isCustom-->
             <input type="checkbox" class="checkbox rowIdGen itemIdGen"
                    th:field="*{listOfParts[__${j.index}__].isStock}"
-                   th:checked="*{listOfServices[__${j.index}__].isCustom}"
+                   th:checked="*{listOfParts[__${j.index}__].isStock}"
                    style="display:none;"
             >
             <!--Кнопки плюс и минус-->
