@@ -44,6 +44,7 @@ public class OrderServiceImp implements OrderService {
                 parts.get(0).getName() == null && !parts.get(0).getIsStock()) {
             order.setListOfParts(null);
         }
+        order.setFullPrice(order.getPartsPrice() + order.getWorkPrice());
         return orderRepository.save(order);
     }
 
@@ -78,12 +79,11 @@ public class OrderServiceImp implements OrderService {
     private void setSumFromParts(Order order) {
         final List<Part> listOfParts = order.getListOfParts();
         Double partsPrice = listOfParts.stream()
-                .mapToDouble(Part::getPrice)
+                .mapToDouble(p -> p.getPrice() * p.getQty())
                 .sum();
         Double stockPrice = listOfParts.stream()
                 .filter(part -> part.getIsStock())
-                .map(Part::getStock)
-                .mapToDouble(Stock::getPrice)
+                .mapToDouble(p -> p.getStock().getPrice() * p.getQty())
                 .sum();
 
         order.setPartsPrice(partsPrice + stockPrice);
@@ -94,11 +94,6 @@ public class OrderServiceImp implements OrderService {
         var services = order.getListOfServices();
         var sum = 0.0;
         for (Service service : services) {
-            if (service.getExecutorMoney() != null
-                    || service.getProfit() != null
-                    || service.getExecutor() == null) {
-                continue;
-            }
             Double price = 0.0;
             if (service.getIsCustom()) {
                 price = service.getPrice();

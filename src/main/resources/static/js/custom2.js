@@ -148,17 +148,17 @@ function hideAndDisplayRowButtons() {
     let rowButtons = document.querySelectorAll(".row.sectionRow");
 
     rowButtons.forEach(function (row) {
-        row.querySelector(".btn-primary.btn-lg").style.display = "none";
-        row.querySelector(".btn-secondary.btn-lg").style.display = "inline";
+        row.querySelector(".addRowButton").style.display = "none";
+        row.querySelector(".removeRowButton").style.display = "inline";
     });
 
     rowButtons[rowButtons.length - 1]
-        .querySelector(".btn-primary.btn-lg").style.display = "inline";
+        .querySelector(".addRowButton").style.display = "inline";
     rowButtons[rowButtons.length - 1]
-        .querySelector(".btn-secondary.btn-lg").style.display = "inline";
+        .querySelector(".removeRowButton").style.display = "inline";
 
     if (rowButtons.length === 1) {
-        rowButtons[0].querySelector(".btn-secondary.btn-lg")
+        rowButtons[0].querySelector(".removeRowButton")
             .style.display = "none";
     }
 }
@@ -455,13 +455,12 @@ function changePrice(node, isPart) {
     let papa = node.parentNode;
     let qty = parseInt(papa.querySelector(".qty").value);
     if (isNaN(qty)) qty = 0;
-    let purchasePrice = parseInt(papa.querySelector(".price2").value);
+    let purchasePrice = parseFloat(papa.querySelector(".price2").value);
     if (isNaN(purchasePrice)) purchasePrice = 0;
     let extra = parseInt(papa.querySelector(".extra").value);
     if (isNaN(extra)) extra = 0;
     let sumField = papa.querySelector(".partPrice.custom");
-    let sum = (purchasePrice + (purchasePrice / 100 * extra)) * qty;
-
+    let sum = purchasePrice * (1 + 1 / 100 * extra);
     sumField.value = sum;
     sumField.setAttribute("value", sum);
     if (isPart) {

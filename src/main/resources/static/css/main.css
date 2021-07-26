@@ -1,6 +1,9 @@
-.orderSection {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+/*.orderSection {*/
+/*    padding-top: 1rem;*/
+/*    padding-bottom: 1rem;*/
+/*}*/
+.card {
+    margin-top: 1rem;
 }
 .item-datalist {
     margin-top: 0.5em;
@@ -62,4 +65,15 @@ tr.table-row:hover{
 
 .create-item {
     margin: 10px 0;
+}
+
+.info-card {
+    margin-bottom: 1em;
+}
+.addRowButtons {
+    display: flex;
+    justify-content: end;
+}
+td {
+    font-size: 12px;
 }

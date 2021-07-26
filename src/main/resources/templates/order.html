@@ -31,11 +31,11 @@
           <input type="hidden" th:field="*{works}">
           <input type="hidden" th:field="*{paymentStatus}">
           <input type="hidden" th:field="*{device}">
-          <input type="hidden" th:field="*{orderDescription}">
           <div th:if="*{timeClose != null}">
             <input type="hidden" th:field="*{timeClose}">
           </div>
-
+          <div class="row">
+            <div class="col">
           <div class="order-info">
             <div class="order-number">
               <span class="text-for-order-number">Номер заказа:</span>
@@ -109,7 +109,7 @@
 
           <div class="order-executor">
             <span class="text-for-order-executor">Исполнитель:</span>
-            <select class="form-select w-25" onchange="setExecutor(this)">
+            <select class="form-select w-50" onchange="setExecutor(this)">
               <option value="20">---</option>
               <option th:each="executor : ${usersAtr}"
                       th:text="${executor.fullName}"
@@ -117,6 +117,13 @@
               >
               </option>
             </select>
+          </div>
+            </div>
+            <div class="col">
+          <span class="text-for-order-executor">Особые отметки:</span>
+          <input type="text" th:field="*{orderDescription}" class="form-control w-75" placeholder="Особые отметки">
+          <br>
+            </div>
           </div>
 
           <br>
@@ -133,10 +140,11 @@
 
             <!-- Quantity input -->
             <input type="number" class="qty form-control rowIdGen itemIdGen"
+                   min="1"
                    th:field="*{listOfServices[__${j.index}__].qty}"
                    value="1"
                    placeholder="Количество" aria-label="Краткое описание"
-                   onchange="calculatePrice();">
+                   onchange="calculatePrice(this);">
 
             <!-- DataList -->
             <input
@@ -173,8 +181,9 @@
                                        'display:inline' : 'display:none'">
 
             <input type="number"
+                   min="1"
                    class="form-control price toClean rowIdGen itemIdGen"
-                   onchange="calculatePrice();"
+                   onchange="calculatePrice(this);"
                    th:field="*{listOfServices[__${j.index}__].price}"
                    placeholder="Цена" aria-label="Цена"
                    th:style="*{listOfServices[__${j.index}__].isCustom} ?
@@ -235,6 +244,7 @@
 
             <!-- Quantity input -->
             <input type="number" class="qty form-control rowIdGen itemIdGen"
+                   min="1"
                    th:field="*{listOfParts[__${j.index}__].qty}"
                    value="1"
                    placeholder="Кол-во" aria-label="Краткое описание"
@@ -272,6 +282,7 @@
                                       'display:inline' : 'display:none'">
             <!--Purchase price-->
             <input type="number"
+                   min="1"
                    class="form-control price2 toClean rowIdGen itemIdGen"
                    onkeyup="changePrice(this, true);"
                    onchange="changePrice(this, true);"
@@ -282,11 +293,27 @@
             <select class="form-control extra"
                     onkeyup="changePrice(this, true);"
                     onchange="changePrice(this, true);"
+                    th:with="purchase = *{listOfParts[__${j.index}__].purchasePrice},
+                    price = *{listOfParts[__${j.index}__].price}"
                     th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
               <option value="0">0%</option>
-              <option value="20">20%</option>
-              <option value="30">30%</option>
+              <option
+                  th:selected="
+                  ${#numbers.formatDecimal(purchase * 1.2,3,2)} ==
+                  ${#numbers.formatDecimal(price,3,2)}
+                   ? true : false"
+                  value="20">
+                20%
+              </option>
+              <option th:selected="
+                  ${#numbers.formatDecimal(purchase * 1.3,3,2)} ==
+                  ${#numbers.formatDecimal(price,3,2)}
+                   ? true : false"
+                      value="30">
+                30%
+              </option>
+
             </select>
             <!--Price-->
             <input type="number"
@@ -345,30 +372,39 @@
           </div>
 
           <br>
-          <br>
 
-          <div class="price-text">
-            <span class="price-text-inner">Сумма работ: </span>
-            <span class="price-text-sum calculate">- р.</span>
+          <div class="container">
+            <div class="row">
+              <div class="col"></div>
+              <div class="card info-card shadow-sm text-end" style="width: 18rem;">
+                <div class="card-body">
+                  <div class="price-text">
+                    <span class="price-text-inner">Сумма работ: </span>
+                    <span class="price-text-sum calculate">- р.</span>
+                  </div>
+                  <div class="price-text">
+                    <span class="price-parts-text-inner">Сумма за запчасти: </span>
+                    <span class="price-parts-text-sum calculate">- р.</span>
+                  </div>
+                  <div class="price-text">
+                    <span class="price-text-inner">Итого денег: </span>
+                    <span class="total-sum">- р.</span>
+                    <input type="hidden" class="price-text-sum-hidden"
+                           th:field="*{fullPrice}">
+                  </div>
+                </div>
+              </div>
+              <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="saveOrder();"
+                  id="confirm-order-button"
+              >
+                Сохранить заказ
+              </button>
+            </div>
           </div>
-          <div class="price-text">
-            <span class="price-parts-text-inner">Сумма за запчасти: </span>
-            <span class="price-parts-text-sum calculate">- р.</span>
-          </div>
-          <div class="price-text">
-            <span class="price-text-inner">Итого денег: </span>
-            <span class="total-sum">- р.</span>
-            <input type="hidden" class="price-text-sum-hidden"
-                   th:field="*{fullPrice}">
-          </div>
-          <button
-              class="btn btn-primary"
-              type="button"
-              onclick="saveOrder();"
-              id="confirm-order-button"
-          >
-            Сохранить заказ
-          </button>
+
 
 
         </form>
