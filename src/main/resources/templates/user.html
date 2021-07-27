@@ -13,48 +13,74 @@
   <div class="row sectionRow">
     <div class="card">
       <div class="card-body">
-        <form id="form" th:action="@{/users/save}" th:object="${userAtr}">
-          <input type="hidden" th:field="*{id}">
-          <input type="hidden" th:field="*{accessLevel}">
-          <input type="hidden" th:field="*{status}">
-          <input type="hidden" th:field="*{password}">
+        <h4 th:text="${userAtr.fullName}"></h4>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false">Работы</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#editInfo" type="button" role="tab" aria-controls="editInfo" aria-selected="false">Редактировать</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="profile-tab">222</div>
 
-          <div class="input-group">
-            <span class="input-group-text order-labels">Имя:</span>
-            <input type="text" th:field="*{fullName}" class="form-control">
+
+
+
+<!--          Edit tab-->
+          <div class="tab-pane fade" id="editInfo" role="tabpanel" aria-labelledby="contact-tab">
+            <br>
+
+            <form id="form" th:action="@{/users/save}" th:object="${userAtr}">
+              <input type="hidden" th:field="*{id}">
+              <input type="hidden" th:field="*{accessLevel}">
+              <input type="hidden" th:field="*{status}">
+              <input type="hidden" th:field="*{password}">
+
+              <div class="input-group">
+                <span class="input-group-text order-labels">Имя:</span>
+                <input type="text" th:field="*{fullName}" class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-text order-labels">Логин:</span>
+                <input type="text" th:field="*{login}" class="form-control"/>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text order-labels">Телефон: </span>
+                <input type="number" min="0" th:field="*{phoneNumber}"
+                       class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-text order-labels">Процент: </span>
+                <input type="number" min="0" max="100" th:field="*{percent}"
+                       class="form-control stockPrice">
+              </div>
+              <br>
+              <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="submitForm();"
+                  id="save-stock-button"
+              >
+                Сохранить
+              </button>
+              <button
+                  class="btn btn-danger"
+                  type="button"
+                  th:onclick="deleteWorkById('/users/delete?itemId=[[*{id}]]')"
+                  id="delete-order-button"
+              >
+                Удалить
+              </button>
+            </form>
+
           </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Логин:</span>
-            <input type="text" th:field="*{login}" class="form-control"/>
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Телефон: </span>
-            <input type="number" min="0" th:field="*{phoneNumber}"
-                   class="form-control">
-          </div>
-          <div class="input-group">
-            <span class="input-group-text order-labels">Процент: </span>
-            <input type="number" min="0" max="100" th:field="*{percent}"
-                   class="form-control stockPrice">
-          </div>
-          <br>
-          <button
-              class="btn btn-primary"
-              type="button"
-              onclick="submitForm();"
-              id="save-stock-button"
-          >
-            Сохранить
-          </button>
-          <button
-              class="btn btn-danger"
-              type="button"
-              th:onclick="deleteWorkById('/users/delete?itemId=[[*{id}]]')"
-              id="delete-order-button"
-          >
-            Удалить
-          </button>
-        </form>
+        </div>
+
+
+
+
       </div>
     </div>
   </div>

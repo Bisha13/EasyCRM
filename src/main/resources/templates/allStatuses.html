@@ -16,11 +16,22 @@
 
         <form th:object="${statusWrapperAtr}" th:action="@{/statuses/save}">
           <div th:each="status, i : *{statusList}">
-            <input type="hidden" th:value="${status.id}">
-            <input type="hidden" th:value="*{statusList[__${i.index}__].id}">
+<!--            <input type="hidden" th:value="${status.id}">-->
+            <input type="hidden" th:field="*{statusList[__${i.index}__].id}">
             <div class="input-group mb-3">
               <span class="input-group-text" th:text="*{statusList[__${i.index}__].id}">@</span>
               <input type="text" class="form-control" th:field="*{statusList[__${i.index}__].name}">
+              <select th:field="*{statusList[__${i.index}__].colour}">
+                <option value="">Default</option>
+                <option value="table-primary">Primary</option>
+                <option value="table-secondary">Secondary</option>
+                <option value="table-success">Success</option>
+                <option value="table-danger">Danger</option>
+                <option value="table-warning">Warning</option>
+                <option value="table-info">Info</option>
+                <option value="table-light">Light</option>
+                <option value="table-dark">Dark</option>
+              </select>
             </div>
           </div>
           <button type="submit">Сохранить</button>

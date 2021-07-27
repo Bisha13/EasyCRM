@@ -103,8 +103,15 @@ public class OrderServiceImp implements OrderService {
             }
             price = price * service.getQty();
             price = applyDiscount(price, order.getClient().getDiscount());
-            double executorMoney = (price / 100.0)
-                    * service.getExecutor().getPercent();
+
+            int percent;
+            if (service.getExecutor() == null) {
+                percent = 0;
+            } else {
+                percent = service.getExecutor().getPercent();
+            }
+
+            double executorMoney = (price / 100.0) * percent;
             service.setExecutorMoney(executorMoney);
             service.setProfit(price - executorMoney);
             sum += price;

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "userstable")
@@ -38,4 +39,14 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "executor")
+    private List<Service> serviceList;
+
+    @PreRemove
+    private void preRemove() {
+        for (Service s : serviceList) {
+            s.setExecutor(null);
+        }
+    }
 }

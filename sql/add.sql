@@ -196,3 +196,7 @@ INSERT INTO item (name, description, price, category_id, priority)
 VALUES (null, null, 0, 1, -100);
 
 UPDATE item t SET t.id = 0  WHERE t.id = LAST_INSERT_ID();
+
+
+------------------------------------------------
+alter table status add column colour varchar(50);

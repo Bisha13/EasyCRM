@@ -16,4 +16,7 @@ public class Status {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "colour")
+    private String colour;
 }
