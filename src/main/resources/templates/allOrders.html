@@ -61,7 +61,7 @@
             <th scope="col">Клиент</th>
             <th scope="col">Что чиним</th>
 <!--            <th scope="col">Описание</th>-->
-            <th scope="col">Кратко</th>
+            <th scope="col">Описание</th>
             <th scope="col">Статус</th>
 <!--            <th scope="col">Особые пометки</th>-->
 <!--            <th scope="col">Когда приняли</th>-->
@@ -69,12 +69,10 @@
           </thead>
           <tbody>
           <tr th:each="order : ${orderListAttr}"
+              th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''"
               th:class="'table-row ' + ${order.executeStatus.colour}">
-            <!--              th:onclick="'window.location=\'' + @{/orders/} + ${order.orderId}+ '\''"-->
-
-            <th><a th:href="@{/orders/} + ${order.orderId}"
-                   th:text="${order.orderId}"
-                   class="stretched-link">0</a></th>
+            <td><a th:href="@{/orders/} + ${order.orderId}"
+                   th:text="${order.orderId}">0</a></td>
             <td th:if="${order.client}" th:text="${order.client.name}">Глеб
             </td>
             <td th:unless="${order.client}" th:text="'Неизвестный клиент'">
@@ -86,10 +84,9 @@
             <td th:unless="${order.device}" th:text="Неизвестный">Велосипед
             </td>
 
-<!--            <td th:text="${#strings.defaultString(order.device.description, ' - - - ')}">Красный</td>-->
-            <td th:text="${order.smallDescription}">Красный</td>
+
+            <td th:text="${order.orderDescription} ? ${order.smallDescription} + ' ' + ${order.smallDescription} : ${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
-<!--            <td th:text="${order.orderDescription}">Сегодня!</td>-->
 <!--            <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
           </tr>
           </tbody>

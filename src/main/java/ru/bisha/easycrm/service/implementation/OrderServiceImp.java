@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.db.entity.Part;
 import ru.bisha.easycrm.db.entity.Service;
-import ru.bisha.easycrm.db.entity.Stock;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
 
@@ -82,7 +81,7 @@ public class OrderServiceImp implements OrderService {
                 .mapToDouble(p -> p.getPrice() * p.getQty())
                 .sum();
         Double stockPrice = listOfParts.stream()
-                .filter(part -> part.getIsStock())
+                .filter(Part::getIsStock)
                 .mapToDouble(p -> p.getStock().getPrice() * p.getQty())
                 .sum();
 
