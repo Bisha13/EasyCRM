@@ -16,7 +16,7 @@
           <input type="hidden" th:field="*{deviceId}">
           <input type="hidden" th:field="*{ownerId}">
           <input type="hidden" th:field="*{deviceType}">
-          <input type="hidden" th:field="*{timestamp}">
+          <input type="hidden" th:if="*{timestamp}" th:field="*{timestamp}">
 
           <div><span>Хозяин: </span>
             <a th:text="${clientAtr.name}" th:href="@{/clients/{id}(id=${clientAtr.id})}"></a>

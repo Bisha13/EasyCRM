@@ -92,4 +92,14 @@ public class DeviceController {
         }
         return "allDevices";
     }
+
+    @RequestMapping("/new")
+    public String createNew(@RequestParam("ownerId") final int id, Model model) {
+        var device = new Device();
+        var owner = clientService.getClient(id);
+        device.setOwnerId(owner.getId());
+        model.addAttribute("deviceAtr", device);
+        model.addAttribute("clientAtr", owner);
+        return "device";
+    }
 }

@@ -101,8 +101,13 @@ public class OrderServiceImp implements OrderService {
             if (!service.getIsCustom()) {
                 price = service.getItem().getPrice();
             }
-            price = price * service.getQty();
-            price = applyDiscount(price, order.getClient().getDiscount());
+
+            if (price == null) {
+                price = 0.0;
+            } else {
+                price = price * service.getQty();
+                price = applyDiscount(price, order.getClient().getDiscount());
+            }
 
             int percent;
             if (service.getExecutor() == null) {

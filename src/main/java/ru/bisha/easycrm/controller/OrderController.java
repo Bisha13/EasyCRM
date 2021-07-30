@@ -230,5 +230,33 @@ public class OrderController {
         model.addAttribute("itemsAtr", itemService.getAll());
         return "newOrder";
     }
+
+    @RequestMapping("/orders/new")
+    public String createNewFromClient(
+            @RequestParam("clientId") final int id, Model model) {
+        var ordersWrapper = new OrderWrapper();
+        var client = clientService.getClient(id);
+        ordersWrapper.setClient(client);
+
+        List<Item> itemList = itemService.getAll();
+        List<Stock> stockList = stockService.getAllStockParts();
+        var deviceList = deviceService.getDevicesByUserId(id);
+        var newOrder = new Order(itemList.get(0), stockList.get(0),
+                statusService.findById(1));
+        newOrder.setClient(client);
+        ordersWrapper.addOrder(
+                new Order(itemList.get(0),
+                        stockList.get(0),
+                        statusService.findById(1)));
+
+        model.addAttribute("itemsAtr", itemList);
+        model.addAttribute("stockAtr", stockList);
+        model.addAttribute("ordersWrapperAtr", ordersWrapper);
+        if (!deviceList.isEmpty()) {
+            model.addAttribute("devisesAtr", deviceList);
+        }
+
+        return "newOrder";
+    }
 }
 

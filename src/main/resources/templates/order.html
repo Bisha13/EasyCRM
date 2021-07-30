@@ -23,7 +23,6 @@
           <input type="hidden" th:field="*{orderId}">
           <input type="hidden" th:field="*{timestamp}">
           <input type="hidden" th:field="*{client}">
-          <input type="hidden" th:field="*{smallDescription}">
           <input type="hidden" th:field="*{executorId}">
           <input type="hidden" th:field="*{partsPrice}">
           <input type="hidden" th:field="*{workPrice}">
@@ -41,7 +40,6 @@
               <span class="text-for-order-number">Номер заказа:</span>
               <span class="number-of-order" th:text="*{orderId}">7015</span>
             </div>
-
 
             <div class="order-status">
               <span class="text-for-order-status">Статус заказа:</span>
@@ -68,6 +66,10 @@
                 <span class="text-for-order-phone">Телефон:</span>
                 <span class="phone-of-order"
                       th:text="*{client != null} ? *{client.phoneNumber} : '- - -'">89154446015</span>
+              </div>
+              <div class="order-time-open" th:with="openTime = *{timestamp}">
+                <span class="text-for-time-open">Открыт:</span>
+                <span class="opentTime-of-order" th:text="${#dates.format(openTime, 'dd.MM.yyyy')}">7015</span>
               </div>
               <div th:if="*{client.discount}" class="order-discount">
                 <span class="text-for-order-discount">Скидка:</span>
@@ -121,7 +123,7 @@
             </div>
             <div class="col">
           <span class="text-for-order-executor">Особые отметки:</span>
-          <input type="text" th:field="*{orderDescription}" class="form-control w-75" placeholder="Особые отметки">
+          <input type="text" th:field="*{smallDescription}" class="form-control w-75" placeholder="Особые отметки">
           <br>
             </div>
           </div>
@@ -186,6 +188,7 @@
                    onchange="calculatePrice(this);"
                    th:field="*{listOfServices[__${j.index}__].price}"
                    placeholder="Цена" aria-label="Цена"
+                   onfocus="if (this.value == 0) {this.value = ''}"
                    th:style="*{listOfServices[__${j.index}__].isCustom} ?
                                        'display:inline' : 'display:none'">
             <select class="form-select executor-select itemIdGen"
@@ -288,6 +291,7 @@
                    onchange="changePrice(this, true);"
                    th:field="*{listOfParts[__${j.index}__].purchasePrice}"
                    placeholder="Закупка" aria-label="Закупка"
+                   onfocus="if (this.value == 0) {this.value = ''}"
                    th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
             <select class="form-control extra"
@@ -373,22 +377,19 @@
 
           <br>
 
-          <div class="container">
-            <div class="row">
-              <div class="col"></div>
-              <div class="card info-card shadow-sm text-end" style="width: 18rem;">
+              <div class="card info-card shadow-sm" style="width: 25rem;">
                 <div class="card-body">
                   <div class="price-text">
-                    <span class="price-text-inner">Сумма работ: </span>
-                    <span class="price-text-sum calculate">- р.</span>
+                    <span class="price-text-inner fs-5 fw-bolder ">Сумма работ: </span>
+                    <span class="price-text-sum calculate  fs-5 fw-bolder">- р.</span>
                   </div>
                   <div class="price-text">
-                    <span class="price-parts-text-inner">Сумма за запчасти: </span>
-                    <span class="price-parts-text-sum calculate">- р.</span>
+                    <span class="price-parts-text-inner fs-5 fw-bolder">Сумма за запчасти: </span>
+                    <span class="price-parts-text-sum calculate fs-5 fw-bolder">- р.</span>
                   </div>
                   <div class="price-text">
-                    <span class="price-text-inner">Итого денег: </span>
-                    <span class="total-sum">- р.</span>
+                    <span class="price-text-inner fs-5 fw-bolder">Итого денег: </span>
+                    <span class="total-sum fs-5 fw-bolder">- р.</span>
                     <input type="hidden" class="price-text-sum-hidden"
                            th:field="*{fullPrice}">
                   </div>
@@ -402,9 +403,6 @@
               >
                 Сохранить заказ
               </button>
-            </div>
-          </div>
-
 
 
         </form>
