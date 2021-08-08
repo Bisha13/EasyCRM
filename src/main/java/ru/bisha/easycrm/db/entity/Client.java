@@ -50,8 +50,11 @@ public class Client {
     @Column(name = "mailing_approval")
     private Integer mailingApproval;
 
+    @Column(name = "notes")
+    private String notes;
+
     @CreationTimestamp
-    @Column(name="timestamp",
+    @Column(name = "timestamp",
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 

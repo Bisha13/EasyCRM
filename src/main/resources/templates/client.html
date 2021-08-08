@@ -63,6 +63,8 @@
                 th:text="${#strings.defaultString('Instagramm - ' + clientAtr.instagramId, ' - - - ')}"></div>
             <div
                 th:text="'Дата создания - ' + ${#dates.format(clientAtr.timestamp, 'dd.MM.yyyy')}"></div>
+            <div th:if="${clientAtr.notes}"
+                th:text="'Заметки - ' + ${clientAtr.notes}"></div>
 
           </div>
 
@@ -207,6 +209,11 @@
                 <span class="input-group-text order-labels">instagramId</span>
                 <input type="text" th:field="*{instagramId}"
                        class="form-control">
+              </div>
+              <div class="input-group">
+                <span class="input-group-text order-labels">Заметки</span>
+                <textarea class="form-control" aria-label="With textarea"
+                          th:field="*{notes}"></textarea>
               </div>
               <div th:if="*{timestamp}"
                    th:text="'Дата создания - ' + *{timestamp}"></div>
