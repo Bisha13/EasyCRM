@@ -91,7 +91,7 @@ function duplicateItemList(node, isPart) {
     calculatePrice(node);
     calculatePartsPrice(node);
     addListeners();
-    }
+}
 
 function removeItemList(node, isPart) {
     let datalistField = node.parentNode.parentNode;
@@ -126,7 +126,7 @@ function hideAndDisplayDatalistButtons(isPart) {
         process(row, isPart);
     });
 
-    function process(item,  isPart) {
+    function process(item, isPart) {
         let selector = isPart ? ".item-datalist.parts" : ".item-datalist:not(.parts)";
         let listOfDatalists = item.querySelectorAll(selector);
         listOfDatalists.forEach(function (list) {
@@ -274,6 +274,17 @@ function saveOrder() {
         switchHiddenValues();
         removeHidden();
         document.getElementById('form').submit();
+    }
+}
+
+function closeOrder() {
+    let r = confirm("Закрыть заказ?");
+    if (r === true) {
+        switchHiddenValues();
+        removeHidden();
+        let form = document.getElementById('form');
+        form.setAttribute('action', '/orders/close');
+        form.submit();
     }
 }
 

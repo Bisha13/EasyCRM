@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.bisha.easycrm.db.entity.*;
 import ru.bisha.easycrm.service.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -158,6 +159,14 @@ public class OrderController {
 
     @RequestMapping("orders/save")
     public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
+        orderService.saveOrder(order);
+        return "redirect:/orders/" + order.getOrderId();
+    }
+
+    @RequestMapping("orders/close")
+    public String closeOrder(@ModelAttribute("orderAtr") final Order order) {
+        order.setTimeClose(new Date(new java.util.Date().getTime()));
+        order.setExecuteStatus(statusService.findById(14));
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }

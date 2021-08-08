@@ -71,6 +71,10 @@
                 <span class="text-for-time-open">Открыт:</span>
                 <span class="opentTime-of-order" th:text="${#dates.format(openTime, 'dd.MM.yyyy')}">7015</span>
               </div>
+              <div class="order-time-open" th:if="*{timeClose}" th:with="closeTime = *{timeClose}">
+                <span class="text-for-time-open">Закрыт:</span>
+                <span class="closeTime-of-order" th:text="${#dates.format(closeTime, 'dd.MM.yyyy')}">7015</span>
+              </div>
               <div th:if="*{client.discount}" class="order-discount">
                 <span class="text-for-order-discount">Скидка:</span>
                 <span class="discount-of-order"
@@ -405,6 +409,14 @@
               >
                 Сохранить заказ
               </button>
+          <button
+              class="btn btn-danger"
+              type="button"
+              onclick="closeOrder();"
+              id="close-order-button"
+          >
+            Закрыть заказ
+          </button>
 
 
         </form>
