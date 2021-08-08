@@ -218,6 +218,7 @@ function clean(node) {
     for (let i = 1; i < parts.length; i++) {
         parts[i].remove();
     }
+
 }
 
 function exchange(node) {

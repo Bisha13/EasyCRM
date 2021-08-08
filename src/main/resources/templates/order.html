@@ -144,6 +144,7 @@
             <input type="number" class="qty form-control rowIdGen itemIdGen"
                    min="1"
                    th:field="*{listOfServices[__${j.index}__].qty}"
+                   onblur="if (this.value == '') {this.value = 1; $(this).trigger('change');}"
                    value="1"
                    placeholder="Количество" aria-label="Краткое описание"
                    onchange="calculatePrice(this);">
@@ -189,6 +190,7 @@
                    th:field="*{listOfServices[__${j.index}__].price}"
                    placeholder="Цена" aria-label="Цена"
                    onfocus="if (this.value == 0) {this.value = ''}"
+                   onblur="if (this.value == '') {this.value = 0; $(this).trigger('change');}"
                    th:style="*{listOfServices[__${j.index}__].isCustom} ?
                                        'display:inline' : 'display:none'">
             <select class="form-select executor-select itemIdGen"
@@ -223,8 +225,6 @@
               </button>
               <button
 
-                  th:style=" *{listOfServices[__${j.index}__].order} == null
-                  ? 'display: inline' : 'display: none'"
                   class="btn btn-primary"
                   type="button"
                   onclick="exchange(this);">
@@ -249,6 +249,7 @@
             <input type="number" class="qty form-control rowIdGen itemIdGen"
                    min="1"
                    th:field="*{listOfParts[__${j.index}__].qty}"
+                   onblur="if (this.value == '') {this.value = 1; $(this).trigger('change');}"
                    value="1"
                    placeholder="Кол-во" aria-label="Краткое описание"
                    onkeyup="changePrice(this, true);"
@@ -292,6 +293,7 @@
                    th:field="*{listOfParts[__${j.index}__].purchasePrice}"
                    placeholder="Закупка" aria-label="Закупка"
                    onfocus="if (this.value == 0) {this.value = ''}"
+                   onblur="if (this.value == '') {this.value = 0; $(this).trigger('change');}"
                    th:style="*{listOfParts[__${j.index}__].isStock} == false ?
                                       'display:inline' : 'display:none'">
             <select class="form-control extra"
@@ -340,7 +342,7 @@
                   class="btn btn-danger"
                   type="button"
                   th:onclick="deleteWorkById('/parts/delete?itemId=[[${part.partId}]]')"
-                  style="display: none">
+                  >
                 <i class="fa fa-minus" aria-hidden="true"></i>
               </button>
               <button
@@ -431,8 +433,8 @@
 <div th:insert="fragments/footer :: myFooter"></div>
 <script>
     window.onload = function () {
-        hideAndDisplayDatalistButtons();
-        hideAndDisplayDatalistButtons(true);
+        //hideAndDisplayDatalistButtons();
+        //hideAndDisplayDatalistButtons(true);
         addListeners();
         // loadItemsFromHidden();
         loadItemsFromHidden();

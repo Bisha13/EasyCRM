@@ -46,7 +46,7 @@ public class ItemController {
     @RequestMapping("/save")
     public String saveItem(@ModelAttribute("itemAtr") Item item) {
         itemService.save(item);
-        return "redirect:/items/" + item.getId();
+        return "redirect:/items/";
     }
 
     @RequestMapping("/delete")
