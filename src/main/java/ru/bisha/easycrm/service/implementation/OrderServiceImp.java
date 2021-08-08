@@ -53,8 +53,8 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Page<Order> getByStatusIdNot(long id, PageRequest request) {
-        return orderRepository.findAllByExecuteStatusIdNot(id, request);
+    public Page<Order> getAllNotHidden(PageRequest request) {
+        return orderRepository.findAllByExecuteStatusHide(false, request);
     }
 
     @Override

@@ -200,3 +200,7 @@ UPDATE item t SET t.id = 0  WHERE t.id = LAST_INSERT_ID();
 
 ------------------------------------------------
 alter table status add column colour varchar(50);
+------------------------------------------------
+alter table clientstable add notes varchar(255);
+alter table status add hide bool;
+UPDATE status SET hide = 0;

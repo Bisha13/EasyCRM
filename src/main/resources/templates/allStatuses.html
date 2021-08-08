@@ -16,22 +16,17 @@
 
         <form th:object="${statusWrapperAtr}" th:action="@{/statuses/save}">
           <div th:each="status, i : *{statusList}">
-<!--            <input type="hidden" th:value="${status.id}">-->
+            <!--            <input type="hidden" th:value="${status.id}">-->
             <input type="hidden" th:field="*{statusList[__${i.index}__].id}">
+
             <div class="input-group mb-3">
-              <span class="input-group-text" th:text="*{statusList[__${i.index}__].id}">@</span>
+              <div class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="top" title="Скрывать на главной">
+                <input class="form-check-input mt-0" type="checkbox" th:field="*{statusList[__${i.index}__].hide}">
+              </div>
               <input type="text" class="form-control" th:field="*{statusList[__${i.index}__].name}">
-              <select th:field="*{statusList[__${i.index}__].colour}">
-                <option value="">Default</option>
-                <option value="table-primary">Primary</option>
-                <option value="table-secondary">Secondary</option>
-                <option value="table-success">Success</option>
-                <option value="table-danger">Danger</option>
-                <option value="table-warning">Warning</option>
-                <option value="table-info">Info</option>
-                <option value="table-light">Light</option>
-                <option value="table-dark">Dark</option>
-              </select>
+              <input type="color" class="form-control form-control-color"
+                     th:field="*{statusList[__${i.index}__].colour}"
+                     value="#563d7c" title="Choose your color">
             </div>
           </div>
           <button type="submit">Сохранить</button>

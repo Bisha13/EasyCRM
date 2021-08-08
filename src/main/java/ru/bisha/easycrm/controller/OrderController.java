@@ -66,8 +66,8 @@ public class OrderController {
         } else {
 
             if (status.get() == -1) {
-                orderPage = orderService.getByStatusIdNot(14,
-                        PageRequest.of(currentPage - 1, pageSize,
+                orderPage = orderService.getAllNotHidden(PageRequest.of
+                        (currentPage - 1, pageSize,
                                 Sort.by("orderId")));
             } else {
                 orderPage = orderService.getByStatusId(status.get(),

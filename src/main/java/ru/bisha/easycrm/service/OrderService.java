@@ -20,7 +20,7 @@ public interface OrderService {
 
     Page<Order> getByStatusId(long id, PageRequest request);
 
-    Page<Order> getByStatusIdNot(long id, PageRequest request);
+    Page<Order> getAllNotHidden(PageRequest request);
 
     List<Order> getFiltered(String search);
 }

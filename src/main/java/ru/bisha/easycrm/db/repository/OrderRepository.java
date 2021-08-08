@@ -19,5 +19,5 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     Page<Order> findAllByExecuteStatusId (long id, Pageable pageable);
 
-    Page<Order> findAllByExecuteStatusIdNot(long id, Pageable pageable);
+    Page<Order> findAllByExecuteStatusHide(boolean hide, Pageable pageable);
 }

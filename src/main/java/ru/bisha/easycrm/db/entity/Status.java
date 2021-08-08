@@ -19,4 +19,7 @@ public class Status {
 
     @Column(name = "colour")
     private String colour;
+
+    @Column(name = "hide")
+    private boolean hide;
 }
