@@ -64,7 +64,7 @@
             <th scope="col">Описание</th>
             <th scope="col">Статус</th>
 <!--            <th scope="col">Особые пометки</th>-->
-<!--            <th scope="col">Когда приняли</th>-->
+            <th scope="col">Дн</th>
           </tr>
           </thead>
           <tbody>
@@ -87,7 +87,13 @@
 
             <td th:text="${order.orderDescription} ? ${order.smallDescription} + ' ' + ${order.smallDescription} : ${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
-<!--            <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
+<!--            <td th:with="order.timestamp" th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
+            <td th:if="${order.timeClose} == null " th:with="days=${T(java.util.concurrent.TimeUnit).DAYS},
+            millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}"
+                  th:text="${days.convert(#dates.createNow().getTime() - order.timestamp.getTime(), millis)}" /></td>
+            <td th:if="${order.timeClose}" th:with="days=${T(java.util.concurrent.TimeUnit).DAYS},
+            millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}"
+                th:text="${days.convert(order.timeClose.getTime() - order.timestamp.getTime(), millis)}" /></td>
           </tr>
           </tbody>
         </table>

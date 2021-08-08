@@ -57,6 +57,11 @@ public class ClientServiceImp implements ClientService {
     @Override
     public Page<Client> getPageOfClientsBySearch(String search,
                                                  PageRequest request) {
+        if ((search.startsWith("+")
+                || search.startsWith("7")
+                || search.startsWith("8")) && search.length() >= 10 ) {
+            search = search.substring(2).replaceAll("[^0-9]", "");
+        }
         return clientRepository.getClientsBySearch("%" + search + "%", request);
     }
 }
