@@ -1,0 +1,420 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="create_category_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="category_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create category id seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="category_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_category_table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="category"/>
+            </not>
+        </preConditions>
+        <comment>Create table category</comment>
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="category_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_clients_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="clients_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create clients id seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="clients_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_clients_table">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="clientstable"/>
+                </not>
+                <not>
+                    <tableExists tableName="clients"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create clients table</comment>
+        <createTable tableName="clientstable">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="clientstable_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="name" type="VARCHAR(355)"/>
+            <column defaultValue="NULL::character varying" name="phone_number" type="VARCHAR(20)"/>
+            <column defaultValue="NULL::character varying" name="phone_number2" type="VARCHAR(20)"/>
+            <column defaultValue="NULL::character varying" name="phone_number3" type="VARCHAR(20)"/>
+            <column defaultValue="NULL::character varying" name="address" type="VARCHAR(355)"/>
+            <column name="discount" type="INTEGER"/>
+            <column defaultValue="NULL::character varying" name="vk_id" type="VARCHAR(355)"/>
+            <column defaultValue="NULL::character varying" name="fb_id" type="VARCHAR(355)"/>
+            <column defaultValue="NULL::character varying" name="instagram_id" type="VARCHAR(32)"/>
+            <column name="mailing_approval" type="INTEGER"/>
+            <column defaultValueComputed="now()" name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="notes" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_comment_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="comment_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create comment id seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="comment_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_comment_table">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="commenttable"/>
+                </not>
+                <not>
+                    <tableExists tableName="comments"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create comment table</comment>
+        <createTable tableName="commenttable">
+            <column autoIncrement="true" name="comment_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="commenttable_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="autor_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="INTEGER"/>
+            <column name="client_id" type="INTEGER"/>
+            <column name="bike_id" type="INTEGER"/>
+            <column name="text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="coomment_type" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_devices_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="devises_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create devices_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="devices_id_seq" startValue="1"/>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_devicestable">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="devicestable"/>
+                </not>
+                <not>
+                    <tableExists tableName="devices"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create devicestable</comment>
+        <createTable tableName="devicestable">
+            <column autoIncrement="true" name="device_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="devicestable_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="vendor" type="VARCHAR(100)"/>
+            <column defaultValue="NULL::character varying" name="model" type="VARCHAR(100)"/>
+            <column name="owner" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serial_number" type="INTEGER"/>
+            <column name="description" type="TEXT"/>
+            <column name="device_type" type="INTEGER"/>
+            <column defaultValueComputed="now()" name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="device_name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_item_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="item_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create item_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="item_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_item_table">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="item"/>
+                </not>
+                <not>
+                    <tableExists tableName="items"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create item table</comment>
+        <createTable tableName="item">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="item_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="name" type="VARCHAR(255)"/>
+            <column defaultValue="NULL::character varying" name="description" type="VARCHAR(255)"/>
+            <column defaultValueComputed="NULL::numeric" name="price" type="numeric(9, 2)"/>
+            <column name="category_id" type="INTEGER"/>
+            <column name="priority" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_status_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="status_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create status_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="status_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_status_table">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="status"/>
+                </not>
+                <not>
+                    <tableExists tableName="statuses"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create status table</comment>
+        <createTable tableName="status">
+            <column autoIncrement="true" name="statusid" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="status_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="colour" type="VARCHAR(50)"/>
+            <column name="hide" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_orders_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="orders_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create orders_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="orders_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_orderstable">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="orderstable"/>
+                </not>
+                <not>
+                    <tableExists tableName="orders"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create orders table</comment>
+        <createTable tableName="orderstable">
+            <column autoIncrement="true" name="order_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="orderstable_pkey"/>
+            </column>
+            <column defaultValueComputed="now()" name="timestamp" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_id" type="INTEGER"/>
+            <column name="small_description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_description" type="TEXT"/>
+            <column defaultValueNumeric="1" name="execute_status" type="INTEGER"/>
+            <column name="executor_id" type="INTEGER"/>
+            <column defaultValueComputed="NULL::numeric" name="parts_price" type="numeric(9, 2)"/>
+            <column defaultValueComputed="NULL::numeric" name="work_price" type="numeric(9, 2)"/>
+            <column name="parts" type="TEXT"/>
+            <column name="works" type="TEXT"/>
+            <column name="payment_status" type="INTEGER"/>
+            <column name="bike_id" type="INTEGER"/>
+            <column name="order_description" type="TEXT"/>
+            <column name="time_close" type="date"/>
+            <column defaultValueComputed="NULL::numeric" name="full_price" type="numeric(9, 2)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_stock_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="stock_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create stock_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="stock_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_stock_table">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="stock"/>
+                </not>
+                <not>
+                    <tableExists tableName="stocks"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create stock table</comment>
+        <createTable tableName="stock">
+            <column autoIncrement="true" name="part_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="stock_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="article_number" type="VARCHAR(100)"/>
+            <column defaultValue="NULL::character varying" name="name" type="VARCHAR(255)"/>
+            <column defaultValueComputed="NULL::numeric" name="purchase_price" type="numeric(9, 2)"/>
+            <column name="extra" type="INTEGER"/>
+            <column defaultValueComputed="NULL::numeric" name="price" type="numeric(9, 2)"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet author="Bisha" id="create_users_id_seq">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="users_id_seq"/>
+            </not>
+        </preConditions>
+        <comment>Create users_id_seq</comment>
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="users_id_seq" startValue="1"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_userstable">
+        <preConditions onFail="MARK_RAN">
+            <or>
+                <not>
+                    <tableExists tableName="userstable"/>
+                </not>
+                <not>
+                    <tableExists tableName="users"/>
+                </not>
+            </or>
+        </preConditions>
+        <comment>Create userstable</comment>
+        <createTable tableName="userstable">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="userstable_pkey"/>
+            </column>
+            <column defaultValue="NULL::character varying" name="full_name" type="VARCHAR(355)"/>
+            <column defaultValue="NULL::character varying" name="login" type="VARCHAR(100)"/>
+            <column defaultValue="NULL::character varying" name="phone_number" type="VARCHAR(12)"/>
+            <column name="procent" type="SMALLINT"/>
+            <column name="access_level" type="INTEGER"/>
+            <column name="status" type="BOOLEAN"/>
+            <column defaultValue="NULL::character varying" name="password" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_fk_item_category">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_item_category"/>
+            </not>
+        </preConditions>
+        <comment>Create fk_item_category</comment>
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="item" constraintName="fk_item_category"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="category" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_fk_orders_clients">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_orders_clients"/>
+            </not>
+        </preConditions>
+        <comment>Create fk_orders_clients</comment>
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="orderstable"
+                                 constraintName="fk_orders_clients"
+                                 deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="clientstable" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_fk_orders_devices">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_orders_devices"/>
+            </not>
+        </preConditions>
+        <comment>Create fk_orders_devices</comment>
+        <addForeignKeyConstraint baseColumnNames="bike_id" baseTableName="orderstable"
+                                 constraintName="fk_orders_devices"
+                                 deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
+                                 referencedColumnNames="device_id" referencedTableName="devicestable" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="create_fk_orders_status">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_orders_status"/>
+            </not>
+        </preConditions>
+        <comment>Create fk_orders_status</comment>
+        <addForeignKeyConstraint baseColumnNames="execute_status" baseTableName="orderstable"
+                                 constraintName="fk_orders_status" deferrable="false" initiallyDeferred="false"
+                                 onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="statusid"
+                                 referencedTableName="status" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>
