@@ -35,7 +35,7 @@ public class User {
     private Integer accessLevel;
 
     @Column(name = "status")
-    private Integer status;
+    private Boolean status;
 
     @Column(name = "password")
     private String password;

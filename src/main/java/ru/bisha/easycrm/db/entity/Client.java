@@ -48,7 +48,7 @@ public class Client {
     private String instagramId;
 
     @Column(name = "mailing_approval")
-    private Integer mailingApproval;
+    private Boolean mailingApproval;
 
     @Column(name = "notes")
     private String notes;
