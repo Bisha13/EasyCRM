@@ -1,0 +1,84 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="rename-clients-table-to-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="clientstable"/>
+                <not>
+                    <tableExists tableName="clients"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="clients" oldTableName="clientstable"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-phone_number3_column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="phone_number3"/>
+            </and>
+        </preConditions>
+        <comment>Remove phone_number3 column</comment>
+        <dropColumn tableName="clients" columnName="phone_number3"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-vk_id-column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="vk_id"/>
+            </and>
+        </preConditions>
+        <comment>Remove vk_id column</comment>
+        <dropColumn tableName="clients" columnName="vk_id"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-fb_id-column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="fb_id"/>
+            </and>
+        </preConditions>
+        <comment>Remove fb_id column</comment>
+        <dropColumn tableName="clients" columnName="fb_id"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-instagram_id-column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="instagram_id"/>
+            </and>
+        </preConditions>
+        <comment>Remove instagram_id column</comment>
+        <dropColumn tableName="clients" columnName="instagram_id"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-mailing_approval-column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="mailing_approval"/>
+            </and>
+        </preConditions>
+        <comment>Remove mailing_approval column</comment>
+        <dropColumn tableName="clients" columnName="mailing_approval"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-notes-column-from-clients">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="clients" columnName="notes"/>
+            </and>
+        </preConditions>
+        <comment>Remove notes column</comment>
+        <dropColumn tableName="clients" columnName="notes"/>
+    </changeSet>
+
+</databaseChangeLog>

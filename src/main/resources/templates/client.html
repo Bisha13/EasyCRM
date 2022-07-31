@@ -50,21 +50,11 @@
             <div
                 th:text="${#strings.defaultString('Телефон 2 - ' + clientAtr.phoneNumber2, ' - - - ')}"></div>
             <div
-                th:text="${#strings.defaultString('Телефон 3 - ' + clientAtr.phoneNumber3, ' - - - ')}"></div>
-            <div
                 th:text="${#strings.defaultString('Адрес - ' + clientAtr.address, ' - - - ')}"></div>
             <div
                 th:text="${#strings.defaultString('Скидка  - ' + clientAtr.discount, ' - - - ')}"></div>
             <div
-                th:text="${#strings.defaultString('Вк - ' + clientAtr.vkId, ' - - - ')}"></div>
-            <div
-                th:text="${#strings.defaultString('FaceBook - ' + clientAtr.fbId, ' - - - ')}"></div>
-            <div
-                th:text="${#strings.defaultString('Instagramm - ' + clientAtr.instagramId, ' - - - ')}"></div>
-            <div
                 th:text="'Дата создания - ' + ${#dates.format(clientAtr.timestamp, 'dd.MM.yyyy')}"></div>
-            <div th:if="${clientAtr.notes}"
-                th:text="'Заметки - ' + ${clientAtr.notes}"></div>
 
           </div>
 
@@ -183,11 +173,6 @@
                        class="form-control">
               </div>
               <div class="input-group">
-                <span class="input-group-text order-labels">Телефон 3</span>
-                <input type="text" th:field="*{phoneNumber3}"
-                       class="form-control">
-              </div>
-              <div class="input-group">
                 <span class="input-group-text order-labels">Адрес</span>
                 <textarea class="form-control" aria-label="With textarea"
                           th:field="*{address}"></textarea>
@@ -196,24 +181,6 @@
                 <span class="input-group-text order-labels">Скидка</span>
                 <input type="number" th:field="*{discount}"
                        class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">vkId</span>
-                <input type="text" th:field="*{vkId}" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">fbId</span>
-                <input type="text" th:field="*{fbId}" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">instagramId</span>
-                <input type="text" th:field="*{instagramId}"
-                       class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">Заметки</span>
-                <textarea class="form-control" aria-label="With textarea"
-                          th:field="*{notes}"></textarea>
               </div>
               <div th:if="*{timestamp}"
                    th:text="'Дата создания - ' + *{timestamp}"></div>
