@@ -13,9 +13,8 @@ public interface DeviceRepository extends JpaRepository<Device, Integer> {
     List<Device> getDevicesByOwnerId(int id);
 
     @Query(value = "select d from Device d where lower(d.deviceName) " +
-            "like lower(:search) or lower(d.vendor) like lower(:search) " +
-            "or lower(d.model) like lower(:search) or " +
-            "lower(d.description) like lower(:search)")
+            "like lower(:search) " +
+            "or lower(d.description) like lower(:search)")
     Page<Device> getDevicesBySearch(
             @Param("search") String search, Pageable pageable);
 }

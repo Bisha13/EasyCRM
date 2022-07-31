@@ -1,0 +1,63 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="rename-devices-table-to-devices">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="devicestable"/>
+                <not>
+                    <tableExists tableName="devices"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="devices" oldTableName="devicestable"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-vendor-from-devices">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="devices" columnName="vendor"/>
+            </and>
+        </preConditions>
+        <comment>Remove vendor column</comment>
+        <dropColumn tableName="devices" columnName="vendor"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-model-from-devices">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="devices" columnName="model"/>
+            </and>
+        </preConditions>
+        <comment>Remove model column</comment>
+        <dropColumn tableName="devices" columnName="model"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-serial_number-from-devices">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="devices" columnName="serial_number"/>
+            </and>
+        </preConditions>
+        <comment>Remove serial_number column</comment>
+        <dropColumn tableName="devices" columnName="serial_number"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-device_type-from-devices">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="devices" columnName="device_type"/>
+            </and>
+        </preConditions>
+        <comment>Remove device_type column</comment>
+        <dropColumn tableName="devices" columnName="device_type"/>
+    </changeSet>
+</databaseChangeLog>

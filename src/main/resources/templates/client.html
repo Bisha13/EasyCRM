@@ -87,7 +87,7 @@
                 </td>
                 <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
-                        : ${order.device.vendor} + ' ' + ${order.device.model}">
+                        : ${order.device.description}">
                 <td th:unless="${order.device}" th:text="Неизвестный">
                   Велосипед
                 </td>
@@ -116,8 +116,6 @@
               <tr>
                 <th scope="col">Номер девайса</th>
                 <th scope="col">Название</th>
-                <th scope="col">Производитель</th>
-                <th scope="col">Модель</th>
                 <!--                        <th scope="col">Серийный номер</th>-->
                 <th scope="col">Описание</th>
                 <th scope="col">Когда приняли</th>
@@ -132,13 +130,6 @@
                 <td th:text="${#strings.defaultString(device.deviceName, ' - - - ')}">
                   Название
                 </td>
-                <td th:text="${#strings.defaultString(device.vendor, ' - - - ')}">
-                  Производитель
-                </td>
-                <td th:text="${#strings.defaultString(device.model, ' - - - ')}">
-                  Модель
-                </td>
-                <!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
                 <td th:text="${#strings.defaultString(device.description, ' - - - ')}">
                   Описание
                 </td>

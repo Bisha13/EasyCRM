@@ -82,8 +82,8 @@
               Глеб
             </td>
             <td th:if="${order.device}" th:text="${order.device.deviceName != null}
-                        ? ${order.device.deviceName}
-                        : ${order.device.vendor} + ' ' + ${order.device.model} + ' ' +  ${order.device.description}">
+                        ? ${order.device.deviceName} + ' ' +  ${order.device.description}
+                        : ${order.device.description}">
             <td th:unless="${order.device}" th:text="Неизвестный">Велосипед
             </td>
 

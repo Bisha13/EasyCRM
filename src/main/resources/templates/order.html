@@ -93,8 +93,7 @@
                  th:href="@{/devices/{id}(id=*{device.deviceId})}"
                  th:text="*{device.deviceName} != null ?
                     ' _ ' +  *{device.deviceName} + ' _ ' + *{device.description} :
-                    *{device.vendor} + ' ' + *{device.model}  + ': '
-                    + *{device.description} " >Велосипед
+                    *{device.description} " >Велосипед
                 красный</a>
             </div>
 
