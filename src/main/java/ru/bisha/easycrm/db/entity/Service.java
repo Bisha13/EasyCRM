@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "service_table")
+@Table(name = "services")
 @EqualsAndHashCode
 @Getter @Setter
 public class Service {
