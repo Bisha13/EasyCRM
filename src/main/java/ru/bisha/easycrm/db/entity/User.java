@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "userstable")
+@Table(name = "users")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -22,23 +22,11 @@ public class User {
     @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "login")
-    private String login;
-
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "procent")
     private Integer percent;
-
-    @Column(name = "access_level")
-    private Integer accessLevel;
-
-    @Column(name = "status")
-    private Boolean status;
-
-    @Column(name = "password")
-    private String password;
 
     @OneToMany(mappedBy = "executor")
     private List<Service> serviceList;
