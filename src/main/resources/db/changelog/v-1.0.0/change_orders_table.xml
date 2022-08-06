@@ -1,0 +1,75 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="rename-orderstable-to-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="orderstable"/>
+                <not>
+                    <tableExists tableName="orders"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="orders" oldTableName="orderstable"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-executor_id-from-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="executor_id"/>
+            </and>
+        </preConditions>
+        <comment>Remove executor_id column</comment>
+        <dropColumn tableName="orders" columnName="executor_id"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-parts-from-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="parts"/>
+            </and>
+        </preConditions>
+        <comment>Remove parts column</comment>
+        <dropColumn tableName="orders" columnName="parts"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-works-from-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="works"/>
+            </and>
+        </preConditions>
+        <comment>Remove works column</comment>
+        <dropColumn tableName="orders" columnName="works"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-payment_status-from-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="payment_status"/>
+            </and>
+        </preConditions>
+        <comment>Remove payment_status column</comment>
+        <dropColumn tableName="orders" columnName="payment_status"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-order_description-from-orders">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="order_description"/>
+            </and>
+        </preConditions>
+        <comment>Remove order_description column</comment>
+        <dropColumn tableName="orders" columnName="order_description"/>
+    </changeSet>
+
+
+</databaseChangeLog>

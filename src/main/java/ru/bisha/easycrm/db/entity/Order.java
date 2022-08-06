@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orderstable")
+@Table(name = "orders")
 @EqualsAndHashCode
 @Getter
 @Setter
@@ -24,13 +25,13 @@ public class Order {
     private int orderId;
 
     @Column(name = "full_price")
-    private Double fullPrice; // когда редактируется заказ
+    private Double fullPrice;
 
     @Column(name = "time_close")
-    private Date timeClose; // подумать
+    private Date timeClose;
 
     @CreationTimestamp
-    @Column(name="timestamp",
+    @Column(name = "timestamp",
             nullable = false, updatable = false, insertable = false)
     private Timestamp timestamp;
 
@@ -40,7 +41,7 @@ public class Order {
     private Client client;
 
     @Column(name = "small_description")
-    private String smallDescription; //сделать
+    private String smallDescription;
 
     @Column(name = "full_description")
     private String fullDescription;
@@ -49,42 +50,42 @@ public class Order {
     @JoinColumn(name = "execute_status")
     private Status executeStatus;
 
-    @Column(name = "executor_id")
-    private Integer executorId;
+//    @Column(name = "executor_id")
+//    private Integer executorId;
 
     @Column(name = "parts_price")
-    private Double partsPrice; // Не знаю, нужно вообще или нет
+    private Double partsPrice;
 
     @Column(name = "work_price")
-    private Double workPrice; // same
+    private Double workPrice;
 
-    @Column(name = "parts")
-    private String parts;
+//    @Column(name = "parts")
+//    private String parts;
 
-    @Column(name = "works")
-    private String works;
+//    @Column(name = "works")
+//    private String works;
 
-    @Column(name = "payment_status")
-    private Integer paymentStatus;
+//    @Column(name = "payment_status")
+//    private Integer paymentStatus;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "bike_id")
     private Device device;
-
-    @Column(name = "order_description")
-    private String orderDescription;
+//
+//    @Column(name = "order_description")
+//    private String orderDescription;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Service> listOfServices;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE })
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Part> listOfParts;
 
     public Order() {
@@ -105,45 +106,13 @@ public class Order {
     }
 
     @PostLoad
-    public void postLoad(){
+    public void postLoad() {
         try {
             if (getDevice() != null && getDevice().getDeviceId() == 0) {
                 setDevice(null);
             }
-        }
-        catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             setDevice(null);
         }
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

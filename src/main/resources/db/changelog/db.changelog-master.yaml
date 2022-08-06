@@ -17,3 +17,6 @@ databaseChangeLog:
   - include:
       file: v-1.0.0/change_service_table.xml
       relativeToChangelogFile: true
+  - include:
+      file: v-1.0.0/change_orders_table.xml
+      relativeToChangelogFile: true
