@@ -82,13 +82,13 @@
               Глеб
             </td>
             <td th:if="${order.device}" th:text="${order.device.deviceName != null}
-                        ? ${order.device.deviceName}
-                        : ${order.device.vendor} + ' ' + ${order.device.model} + ' ' +  ${order.device.description}">
+                        ? ${order.device.deviceName} + ' ' +  ${order.device.description}
+                        : ${order.device.description}">
             <td th:unless="${order.device}" th:text="Неизвестный">Велосипед
             </td>
 
 
-            <td th:text="${order.orderDescription} ? ${order.smallDescription} + ' ' + ${order.smallDescription} : ${order.smallDescription}">Красный</td>
+            <td th:text="${order.smallDescription}">Красный</td>
             <td th:text="${order.executeStatus.name}">Обрабатывается</td>
 <!--            <td th:with="order.timestamp" th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">21/12/2012</td>-->
             <td th:if="${order.timeClose} == null " th:with="days=${T(java.util.concurrent.TimeUnit).DAYS},

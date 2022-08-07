@@ -1,0 +1,65 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="rename-userstable-to-users">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="userstable"/>
+                <not>
+                    <tableExists tableName="users"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="users" oldTableName="userstable"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-login-from-users">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="users" columnName="login"/>
+            </and>
+        </preConditions>
+        <comment>Remove login column</comment>
+        <dropColumn tableName="users" columnName="login"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-access_level-from-users">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="users" columnName="access_level"/>
+            </and>
+        </preConditions>
+        <comment>Remove access_level column</comment>
+        <dropColumn tableName="users" columnName="access_level"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-status-from-users">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="users" columnName="status"/>
+            </and>
+        </preConditions>
+        <comment>Remove status column</comment>
+        <dropColumn tableName="users" columnName="status"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="remove-password-from-users">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="users" columnName="password"/>
+            </and>
+        </preConditions>
+        <comment>Remove password column</comment>
+        <dropColumn tableName="users" columnName="password"/>
+    </changeSet>
+
+
+</databaseChangeLog>

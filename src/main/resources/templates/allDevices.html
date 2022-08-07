@@ -50,9 +50,6 @@
                     <tr th:each="device : ${deviceListAtr}" th:onclick="'window.location=\'' + @{/devices/} + ${device.deviceId}+ '\''" class="table-row">
                         <td><a th:href="@{/devices/} + ${device.deviceId}" th:text="${device.deviceId}">0</a></td>
                         <td th:text="${#strings.defaultString(device.deviceName, ' - - - ')}">Название</td>
-                        <td th:text="${#strings.defaultString(device.vendor, ' - - - ')}">Производитель</td>
-                        <td th:text="${#strings.defaultString(device.model, ' - - - ')}">Модель</td>
-<!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
                         <td th:text="${#strings.defaultString(device.description, ' - - - ')}">Описание</td>
                         <td th:text="${#dates.format(device.timestamp, 'yyyy.MM.dd HH:mm')}">Описание</td>
                     </tr>

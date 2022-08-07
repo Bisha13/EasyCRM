@@ -50,21 +50,11 @@
             <div
                 th:text="${#strings.defaultString('Телефон 2 - ' + clientAtr.phoneNumber2, ' - - - ')}"></div>
             <div
-                th:text="${#strings.defaultString('Телефон 3 - ' + clientAtr.phoneNumber3, ' - - - ')}"></div>
-            <div
                 th:text="${#strings.defaultString('Адрес - ' + clientAtr.address, ' - - - ')}"></div>
             <div
                 th:text="${#strings.defaultString('Скидка  - ' + clientAtr.discount, ' - - - ')}"></div>
             <div
-                th:text="${#strings.defaultString('Вк - ' + clientAtr.vkId, ' - - - ')}"></div>
-            <div
-                th:text="${#strings.defaultString('FaceBook - ' + clientAtr.fbId, ' - - - ')}"></div>
-            <div
-                th:text="${#strings.defaultString('Instagramm - ' + clientAtr.instagramId, ' - - - ')}"></div>
-            <div
                 th:text="'Дата создания - ' + ${#dates.format(clientAtr.timestamp, 'dd.MM.yyyy')}"></div>
-            <div th:if="${clientAtr.notes}"
-                th:text="'Заметки - ' + ${clientAtr.notes}"></div>
 
           </div>
 
@@ -79,7 +69,6 @@
                 <th scope="col">Что чиним</th>
                 <th scope="col">Кратко</th>
                 <th scope="col">Статус</th>
-                <th scope="col">Особые пометки</th>
                 <th scope="col">Когда приняли</th>
               </tr>
               </thead>
@@ -97,14 +86,13 @@
                 </td>
                 <td th:if="${order.device}" th:text="${order.device.deviceName != null}
                         ? ${order.device.deviceName}
-                        : ${order.device.vendor} + ' ' + ${order.device.model}">
+                        : ${order.device.description}">
                 <td th:unless="${order.device}" th:text="Неизвестный">
                   Велосипед
                 </td>
 
                 <td th:text="${order.smallDescription}">Красный</td>
                 <td th:text="${order.executeStatus.name}">Обрабатывается</td>
-                <td th:text="${order.orderDescription}">Сегодня!</td>
                 <td th:text="${#dates.format(order.timestamp, 'dd.MM.yyyy')}">
                   21/12/2012
                 </td>
@@ -126,8 +114,6 @@
               <tr>
                 <th scope="col">Номер девайса</th>
                 <th scope="col">Название</th>
-                <th scope="col">Производитель</th>
-                <th scope="col">Модель</th>
                 <!--                        <th scope="col">Серийный номер</th>-->
                 <th scope="col">Описание</th>
                 <th scope="col">Когда приняли</th>
@@ -142,13 +128,6 @@
                 <td th:text="${#strings.defaultString(device.deviceName, ' - - - ')}">
                   Название
                 </td>
-                <td th:text="${#strings.defaultString(device.vendor, ' - - - ')}">
-                  Производитель
-                </td>
-                <td th:text="${#strings.defaultString(device.model, ' - - - ')}">
-                  Модель
-                </td>
-                <!--                        <td th:text="${#strings.defaultString(device.serialNumber, ' - - - ')}">Серийный номер</td>-->
                 <td th:text="${#strings.defaultString(device.description, ' - - - ')}">
                   Описание
                 </td>
@@ -183,11 +162,6 @@
                        class="form-control">
               </div>
               <div class="input-group">
-                <span class="input-group-text order-labels">Телефон 3</span>
-                <input type="text" th:field="*{phoneNumber3}"
-                       class="form-control">
-              </div>
-              <div class="input-group">
                 <span class="input-group-text order-labels">Адрес</span>
                 <textarea class="form-control" aria-label="With textarea"
                           th:field="*{address}"></textarea>
@@ -196,24 +170,6 @@
                 <span class="input-group-text order-labels">Скидка</span>
                 <input type="number" th:field="*{discount}"
                        class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">vkId</span>
-                <input type="text" th:field="*{vkId}" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">fbId</span>
-                <input type="text" th:field="*{fbId}" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">instagramId</span>
-                <input type="text" th:field="*{instagramId}"
-                       class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">Заметки</span>
-                <textarea class="form-control" aria-label="With textarea"
-                          th:field="*{notes}"></textarea>
               </div>
               <div th:if="*{timestamp}"
                    th:text="'Дата создания - ' + *{timestamp}"></div>

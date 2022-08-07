@@ -34,17 +34,10 @@
 
             <form id="form" th:action="@{/users/save}" th:object="${userAtr}">
               <input type="hidden" th:field="*{id}">
-              <input type="hidden" th:field="*{accessLevel}">
-              <input type="hidden" th:field="*{status}">
-              <input type="hidden" th:field="*{password}">
 
               <div class="input-group">
                 <span class="input-group-text order-labels">Имя:</span>
                 <input type="text" th:field="*{fullName}" class="form-control">
-              </div>
-              <div class="input-group">
-                <span class="input-group-text order-labels">Логин:</span>
-                <input type="text" th:field="*{login}" class="form-control"/>
               </div>
               <div class="input-group">
                 <span class="input-group-text order-labels">Телефон: </span>

@@ -13,8 +13,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     List<Order> findAllByClientId(int id);
 
-    @Query(value = "select o from Order o where o.device.deviceName like lower(:search) or " +
-            "o.device.vendor like lower(:search) or o.device.model like lower(:search)")
+    @Query(value = "select o from Order o where o.device.deviceName like lower(:search)")
     List<Order> findByString(@Param("search") String search);
 
     Page<Order> findAllByExecuteStatusId (long id, Pageable pageable);
