@@ -4,6 +4,5 @@
 
 tasks:
   - init: ./mvnw install -DskipTests=false
-image: gitpod/workspace-postgresql
-
-
+image:
+  file: .gitpod.dockerfile
