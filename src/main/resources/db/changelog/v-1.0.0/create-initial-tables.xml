@@ -22,14 +22,14 @@
 
     <changeSet author="Bisha" id="create_category_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="category"/>
                 </not>
                 <not>
                     <tableExists tableName="categories"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create table category</comment>
         <createTable tableName="category">
@@ -54,14 +54,14 @@
 
     <changeSet author="Bisha" id="create_clients_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="clientstable"/>
                 </not>
                 <not>
                     <tableExists tableName="clients"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create clients table</comment>
         <createTable tableName="clientstable">
@@ -99,14 +99,14 @@
 
     <changeSet author="Bisha" id="create_comment_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="commenttable"/>
                 </not>
                 <not>
                     <tableExists tableName="comments"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create comment table</comment>
         <createTable tableName="commenttable">
@@ -146,14 +146,14 @@
 
     <changeSet author="Bisha" id="create_devicestable">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="devicestable"/>
                 </not>
                 <not>
                     <tableExists tableName="devices"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create devicestable</comment>
         <createTable tableName="devicestable">
@@ -189,14 +189,14 @@
 
     <changeSet author="Bisha" id="create_item_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="item"/>
                 </not>
                 <not>
                     <tableExists tableName="items"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create item table</comment>
         <createTable tableName="item">
@@ -225,14 +225,14 @@
 
     <changeSet author="Bisha" id="create_status_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="status"/>
                 </not>
                 <not>
                     <tableExists tableName="statuses"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create status table</comment>
         <createTable tableName="status">
@@ -261,14 +261,14 @@
 
     <changeSet author="Bisha" id="create_orderstable">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="orderstable"/>
                 </not>
                 <not>
                     <tableExists tableName="orders"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create orders table</comment>
         <createTable tableName="orderstable">
@@ -311,14 +311,14 @@
 
     <changeSet author="Bisha" id="create_stock_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="stock"/>
                 </not>
                 <not>
                     <tableExists tableName="stocks"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create stock table</comment>
         <createTable tableName="stock">
@@ -347,14 +347,14 @@
 
     <changeSet author="Bisha" id="create_userstable">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="userstable"/>
                 </not>
                 <not>
                     <tableExists tableName="users"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create userstable</comment>
         <createTable tableName="userstable">
@@ -384,14 +384,14 @@
 
     <changeSet author="Bisha" id="create_parts">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="parts"/>
                 </not>
                 <not>
                     <tableExists tableName="repair_parts"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create repair_parts</comment>
         <createTable tableName="parts">
@@ -421,14 +421,14 @@
 
     <changeSet author="Bisha" id="create_service_table">
         <preConditions onFail="MARK_RAN">
-            <or>
+            <and>
                 <not>
                     <tableExists tableName="service_table"/>
                 </not>
                 <not>
                     <tableExists tableName="works"/>
                 </not>
-            </or>
+            </and>
         </preConditions>
         <comment>Create works</comment>
         <createTable tableName="service_table">
@@ -450,79 +450,79 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_item_category">
+    <changeSet author="Bisha" id="create_FK_item_category">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_item_category"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_item_category"/>
             </not>
         </preConditions>
-        <comment>Create fk_item_category</comment>
-        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="item" constraintName="fk_item_category"
+        <comment>Create FK_item_category</comment>
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="item" constraintName="FK_item_category"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="category" validate="true"/>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_orders_clients">
+    <changeSet author="Bisha" id="create_FK_orders_clients">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_orders_clients"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_orders_clients"/>
             </not>
         </preConditions>
-        <comment>Create fk_orders_clients</comment>
+        <comment>Create FK_orders_clients</comment>
         <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="orderstable"
-                                 constraintName="fk_orders_clients"
+                                 constraintName="FK_orders_clients"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="clientstable" validate="true"/>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_orders_devices">
+    <changeSet author="Bisha" id="create_FK_orders_devices">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_orders_devices"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_orders_devices"/>
             </not>
         </preConditions>
-        <comment>Create fk_orders_devices</comment>
+        <comment>Create FK_orders_devices</comment>
         <addForeignKeyConstraint baseColumnNames="bike_id" baseTableName="orderstable"
-                                 constraintName="fk_orders_devices"
+                                 constraintName="FK_orders_devices"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="NO ACTION"
                                  referencedColumnNames="device_id" referencedTableName="devicestable" validate="true"/>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_orders_status">
+    <changeSet author="Bisha" id="create_FK_orders_status">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_orders_status"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_orders_status"/>
             </not>
         </preConditions>
-        <comment>Create fk_orders_status</comment>
+        <comment>Create FK_orders_status</comment>
         <addForeignKeyConstraint baseColumnNames="execute_status" baseTableName="orderstable"
-                                 constraintName="fk_orders_status" deferrable="false" initiallyDeferred="false"
+                                 constraintName="FK_orders_status" deferrable="false" initiallyDeferred="false"
                                  onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="statusid"
                                  referencedTableName="status" validate="true"/>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_parts_orders">
+    <changeSet author="Bisha" id="create_FK_parts_orders">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_parts_orders"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_parts_orders"/>
             </not>
         </preConditions>
-        <comment>Create fk_parts_orders</comment>
+        <comment>Create FK_parts_orders</comment>
         <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="parts"
-                                 constraintName="fk_parts_orders" deferrable="false" initiallyDeferred="false"
+                                 constraintName="FK_parts_orders" deferrable="false" initiallyDeferred="false"
                                  onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="order_id"
                                  referencedTableName="orderstable" validate="true"/>
     </changeSet>
 
-    <changeSet author="Bisha" id="create_fk_parts_stock">
+    <changeSet author="Bisha" id="create_FK_parts_stock">
         <preConditions onFail="MARK_RAN">
             <not>
-                <foreignKeyConstraintExists foreignKeyName="fk_parts_stock"/>
+                <foreignKeyConstraintExists foreignKeyName="FK_parts_stock"/>
             </not>
         </preConditions>
-        <comment>Create fk_parts_stock</comment>
+        <comment>Create FK_parts_stock</comment>
         <addForeignKeyConstraint baseColumnNames="stock_id" baseTableName="parts"
-                                 constraintName="fk_parts_stock" deferrable="false" initiallyDeferred="false"
+                                 constraintName="FK_parts_stock" deferrable="false" initiallyDeferred="false"
                                  onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="part_id"
                                  referencedTableName="stock" validate="true"/>
     </changeSet>
