@@ -1,15 +1,13 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.dto.GetOrdersResponse;
+import ru.bisha.easycrm.dto.GetSingleOrderResponse;
 import ru.bisha.easycrm.restservice.RestOrderService;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/rest/orders")
 @RequiredArgsConstructor
 public class OrderRestController {
 
@@ -20,5 +18,10 @@ public class OrderRestController {
                                           @RequestParam(required = false, defaultValue = "1") Integer page,
                                           @RequestParam(required = false) Integer statusId) {
         return restOrderService.getAll(size, page, statusId);
+    }
+
+    @GetMapping("/{id}")
+    public GetSingleOrderResponse getOne(@PathVariable Integer id) {
+        return restOrderService.getOrder(id);
     }
 }
