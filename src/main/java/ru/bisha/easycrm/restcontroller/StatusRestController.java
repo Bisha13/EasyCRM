@@ -10,7 +10,7 @@ import ru.bisha.easycrm.db.repository.StatusRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/status")
+@RequestMapping("/rest/status")
 @RequiredArgsConstructor
 public class StatusRestController {
 
