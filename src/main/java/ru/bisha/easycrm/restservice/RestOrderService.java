@@ -9,11 +9,9 @@ import ru.bisha.easycrm.db.entity.Item;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.db.entity.User;
 import ru.bisha.easycrm.db.repository.OrderRepository;
-import ru.bisha.easycrm.dto.GetOrdersResponse;
-import ru.bisha.easycrm.dto.GetSingleOrderResponse;
-import ru.bisha.easycrm.dto.OrderDto;
-import ru.bisha.easycrm.dto.ServiceDto;
+import ru.bisha.easycrm.dto.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -30,7 +28,7 @@ public class RestOrderService {
     public GetOrdersResponse getAll(Integer size, Integer page, Integer statusId) {
         Page<Order> orderPage;
 
-        if (statusId == null) {
+        if (statusId == null || statusId == 0) {
             orderPage = orderRepository.findAll(
                     PageRequest.of(page - 1, size,
                             Sort.by(ORDER_ID)));
@@ -69,6 +67,17 @@ public class RestOrderService {
                         .isCustom(s.getIsCustom())
                         .build())
                 .collect(Collectors.toList());
+        List<PartDto> parts = order.getListOfParts().stream()
+                .map(p -> PartDto.builder()
+                        .partId(String.valueOf(p.getPartId()))
+                        .name(p.getName())
+                        .purchasePrice(BigDecimal.valueOf(p.getPurchasePrice()))
+                        .price(BigDecimal.valueOf(p.getPrice()))
+                        .qty(p.getQty())
+                        .stockId(String.valueOf(p.getStock().getId()))
+                        .isStock(p.getIsStock())
+                        .build())
+                .collect(Collectors.toList());
         return GetSingleOrderResponse.builder()
                 .id(String.valueOf(order.getOrderId()))
                 .statusId(order.getExecuteStatus().getId().toString())
@@ -79,8 +88,10 @@ public class RestOrderService {
                 .deviceName(Optional.ofNullable(order.getDevice().getDescription()).orElse("") + " "
                         + Optional.ofNullable(order.getDevice().getDeviceName()).orElse(""))
                 .smallDescription(order.getSmallDescription())
+                .fullDescription(order.getFullDescription())
                 .startedAt(order.getTimestamp().toLocalDateTime().toLocalDate())
                 .services(services)
+                .parts(parts)
                 .build();
     }
 

@@ -22,6 +22,8 @@ public class GetSingleOrderResponse {
     private String deviceId;
     private String deviceName;
     private String smallDescription;
+    private String fullDescription;
     private LocalDate startedAt;
     private List<ServiceDto> services;
+    private List<PartDto> parts;
 }
