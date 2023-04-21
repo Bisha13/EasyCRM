@@ -3,7 +3,7 @@ package ru.bisha.easycrm.restcontroller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.dto.GetOrdersResponse;
-import ru.bisha.easycrm.dto.GetSingleOrderResponse;
+import ru.bisha.easycrm.dto.SingleOrderDto;
 import ru.bisha.easycrm.restservice.RestOrderService;
 
 @RestController
@@ -21,7 +21,17 @@ public class OrderRestController {
     }
 
     @GetMapping("/{id}")
-    public GetSingleOrderResponse getOne(@PathVariable Integer id) {
+    public SingleOrderDto getOne(@PathVariable Integer id) {
         return restOrderService.getOrder(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateOne(@RequestBody SingleOrderDto request) {
+        restOrderService.updateOrder(request);
+    }
+
+    @PutMapping("/close")
+    public void closeOrder(@RequestBody SingleOrderDto request) {
+        restOrderService.closeOrder(request);
     }
 }

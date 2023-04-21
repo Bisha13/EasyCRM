@@ -50,31 +50,17 @@ public class Order {
     @JoinColumn(name = "execute_status")
     private Status executeStatus;
 
-//    @Column(name = "executor_id")
-//    private Integer executorId;
-
     @Column(name = "parts_price")
     private Double partsPrice;
 
     @Column(name = "work_price")
     private Double workPrice;
 
-//    @Column(name = "parts")
-//    private String parts;
-
-//    @Column(name = "works")
-//    private String works;
-
-//    @Column(name = "payment_status")
-//    private Integer paymentStatus;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "bike_id")
     private Device device;
-//
-//    @Column(name = "order_description")
-//    private String orderDescription;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",

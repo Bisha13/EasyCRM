@@ -1,10 +1,7 @@
 package ru.bisha.easycrm.db.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -13,12 +10,14 @@ import java.sql.Timestamp;
 @Table(name = "services")
 @EqualsAndHashCode
 @Getter @Setter
+@Builder
+@AllArgsConstructor
 public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
-    private int serviceId;
+    private Integer serviceId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")

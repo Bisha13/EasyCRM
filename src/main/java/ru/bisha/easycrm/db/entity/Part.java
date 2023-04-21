@@ -1,9 +1,6 @@
 package ru.bisha.easycrm.db.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "parts")
 @EqualsAndHashCode
 @Getter @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Part {
 
