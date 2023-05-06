@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,10 @@ public class StockRestController {
 
     @GetMapping("/all")
     public List<Stock> getAllItems() {
-        return stockRepository.findAll();
+        List<Stock> stocks = stockRepository.findAll();
+        stocks.stream()
+                .filter(s -> StringUtils.hasLength(s.getName()))
+                .forEach(s -> s.setName(s.getName().replaceAll("\\s+", " ")));
+        return stocks;
     }
 }

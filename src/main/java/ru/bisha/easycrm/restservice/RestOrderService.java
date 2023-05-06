@@ -129,6 +129,7 @@ public class RestOrderService {
 
         Set<Integer> newServiceIds = request.getServices().stream()
                 .filter(s -> StringUtils.hasLength(s.getId()))
+                .filter(s -> !(!Boolean.TRUE.equals(s.getIsCustom()) && "0".equals(s.getItemId())))
                 .map(ServiceDto::getId).map(Integer::valueOf).collect(Collectors.toSet());
         order.getListOfServices().stream()
                 .filter(s -> !newServiceIds.contains(s.getServiceId()))
@@ -137,6 +138,7 @@ public class RestOrderService {
 
         Set<Integer> newPartsIds = request.getParts().stream()
                 .filter(s -> StringUtils.hasLength(s.getPartId()))
+                .filter(p -> !(Boolean.TRUE.equals(p.getIsStock()) && "0".equals(p.getStockId())))
                 .map(PartDto::getPartId).map(Integer::valueOf).collect(Collectors.toSet());
         order.getListOfParts().stream()
                 .filter(p -> !newPartsIds.contains(p.getPartId()))
@@ -144,6 +146,7 @@ public class RestOrderService {
 
 
         List<ru.bisha.easycrm.db.entity.Service> serviceEntities = request.getServices().stream()
+                .filter(s -> !(!Boolean.TRUE.equals(s.getIsCustom()) && "0".equals(s.getItemId())))
                 .map(s -> ru.bisha.easycrm.db.entity.Service.builder()
                         .serviceId(Optional.ofNullable(s.getId()).map(Integer::valueOf).orElse(null))
                         .qty(s.getQty())
@@ -155,6 +158,7 @@ public class RestOrderService {
                         .build()
                 ).collect(Collectors.toList());
         List<Part> partEntities = request.getParts().stream()
+                .filter(p -> !(Boolean.TRUE.equals(p.getIsStock()) && "0".equals(p.getStockId())))
                 .map(p -> Part.builder()
                         .partId(Optional.ofNullable(p.getPartId()).map(Integer::valueOf).orElse(null))
                         .qty(p.getQty())
