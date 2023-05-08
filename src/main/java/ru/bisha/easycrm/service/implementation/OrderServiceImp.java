@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import ru.bisha.easycrm.db.entity.Order;
 import ru.bisha.easycrm.db.entity.Part;
-import ru.bisha.easycrm.db.entity.Service;
+import ru.bisha.easycrm.db.entity.ServiceEntity;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
 
@@ -92,7 +92,7 @@ public class OrderServiceImp implements OrderService {
     private void setSumFromServices(Order order) {
         var services = order.getListOfServices();
         var sum = 0.0;
-        for (Service service : services) {
+        for (ServiceEntity service : services) {
             Double price = 0.0;
             if (service.getIsCustom()) {
                 price = service.getPrice();
@@ -127,7 +127,7 @@ public class OrderServiceImp implements OrderService {
         for (Part part : order.getListOfParts()) {
             part.setOrder(order);
         }
-        for (Service service : order.getListOfServices()) {
+        for (ServiceEntity service : order.getListOfServices()) {
             service.setOrder(order);
         }
     }

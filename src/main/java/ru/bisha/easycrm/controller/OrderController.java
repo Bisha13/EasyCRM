@@ -124,8 +124,8 @@ public class OrderController {
         }
 
         if (order.getListOfServices().isEmpty()) {
-            var listOfServices = new ArrayList<Service>();
-            listOfServices.add(new Service());
+            var listOfServices = new ArrayList<ServiceEntity>();
+            listOfServices.add(new ServiceEntity());
             order.setListOfServices(listOfServices);
         }
 
@@ -145,7 +145,7 @@ public class OrderController {
         for (Order order : orderWrapper.getOrderList()) {
             order.setClient(someClient);
             order.getDevice().setOwnerId(someClient.getId());
-            for (Service service : order.getListOfServices()) {
+            for (ServiceEntity service : order.getListOfServices()) {
                 service.setOrder(order);
             }
             for (Part part : order.getListOfParts()) {

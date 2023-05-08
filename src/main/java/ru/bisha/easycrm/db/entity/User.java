@@ -29,11 +29,11 @@ public class User {
     private Integer percent;
 
     @OneToMany(mappedBy = "executor")
-    private List<Service> serviceList;
+    private List<ServiceEntity> serviceList;
 
     @PreRemove
     private void preRemove() {
-        for (Service s : serviceList) {
+        for (ServiceEntity s : serviceList) {
             s.setExecutor(null);
         }
     }

@@ -2,6 +2,7 @@ package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.bisha.easycrm.db.entity.ServiceEntity;
 import ru.bisha.easycrm.db.repository.ServiceRepository;
 import ru.bisha.easycrm.service.ServiceService;
 
@@ -14,7 +15,7 @@ public class ServiceServiceImpl implements ServiceService {
     ServiceRepository repository;
 
     @Override
-    public Optional<ru.bisha.easycrm.db.entity.Service> getById(int id) {
+    public Optional<ServiceEntity> getById(int id) {
         return repository.findById(id);
     }
 

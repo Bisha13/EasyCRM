@@ -1,9 +1,6 @@
 package ru.bisha.easycrm.db.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -17,6 +14,8 @@ import java.util.List;
 @EqualsAndHashCode
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class Order {
 
     @Id
@@ -66,7 +65,7 @@ public class Order {
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Service> listOfServices;
+    private List<ServiceEntity> listOfServices;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
@@ -77,7 +76,7 @@ public class Order {
     public Order() {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
-        listOfServices.add(new Service());
+        listOfServices.add(new ServiceEntity());
         this.listOfParts = new ArrayList<>();
         listOfParts.add(new Part());
     }
@@ -85,7 +84,7 @@ public class Order {
     public Order(Item item, Stock stock, Status status) {
         this.device = new Device();
         this.listOfServices = new ArrayList<>();
-        listOfServices.add(new Service(item));
+        listOfServices.add(new ServiceEntity(item));
         this.executeStatus = status;
         this.listOfParts = new ArrayList<>();
         listOfParts.add(new Part(stock));
