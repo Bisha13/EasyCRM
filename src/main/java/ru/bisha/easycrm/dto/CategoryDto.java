@@ -7,12 +7,8 @@ import lombok.Getter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 @Getter
-public class ItemDto {
+public class CategoryDto {
 
     private String id;
     private String name;
-    private String description;
-    private String categoryId;
-    private Integer priority;
-    private Double price;
 }
