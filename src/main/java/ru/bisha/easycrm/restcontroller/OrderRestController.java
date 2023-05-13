@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.dto.GetOrdersResponse;
 import ru.bisha.easycrm.dto.NewOrderDto;
+import ru.bisha.easycrm.dto.OrderDto;
 import ru.bisha.easycrm.dto.SingleOrderDto;
 import ru.bisha.easycrm.restservice.RestOrderService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/rest/orders")
@@ -39,5 +42,10 @@ public class OrderRestController {
     @PostMapping("/new")
     public void createOrder(@RequestBody NewOrderDto request) {
         restOrderService.createOrder(request);
+    }
+
+    @GetMapping
+    public List<OrderDto> getByClient(@RequestParam Integer clientId) {
+        return restOrderService.getByClientId(clientId);
     }
 }

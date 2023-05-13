@@ -368,10 +368,17 @@ public class RestOrderService {
         return OrderDto.builder()
                 .id(order.getOrderId())
                 .description(order.getSmallDescription())
-                .device(order.getDevice().getDeviceName())
+                .device(Optional.ofNullable(order.getDevice().getDeviceName()).map(n -> n + " ").orElse("") +
+                        Optional.ofNullable(order.getDevice().getDescription()).orElse(""))
                 .clientName(order.getClient().getName())
                 .status(order.getExecuteStatus())
                 .startedAt(order.getTimestamp().toLocalDateTime().toLocalDate())
                 .build();
+    }
+
+    public List<OrderDto> getByClientId(final Integer clientId) {
+        return orderRepository.findAllByClientId(clientId).stream()
+                .map(RestOrderService::buildOrderDto)
+                .collect(Collectors.toList());
     }
 }

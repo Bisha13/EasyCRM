@@ -1,12 +1,13 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.Client;
 import ru.bisha.easycrm.dto.ClientDto;
+import ru.bisha.easycrm.dto.GetClientsResponse;
 import ru.bisha.easycrm.service.ClientService;
 
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientsRestController {
 
-
     private final ClientService clientService;
+
+    private static final String DEFAULT_PAGE_SIZE = "100";
 
     @GetMapping("/by_phone")
     public List<ClientDto> getClientByPhone(@RequestParam String phone) {
@@ -32,4 +34,73 @@ public class ClientsRestController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public ClientDto getClientByPhone(@PathVariable Integer id) {
+        Client client = clientService.getClient(id);
+        return ClientDto.builder()
+                .id(String.valueOf(client.getId()))
+                .name(client.getName())
+                .phone(client.getPhoneNumber())
+                .phone2(client.getPhoneNumber2())
+                .address(client.getAddress())
+                .discount(client.getDiscount())
+                .createdAt(client.getTimestamp().toLocalDateTime())
+                .build();
+    }
+
+    @PutMapping("/")
+    public void updateClient(@RequestBody ClientDto clientDto) {
+        Client client = clientService.getClient(Integer.parseInt(clientDto.getId()));
+        client.setName(clientDto.getName());
+        client.setPhoneNumber(clientDto.getPhone());
+        client.setPhoneNumber2(clientDto.getPhone2());
+        client.setAddress(clientDto.getAddress());
+        client.setDiscount(clientDto.getDiscount());
+        clientService.saveClient(client);
+    }
+
+    @GetMapping
+    public GetClientsResponse getAllClients(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                            @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
+
+        Page<Client> clientPage = clientService.getPageOfClients(
+                PageRequest.of(page - 1, size,
+                        Sort.by("id").descending()));
+
+        int totalPages = clientPage.getTotalPages();
+
+        List<ClientDto> clients = clientPage.stream().map(client -> ClientDto.builder()
+                    .id(String.valueOf(client.getId()))
+                    .name(client.getName())
+                    .phone(client.getPhoneNumber())
+                    .createdAt(client.getTimestamp().toLocalDateTime())
+                    .build())
+                .collect(Collectors.toList());
+
+        return GetClientsResponse.builder()
+                .clients(clients)
+                .pageCount(totalPages)
+                .build();
+    }
+
+    @GetMapping("/find")
+    public GetClientsResponse findClients(@RequestParam("search") String search,
+                                          @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                          @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
+        Page<Client> clientsPage = clientService.getPageOfClientsBySearch(
+                search, PageRequest.of(page - 1, size));
+        int totalPages = clientsPage.getTotalPages();
+        List<ClientDto> clients = clientsPage.stream().map(client -> ClientDto.builder()
+                        .id(String.valueOf(client.getId()))
+                        .name(client.getName())
+                        .phone(client.getPhoneNumber())
+                        .createdAt(client.getTimestamp().toLocalDateTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        return GetClientsResponse.builder()
+                .clients(clients)
+                .pageCount(totalPages)
+                .build();
+    }
 }
