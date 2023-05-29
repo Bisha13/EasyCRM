@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Part {
+public class PartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,11 @@ public class Part {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @OneToOne
     @JoinColumn(name = "stock_id")
-    private Stock stock;
+    private StockEntity stock;
 
     @Column(name = "is_stock")
     private boolean isStock;
@@ -49,7 +49,7 @@ public class Part {
         isStock = stock;
     }
 
-    public Part(Stock stock) {
+    public PartEntity(StockEntity stock) {
         this.stock = stock;
     }
 }

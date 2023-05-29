@@ -34,7 +34,7 @@ public class RestOrderService {
     private final DeviceRepository deviceRepository;
 
     public GetOrdersResponse getAll(Integer size, Integer page, Integer statusId) {
-        Page<Order> orderPage;
+        Page<OrderEntity> orderPage;
 
         if (statusId == null || statusId == 0) {
             orderPage = orderRepository.findAll(
@@ -99,7 +99,7 @@ public class RestOrderService {
 
 
         List<ServiceEntity> serviceEntities = mapServicesToEntity(request.getServices());
-        List<Part> partEntities = mapPartsToEntity(request.getParts());
+        List<PartEntity> partEntities = mapPartsToEntity(request.getParts());
         order.setListOfServices(serviceEntities);
         order.setListOfParts(partEntities);
         order.setPartsPrice(getPartsPrice(partEntities));
@@ -146,8 +146,8 @@ public class RestOrderService {
                         .isCustom(s.getIsCustom())
                         .build()
                 ).collect(Collectors.toList());
-        List<Part> partEntities = request.getParts().stream()
-                .map(p -> Part.builder()
+        List<PartEntity> partEntities = request.getParts().stream()
+                .map(p -> PartEntity.builder()
                         .partId(Optional.ofNullable(p.getPartId()).map(Integer::valueOf).orElse(null))
                         .qty(p.getQty())
                         .purchasePrice(Optional.ofNullable(p.getPurchasePrice()).map(BigDecimal::doubleValue).orElse(null))
@@ -165,13 +165,13 @@ public class RestOrderService {
     }
 
     public void createOrder(NewOrderDto request) {
-        Client client = getClient(request);
-        Device device = getDevice(request, client.getId());
+        ClientEnitiy client = getClient(request);
+        DeviceEntity device = getDevice(request, client.getId());
         var status = statusRepository.findById(1L).orElseThrow();
         List<ServiceEntity> services = mapServicesToEntity(request.getServices());
-        List<Part> parts = mapPartsToEntity(request.getParts());
+        List<PartEntity> parts = mapPartsToEntity(request.getParts());
 
-        Order order = Order.builder()
+        OrderEntity order = OrderEntity.builder()
                 .client(client)
                 .device(device)
                 .executeStatus(status)
@@ -188,10 +188,10 @@ public class RestOrderService {
         orderRepository.saveAndFlush(order);
     }
 
-    private List<Part> mapPartsToEntity(List<PartDto> parts) {
+    private List<PartEntity> mapPartsToEntity(List<PartDto> parts) {
         return parts.stream()
                 .filter(p -> !(Boolean.TRUE.equals(p.getIsStock()) && "0".equals(p.getStockId())))
-                .map(p -> Part.builder()
+                .map(p -> PartEntity.builder()
                         .partId(Optional.ofNullable(p.getPartId()).map(Integer::valueOf).orElse(null))
                         .qty(p.getQty())
                         .name(p.getName())
@@ -217,9 +217,9 @@ public class RestOrderService {
                 ).collect(Collectors.toList());
     }
 
-    private Device getDevice(NewOrderDto request, Integer ownerId) {
+    private DeviceEntity getDevice(NewOrderDto request, Integer ownerId) {
         if (Boolean.TRUE.equals(request.getIsNewDevice())) {
-            Device newDevice = new Device();
+            DeviceEntity newDevice = new DeviceEntity();
             newDevice.setDeviceName(request.getDeviceName());
             newDevice.setDescription(request.getDeviceDescription());
             newDevice.setOwnerId(ownerId);
@@ -229,9 +229,9 @@ public class RestOrderService {
                 .orElseThrow(() -> new IllegalStateException("Не смогли найти девайс по id"));
     }
 
-    private Client getClient(NewOrderDto request) {
+    private ClientEnitiy getClient(NewOrderDto request) {
         if (Boolean.TRUE.equals(request.getIsNewClient())) {
-            Client newClient = new Client();
+            ClientEnitiy newClient = new ClientEnitiy();
             newClient.setName(request.getClientName());
             newClient.setPhoneNumber(request.getClientPhone());
             return clientRepository.save(newClient);
@@ -240,33 +240,33 @@ public class RestOrderService {
                 .orElseThrow(() -> new IllegalStateException("Не смогли найти клиента по id"));
     }
 
-    private Item getItem(String itemId) {
+    private ItemEntity getItem(String itemId) {
         return itemId == null ? null : itemRepository.findById(Integer.valueOf(itemId)).orElse(null);
 
     }
 
-    private User getExecutor(String executorId) {
+    private UserEntity getExecutor(String executorId) {
         return executorId == null ? null : userRepository.findById(Integer.valueOf(executorId)).orElse(null);
     }
 
-    private Stock getStock(String stockId) {
+    private StockEntity getStock(String stockId) {
         return stockId == null ? null : stockRepository.findById(Integer.valueOf(stockId)).orElse(null);
     }
 
-    private Double getPartsPrice(List<Part> listOfParts) {
+    private Double getPartsPrice(List<PartEntity> listOfParts) {
         Double partsPrice = listOfParts.stream()
                 .filter(part -> !part.getIsStock())
                 .mapToDouble(p -> p.getPrice() * p.getQty())
                 .sum();
         Double stockPrice = listOfParts.stream()
-                .filter(Part::getIsStock)
+                .filter(PartEntity::getIsStock)
                 .mapToDouble(p -> p.getStock().getPrice() * p.getQty())
                 .sum();
 
         return partsPrice + stockPrice;
     }
 
-    private void setSumFromServices(Order order) {
+    private void setSumFromServices(OrderEntity order) {
         var services = order.getListOfServices();
         var sum = 0.0;
         for (ServiceEntity service : services) {
@@ -307,8 +307,8 @@ public class RestOrderService {
         return sum - (sum / 100 * discount);
     }
 
-    private void setOrders(Order order) {
-        for (Part part : order.getListOfParts()) {
+    private void setOrders(OrderEntity order) {
+        for (PartEntity part : order.getListOfParts()) {
             part.setOrder(order);
         }
         for (ServiceEntity service : order.getListOfServices()) {
@@ -316,7 +316,7 @@ public class RestOrderService {
         }
     }
 
-    private static SingleOrderDto buildOrderDto(Order order, List<ServiceDto> services, List<PartDto> parts) {
+    private static SingleOrderDto buildOrderDto(OrderEntity order, List<ServiceDto> services, List<PartDto> parts) {
         return SingleOrderDto.builder()
                 .id(String.valueOf(order.getOrderId()))
                 .statusId(order.getExecuteStatus().getId().toString())
@@ -336,7 +336,7 @@ public class RestOrderService {
                 .build();
     }
 
-    private static List<PartDto> mapPartsToDto(Order order) {
+    private static List<PartDto> mapPartsToDto(OrderEntity order) {
         return order.getListOfParts().stream()
                 .map(p -> PartDto.builder()
                         .partId(String.valueOf(p.getPartId()))
@@ -350,21 +350,21 @@ public class RestOrderService {
                 .collect(Collectors.toList());
     }
 
-    private static List<ServiceDto> mapServicesToDto(Order order) {
+    private static List<ServiceDto> mapServicesToDto(OrderEntity order) {
         return order.getListOfServices().stream()
                 .map(s -> ServiceDto.builder()
                         .id(String.valueOf(s.getServiceId()))
                         .qty(s.getQty())
                         .description(s.getDescription())
-                        .executorId(Optional.ofNullable(s.getExecutor()).map(User::getId).map(String::valueOf).orElse(null))
-                        .itemId(Optional.ofNullable(s.getItem()).map(Item::getId).map(String::valueOf).orElse(null))
+                        .executorId(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).map(String::valueOf).orElse(null))
+                        .itemId(Optional.ofNullable(s.getItem()).map(ItemEntity::getId).map(String::valueOf).orElse(null))
                         .price(Optional.ofNullable(s.getPrice()).map(BigDecimal::valueOf).orElse(null))
                         .isCustom(s.getIsCustom())
                         .build())
                 .collect(Collectors.toList());
     }
 
-    private static OrderDto buildOrderDto(final Order order) {
+    private static OrderDto buildOrderDto(final OrderEntity order) {
         return OrderDto.builder()
                 .id(order.getOrderId())
                 .description(order.getSmallDescription())

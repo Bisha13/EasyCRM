@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.bisha.easycrm.db.entity.Client;
-import ru.bisha.easycrm.db.entity.Device;
-import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.ClientEnitiy;
+import ru.bisha.easycrm.db.entity.DeviceEntity;
+import ru.bisha.easycrm.db.entity.OrderEntity;
 import ru.bisha.easycrm.service.ClientService;
 import ru.bisha.easycrm.service.DeviceService;
 import ru.bisha.easycrm.service.OrderService;
@@ -40,8 +40,8 @@ public class ClientController {
     @RequestMapping("/{id}")
     public String getClient(@PathVariable("id") final int id, Model model) {
         var client = clientService.getClient(id);
-        List<Order> orders = orderService.getOrdersByClientId(client.getId());
-        List<Device> devices = deviceService.getDevicesByUserId(client.getId());
+        List<OrderEntity> orders = orderService.getOrdersByClientId(client.getId());
+        List<DeviceEntity> devices = deviceService.getDevicesByUserId(client.getId());
         model.addAttribute("clientAtr", client);
         model.addAttribute("orderListAttr", orders);
         model.addAttribute("deviceListAtr", devices);
@@ -50,7 +50,7 @@ public class ClientController {
     }
 
     @RequestMapping("/save")
-    public String saveClient(@ModelAttribute("clientAtr") final Client client) {
+    public String saveClient(@ModelAttribute("clientAtr") final ClientEnitiy client) {
         clientService.saveClient(client);
         return "redirect:/clients/" + client.getId();
     }
@@ -62,7 +62,7 @@ public class ClientController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Client> clientPage = clientService.getPageOfClients(
+        Page<ClientEnitiy> clientPage = clientService.getPageOfClients(
                 PageRequest.of(currentPage - 1, pageSize,
                         Sort.by("id").descending()));
 
@@ -88,7 +88,7 @@ public class ClientController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Client> clientsPage = clientService.getPageOfClientsBySearch(
+        Page<ClientEnitiy> clientsPage = clientService.getPageOfClientsBySearch(
                 search, PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("clientListAtr", clientsPage);
 

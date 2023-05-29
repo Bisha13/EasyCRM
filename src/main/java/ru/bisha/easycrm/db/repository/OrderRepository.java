@@ -5,18 +5,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.OrderEntity;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order,Integer> {
+public interface OrderRepository extends JpaRepository<OrderEntity,Integer> {
 
-    List<Order> findAllByClientId(int id);
+    List<OrderEntity> findAllByClientId(int id);
 
-    @Query(value = "select o from Order o where o.device.deviceName like lower(:search)")
-    List<Order> findByString(@Param("search") String search);
+    @Query(value = "select o from OrderEntity o where o.device.deviceName like lower(:search)")
+    List<OrderEntity> findByString(@Param("search") String search);
 
-    Page<Order> findAllByExecuteStatusId (long id, Pageable pageable);
+    Page<OrderEntity> findAllByExecuteStatusId (long id, Pageable pageable);
 
-    Page<Order> findAllByExecuteStatusHide(boolean hide, Pageable pageable);
+    Page<OrderEntity> findAllByExecuteStatusHide(boolean hide, Pageable pageable);
 }

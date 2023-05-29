@@ -21,4 +21,18 @@
         <renameTable newTableName="services" oldTableName="service_table"/>
     </changeSet>
 
+    <changeSet author="Bisha" id="add-status-to-services-table">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="services"/>
+                <not>
+                    <columnExists tableName="services" columnName="status"/>
+                </not>
+            </and>
+        </preConditions>
+        <addColumn tableName="services">
+            <column name="status" type="varchar(16)" defaultValue="NEW"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

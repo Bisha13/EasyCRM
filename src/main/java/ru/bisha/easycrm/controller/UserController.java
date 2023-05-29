@@ -7,12 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.bisha.easycrm.db.entity.Item;
-import ru.bisha.easycrm.db.entity.User;
-import ru.bisha.easycrm.service.PartService;
+import ru.bisha.easycrm.db.entity.UserEntity;
 import ru.bisha.easycrm.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
@@ -31,7 +28,7 @@ public class UserController {
 
     @RequestMapping("/{id}")
     public String getById(@PathVariable("id") int id, Model model) {
-        Optional<User> user = userService.getById(id);
+        Optional<UserEntity> user = userService.getById(id);
         if (user.isEmpty()) {
             return "redirect:/users";
         }
@@ -40,7 +37,7 @@ public class UserController {
     }
 
     @RequestMapping("/save")
-    public String saveUser(@ModelAttribute("itemAtr") User user) {
+    public String saveUser(@ModelAttribute("itemAtr") UserEntity user) {
         userService.save(user);
         return "redirect:/users";
     }
@@ -55,7 +52,7 @@ public class UserController {
 
     @RequestMapping("/new")
     public String createNew(Model model) {
-        model.addAttribute("userAtr", new User());
+        model.addAttribute("userAtr", new UserEntity());
         return "user";
     }
 

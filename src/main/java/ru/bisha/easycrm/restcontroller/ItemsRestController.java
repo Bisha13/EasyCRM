@@ -2,8 +2,8 @@ package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.bisha.easycrm.db.entity.Category;
-import ru.bisha.easycrm.db.entity.Item;
+import ru.bisha.easycrm.db.entity.CategoryEntity;
+import ru.bisha.easycrm.db.entity.ItemEntity;
 import ru.bisha.easycrm.db.entity.ServiceEntity;
 import ru.bisha.easycrm.db.repository.CategoryRepository;
 import ru.bisha.easycrm.db.repository.ItemRepository;
@@ -51,8 +51,8 @@ public class ItemsRestController {
 
     @PutMapping
     public void saveItem(@RequestBody ItemDto itemDto) {
-        Category category = categoryRepository.findById(Integer.valueOf(itemDto.getCategoryId())).orElseThrow();
-        Item item = Item.builder()
+        CategoryEntity category = categoryRepository.findById(Integer.valueOf(itemDto.getCategoryId())).orElseThrow();
+        ItemEntity item = ItemEntity.builder()
                 .id(Optional.ofNullable(itemDto.getId()).map(Integer::parseInt).orElse(null))
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
@@ -61,7 +61,7 @@ public class ItemsRestController {
                 .category(category)
                 .build();
         if (item.getId() != null) {
-            Item emptyItem = itemRepository.findById(0).orElseThrow();
+            ItemEntity emptyItem = itemRepository.findById(0).orElseThrow();
             List<ServiceEntity> services = serviceRepository.getAllByItemId(item.getId());
             services.forEach(e -> {
                 e.setIsCustom(true);
@@ -78,7 +78,7 @@ public class ItemsRestController {
         itemService.delete(id);
     }
 
-    private static String getName(Item i) {
+    private static String getName(ItemEntity i) {
         return Optional.ofNullable(i.getName())
                 .map(String::trim)
                 .map(s -> s.replace("\s\s", " "))

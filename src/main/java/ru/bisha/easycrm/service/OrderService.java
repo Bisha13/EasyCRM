@@ -2,25 +2,25 @@ package ru.bisha.easycrm.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import ru.bisha.easycrm.db.entity.Order;
+import ru.bisha.easycrm.db.entity.OrderEntity;
 
 import java.util.List;
 
 public interface OrderService {
 
-    List<Order> getAllOrders();
+    List<OrderEntity> getAllOrders();
 
-    List<Order> getOrdersByClientId(int id);
+    List<OrderEntity> getOrdersByClientId(int id);
 
-    Order getOrder(int id);
+    OrderEntity getOrder(int id);
 
-    Order saveOrder(Order order);
+    OrderEntity saveOrder(OrderEntity order);
 
-    Page<Order> getPageOfOrders(PageRequest request);
+    Page<OrderEntity> getPageOfOrders(PageRequest request);
 
-    Page<Order> getByStatusId(long id, PageRequest request);
+    Page<OrderEntity> getByStatusId(long id, PageRequest request);
 
-    Page<Order> getAllNotHidden(PageRequest request);
+    Page<OrderEntity> getAllNotHidden(PageRequest request);
 
-    List<Order> getFiltered(String search);
+    List<OrderEntity> getFiltered(String search);
 }

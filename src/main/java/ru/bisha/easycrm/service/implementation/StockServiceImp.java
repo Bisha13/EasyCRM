@@ -2,7 +2,7 @@ package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.bisha.easycrm.db.entity.Stock;
+import ru.bisha.easycrm.db.entity.StockEntity;
 import ru.bisha.easycrm.db.repository.PartRepository;
 import ru.bisha.easycrm.db.repository.StockRepository;
 import ru.bisha.easycrm.service.StockService;
@@ -36,23 +36,23 @@ public class StockServiceImp implements StockService {
     }
 
     @Override
-    public List<Stock> getAllStockParts() {
+    public List<StockEntity> getAllStockParts() {
 
         return stockRepository.findAll();
     }
 
     @Override
-    public void updateStockPart(Stock part) {
+    public void updateStockPart(StockEntity part) {
         stockRepository.save(part);
     }
 
     @Override
-    public void save(Stock part) {
+    public void save(StockEntity part) {
         stockRepository.save(part);
     }
 
     @Override
-    public Optional<Stock> getById(int id) {
+    public Optional<StockEntity> getById(int id) {
         return stockRepository.findById(id);
     }
 }

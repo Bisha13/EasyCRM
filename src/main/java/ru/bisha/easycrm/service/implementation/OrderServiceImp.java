@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import ru.bisha.easycrm.db.entity.Order;
-import ru.bisha.easycrm.db.entity.Part;
+import ru.bisha.easycrm.db.entity.OrderEntity;
+import ru.bisha.easycrm.db.entity.PartEntity;
 import ru.bisha.easycrm.db.entity.ServiceEntity;
 import ru.bisha.easycrm.db.repository.OrderRepository;
 import ru.bisha.easycrm.service.OrderService;
@@ -18,22 +18,22 @@ public class OrderServiceImp implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public List<Order> getAllOrders() {
+    public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll(Sort.by("orderId").descending());
     }
 
     @Override
-    public List<Order> getOrdersByClientId(int id) {
+    public List<OrderEntity> getOrdersByClientId(int id) {
         return orderRepository.findAllByClientId(id);
     }
 
-    public Order getOrder(int id) {
+    public OrderEntity getOrder(int id) {
         return orderRepository.findById(id)
-                .orElseGet(Order::new);
+                .orElseGet(OrderEntity::new);
     }
 
     @Override
-    public Order saveOrder(Order order) {
+    public OrderEntity saveOrder(OrderEntity order) {
         setSumFromServices(order);
 
         setSumFromParts(order);
@@ -48,22 +48,22 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Page<Order> getPageOfOrders(PageRequest request) {
+    public Page<OrderEntity> getPageOfOrders(PageRequest request) {
         return orderRepository.findAll(request);
     }
 
     @Override
-    public Page<Order> getAllNotHidden(PageRequest request) {
+    public Page<OrderEntity> getAllNotHidden(PageRequest request) {
         return orderRepository.findAllByExecuteStatusHide(false, request);
     }
 
     @Override
-    public Page<Order> getByStatusId(long id, PageRequest request) {
+    public Page<OrderEntity> getByStatusId(long id, PageRequest request) {
         return orderRepository.findAllByExecuteStatusId(id, request);
     }
 
     @Override
-    public List<Order> getFiltered(String search) {
+    public List<OrderEntity> getFiltered(String search) {
         search = "%" + search.toLowerCase() + "%";
         return orderRepository.findByString(search);
     }
@@ -75,13 +75,13 @@ public class OrderServiceImp implements OrderService {
         return sum - (sum / 100 * discount);
     }
 
-    private void setSumFromParts(Order order) {
-        final List<Part> listOfParts = order.getListOfParts();
+    private void setSumFromParts(OrderEntity order) {
+        final List<PartEntity> listOfParts = order.getListOfParts();
         Double partsPrice = listOfParts.stream()
                 .mapToDouble(p -> p.getPrice() * p.getQty())
                 .sum();
         Double stockPrice = listOfParts.stream()
-                .filter(Part::getIsStock)
+                .filter(PartEntity::getIsStock)
                 .mapToDouble(p -> p.getStock().getPrice() * p.getQty())
                 .sum();
 
@@ -89,7 +89,7 @@ public class OrderServiceImp implements OrderService {
 
     }
 
-    private void setSumFromServices(Order order) {
+    private void setSumFromServices(OrderEntity order) {
         var services = order.getListOfServices();
         var sum = 0.0;
         for (ServiceEntity service : services) {
@@ -123,8 +123,8 @@ public class OrderServiceImp implements OrderService {
         order.setWorkPrice(sum);
     }
 
-    private void setOrders(Order order) {
-        for (Part part : order.getListOfParts()) {
+    private void setOrders(OrderEntity order) {
+        for (PartEntity part : order.getListOfParts()) {
             part.setOrder(order);
         }
         for (ServiceEntity service : order.getListOfServices()) {

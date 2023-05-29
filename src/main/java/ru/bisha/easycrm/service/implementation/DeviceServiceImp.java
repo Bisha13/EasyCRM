@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.bisha.easycrm.db.entity.Device;
+import ru.bisha.easycrm.db.entity.DeviceEntity;
 import ru.bisha.easycrm.db.repository.DeviceRepository;
 import ru.bisha.easycrm.service.DeviceService;
 
@@ -18,32 +18,32 @@ public class DeviceServiceImp implements DeviceService {
     DeviceRepository deviceRepository;
 
     @Override
-    public Device getDevice(int id) {
+    public DeviceEntity getDevice(int id) {
         return deviceRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public List<Device> getDevicesByUserId(int id) {
+    public List<DeviceEntity> getDevicesByUserId(int id) {
         return deviceRepository.getDevicesByOwnerId(id);
     }
 
     @Override
-    public List<Device> getAll() {
+    public List<DeviceEntity> getAll() {
         return deviceRepository.findAll();
     }
 
     @Override
-    public void saveDevice(Device device) {
+    public void saveDevice(DeviceEntity device) {
         deviceRepository.save(device);
     }
 
     @Override
-    public Page<Device> getPageOfDevices(PageRequest request) {
+    public Page<DeviceEntity> getPageOfDevices(PageRequest request) {
         return deviceRepository.findAll(request);
     }
 
     @Override
-    public Page<Device> getDevicesBySearch(String search, PageRequest request) {
+    public Page<DeviceEntity> getDevicesBySearch(String search, PageRequest request) {
         return deviceRepository.getDevicesBySearch("%" + search + "%", request);
     }
 }

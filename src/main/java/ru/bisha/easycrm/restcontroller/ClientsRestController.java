@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-import ru.bisha.easycrm.db.entity.Client;
+import ru.bisha.easycrm.db.entity.ClientEnitiy;
 import ru.bisha.easycrm.dto.ClientDto;
 import ru.bisha.easycrm.dto.GetClientsResponse;
 import ru.bisha.easycrm.service.ClientService;
@@ -24,7 +24,7 @@ public class ClientsRestController {
 
     @GetMapping("/by_phone")
     public List<ClientDto> getClientByPhone(@RequestParam String phone) {
-        List<Client> clients
+        List<ClientEnitiy> clients
                 = clientService.findClientByPhone(phone);
         return clients.stream().map(c -> ClientDto.builder()
                 .id(String.valueOf(c.getId()))
@@ -36,7 +36,7 @@ public class ClientsRestController {
 
     @GetMapping("/{id}")
     public ClientDto getClientByPhone(@PathVariable Integer id) {
-        Client client = clientService.getClient(id);
+        ClientEnitiy client = clientService.getClient(id);
         return ClientDto.builder()
                 .id(String.valueOf(client.getId()))
                 .name(client.getName())
@@ -50,7 +50,7 @@ public class ClientsRestController {
 
     @PutMapping("/")
     public void updateClient(@RequestBody ClientDto clientDto) {
-        Client client = clientService.getClient(Integer.parseInt(clientDto.getId()));
+        ClientEnitiy client = clientService.getClient(Integer.parseInt(clientDto.getId()));
         client.setName(clientDto.getName());
         client.setPhoneNumber(clientDto.getPhone());
         client.setPhoneNumber2(clientDto.getPhone2());
@@ -63,7 +63,7 @@ public class ClientsRestController {
     public GetClientsResponse getAllClients(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                             @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
 
-        Page<Client> clientPage = clientService.getPageOfClients(
+        Page<ClientEnitiy> clientPage = clientService.getPageOfClients(
                 PageRequest.of(page - 1, size,
                         Sort.by("id").descending()));
 
@@ -87,7 +87,7 @@ public class ClientsRestController {
     public GetClientsResponse findClients(@RequestParam("search") String search,
                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
                                           @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
-        Page<Client> clientsPage = clientService.getPageOfClientsBySearch(
+        Page<ClientEnitiy> clientsPage = clientService.getPageOfClientsBySearch(
                 search, PageRequest.of(page - 1, size));
         int totalPages = clientsPage.getTotalPages();
         List<ClientDto> clients = clientsPage.stream().map(client -> ClientDto.builder()

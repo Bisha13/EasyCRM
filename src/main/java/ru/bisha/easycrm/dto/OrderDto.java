@@ -3,7 +3,7 @@ package ru.bisha.easycrm.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
-import ru.bisha.easycrm.db.entity.Status;
+import ru.bisha.easycrm.db.entity.StatusEntity;
 
 import java.time.LocalDate;
 
@@ -20,7 +20,7 @@ public class OrderDto {
 
     private String description;
 
-    private Status status;
+    private StatusEntity status;
 
     private LocalDate startedAt;
 }

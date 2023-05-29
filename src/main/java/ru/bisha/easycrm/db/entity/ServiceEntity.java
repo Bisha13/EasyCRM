@@ -21,11 +21,11 @@ public class ServiceEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
-    private User executor;
+    private UserEntity executor;
 
     @Column(name = "description")
     private String description;
@@ -39,7 +39,7 @@ public class ServiceEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "item_id")
-    private Item item;
+    private ItemEntity item;
 
     @CreationTimestamp
     @Column(name="time_stamp",
@@ -55,6 +55,9 @@ public class ServiceEntity {
     @Column(name = "is_custom")
     private boolean isCustom;
 
+    @Column(name = "status")
+    private ServiceStatus status;
+
     public boolean getIsCustom() {
         return isCustom;
     }
@@ -68,9 +71,15 @@ public class ServiceEntity {
         this.qty = 1;
     }
 
-    public ServiceEntity(Item item) {
+    public ServiceEntity(ItemEntity item) {
         this.description = "";
         this.qty = 1;
         this.item = item;
+    }
+
+    enum ServiceStatus {
+        NEW,
+        DONE,
+        PAID
     }
 }

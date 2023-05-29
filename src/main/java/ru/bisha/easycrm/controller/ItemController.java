@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.bisha.easycrm.db.entity.Item;
+import ru.bisha.easycrm.db.entity.ItemEntity;
 import ru.bisha.easycrm.service.CategoryService;
 import ru.bisha.easycrm.service.ItemService;
 
@@ -44,7 +44,7 @@ public class ItemController {
     }
 
     @RequestMapping("/save")
-    public String saveItem(@ModelAttribute("itemAtr") Item item) {
+    public String saveItem(@ModelAttribute("itemAtr") ItemEntity item) {
         itemService.save(item);
         return "redirect:/items/";
     }
@@ -63,7 +63,7 @@ public class ItemController {
     public String createNew(Model model) {
         var categories = categoryService.getAll();
         model.addAttribute("categoriesAtr", categories);
-        model.addAttribute("itemAtr", new Item());
+        model.addAttribute("itemAtr", new ItemEntity());
         return "item";
     }
 }

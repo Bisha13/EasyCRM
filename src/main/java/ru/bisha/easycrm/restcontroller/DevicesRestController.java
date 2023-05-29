@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ru.bisha.easycrm.db.entity.Device;
+import ru.bisha.easycrm.db.entity.DeviceEntity;
 import ru.bisha.easycrm.db.repository.DeviceRepository;
 import ru.bisha.easycrm.dto.DeviceDto;
 import ru.bisha.easycrm.dto.GetDevicesResponse;
@@ -40,7 +40,7 @@ public class DevicesRestController {
 
     @GetMapping("/{id}")
     public DeviceDto getById(@PathVariable Integer id) {
-        Device device = deviceRepository.getOne(id);
+        DeviceEntity device = deviceRepository.getOne(id);
         return DeviceDto.builder()
                 .id(String.valueOf(device.getDeviceId()))
                 .name(device.getDeviceName())
@@ -54,7 +54,7 @@ public class DevicesRestController {
     public GetDevicesResponse getAllDevices(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                             @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
 
-        Page<Device> devicePage = deviceService.getPageOfDevices(
+        Page<DeviceEntity> devicePage = deviceService.getPageOfDevices(
                 PageRequest.of(page - 1, size,
                         Sort.by("deviceId").descending()));
 
@@ -78,9 +78,9 @@ public class DevicesRestController {
 
     @PutMapping
     public void updateDevice(@RequestBody DeviceDto deviceDto) {
-        Device device = StringUtils.hasLength(deviceDto.getId()) ?
+        DeviceEntity device = StringUtils.hasLength(deviceDto.getId()) ?
                 deviceRepository.findById(Integer.valueOf(deviceDto.getId())).orElseThrow() :
-                new Device();
+                new DeviceEntity();
         device.setDeviceName(deviceDto.getName());
         device.setDescription(deviceDto.getDescription());
         device.setOwnerId(Integer.parseInt(deviceDto.getClientId()));

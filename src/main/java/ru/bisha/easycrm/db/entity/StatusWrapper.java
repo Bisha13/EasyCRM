@@ -9,6 +9,6 @@ import java.util.List;
 @Setter
 public class StatusWrapper {
 
-    private List<Status> statusList;
+    private List<StatusEntity> statusList;
 
 }

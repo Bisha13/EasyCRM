@@ -2,7 +2,7 @@ package ru.bisha.easycrm.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.bisha.easycrm.db.entity.User;
+import ru.bisha.easycrm.db.entity.UserEntity;
 import ru.bisha.easycrm.db.repository.UserRepository;
 import ru.bisha.easycrm.service.UserService;
 
@@ -15,12 +15,12 @@ public class UserServiceImp implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserEntity user) {
         userRepository.save(user);
     }
 
@@ -30,7 +30,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Optional<User> getById(int id) {
+    public Optional<UserEntity> getById(int id) {
         return userRepository.findById(id);
     }
 }

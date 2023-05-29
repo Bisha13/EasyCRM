@@ -3,7 +3,7 @@ package ru.bisha.easycrm.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.bisha.easycrm.db.entity.Item;
+import ru.bisha.easycrm.db.entity.ItemEntity;
 import ru.bisha.easycrm.db.repository.ItemRepository;
 import ru.bisha.easycrm.db.repository.ServiceRepository;
 import ru.bisha.easycrm.service.ItemService;
@@ -21,18 +21,18 @@ public class ItemServiceImp implements ItemService {
     ServiceRepository serviceRepository;
 
     @Override
-    public List<Item> getAll() {
+    public List<ItemEntity> getAll() {
         return itemRepository.findAll(Sort.by("category_id")
                                         .and(Sort.by("priority")));
     }
 
     @Override
-    public Optional<Item> getById(int id) {
+    public Optional<ItemEntity> getById(int id) {
         return itemRepository.findById(id);
     }
 
     @Override
-    public void save(Item item) {
+    public void save(ItemEntity item) {
         itemRepository.save(item);
     }
 

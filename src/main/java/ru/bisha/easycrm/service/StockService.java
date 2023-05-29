@@ -1,6 +1,6 @@
 package ru.bisha.easycrm.service;
 
-import ru.bisha.easycrm.db.entity.Stock;
+import ru.bisha.easycrm.db.entity.StockEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface StockService {
 
     void deleteStockPart(int id);
-    List<Stock> getAllStockParts();
-    void updateStockPart(Stock part);
-    void save(Stock part);
-    Optional<Stock> getById(int id);
+    List<StockEntity> getAllStockParts();
+    void updateStockPart(StockEntity part);
+    void save(StockEntity part);
+    Optional<StockEntity> getById(int id);
 
 }

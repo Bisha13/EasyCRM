@@ -2,21 +2,21 @@ package ru.bisha.easycrm.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import ru.bisha.easycrm.db.entity.Client;
+import ru.bisha.easycrm.db.entity.ClientEnitiy;
 
 import java.util.List;
 
 public interface ClientService {
 
-    Client getClient(int id);
+    ClientEnitiy getClient(int id);
 
-    Client saveClient(Client client);
+    ClientEnitiy saveClient(ClientEnitiy client);
 
-    Client findClientByNumber(String phoneNumber);
+    ClientEnitiy findClientByNumber(String phoneNumber);
 
-    List<Client> findClientByPhone(String phoneNumber);
+    List<ClientEnitiy> findClientByPhone(String phoneNumber);
 
-    Page<Client> getPageOfClients(PageRequest request);
+    Page<ClientEnitiy> getPageOfClients(PageRequest request);
 
-    Page<Client> getPageOfClientsBySearch(String search, PageRequest request);
+    Page<ClientEnitiy> getPageOfClientsBySearch(String search, PageRequest request);
 }

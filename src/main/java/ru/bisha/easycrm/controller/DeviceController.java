@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.bisha.easycrm.db.entity.Device;
+import ru.bisha.easycrm.db.entity.DeviceEntity;
 import ru.bisha.easycrm.service.ClientService;
 import ru.bisha.easycrm.service.DeviceService;
 
@@ -41,7 +41,7 @@ public class DeviceController {
     }
 
     @RequestMapping("/save")
-    public String saveDevice(@ModelAttribute("deviceAtr") final Device device) {
+    public String saveDevice(@ModelAttribute("deviceAtr") final DeviceEntity device) {
         deviceService.saveDevice(device);
         return "redirect:/devices/" + device.getDeviceId();
     }
@@ -53,7 +53,7 @@ public class DeviceController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Device> devicePage = deviceService.getPageOfDevices(
+        Page<DeviceEntity> devicePage = deviceService.getPageOfDevices(
                 PageRequest.of(currentPage - 1, pageSize,
                         Sort.by("deviceId").descending()));
 
@@ -79,7 +79,7 @@ public class DeviceController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Device> devicePage = deviceService.getDevicesBySearch(
+        Page<DeviceEntity> devicePage = deviceService.getDevicesBySearch(
                 search, PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("deviceListAtr", devicePage);
 
@@ -95,7 +95,7 @@ public class DeviceController {
 
     @RequestMapping("/new")
     public String createNew(@RequestParam("ownerId") final int id, Model model) {
-        var device = new Device();
+        var device = new DeviceEntity();
         var owner = clientService.getClient(id);
         device.setOwnerId(owner.getId());
         model.addAttribute("deviceAtr", device);

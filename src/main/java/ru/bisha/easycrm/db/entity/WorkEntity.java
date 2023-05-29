@@ -13,7 +13,7 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @Table(name = "work")
-public class Work {
+public class WorkEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +22,12 @@ public class Work {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "item_id")
-    private Item item;
+    private ItemEntity item;
 
     @Column(name = "executor_id")
     private int executorId;
@@ -39,7 +39,7 @@ public class Work {
         NEW, DONE, PAYED
     }
 
-    public Work() {
+    public WorkEntity() {
         this.executorId = 20;
         this.status = Status.NEW;
     }

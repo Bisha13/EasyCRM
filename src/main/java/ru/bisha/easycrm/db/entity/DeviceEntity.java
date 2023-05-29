@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Device {
+public class DeviceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

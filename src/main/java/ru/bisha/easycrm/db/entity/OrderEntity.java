@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class Order {
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "client_id")
-    private Client client;
+    private ClientEnitiy client;
 
     @Column(name = "small_description")
     private String smallDescription;
@@ -47,7 +47,7 @@ public class Order {
 
     @OneToOne
     @JoinColumn(name = "execute_status")
-    private Status executeStatus;
+    private StatusEntity executeStatus;
 
     @Column(name = "parts_price")
     private Double partsPrice;
@@ -59,7 +59,7 @@ public class Order {
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "bike_id")
-    private Device device;
+    private DeviceEntity device;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "order",
@@ -71,23 +71,23 @@ public class Order {
     @OneToMany(mappedBy = "order",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Part> listOfParts;
+    private List<PartEntity> listOfParts;
 
-    public Order() {
-        this.device = new Device();
+    public OrderEntity() {
+        this.device = new DeviceEntity();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new ServiceEntity());
         this.listOfParts = new ArrayList<>();
-        listOfParts.add(new Part());
+        listOfParts.add(new PartEntity());
     }
 
-    public Order(Item item, Stock stock, Status status) {
-        this.device = new Device();
+    public OrderEntity(ItemEntity item, StockEntity stock, StatusEntity status) {
+        this.device = new DeviceEntity();
         this.listOfServices = new ArrayList<>();
         listOfServices.add(new ServiceEntity(item));
         this.executeStatus = status;
         this.listOfParts = new ArrayList<>();
-        listOfParts.add(new Part(stock));
+        listOfParts.add(new PartEntity(stock));
     }
 
     @PostLoad

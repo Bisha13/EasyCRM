@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.bisha.easycrm.db.entity.Client;
+import ru.bisha.easycrm.db.entity.ClientEnitiy;
 import ru.bisha.easycrm.db.repository.ClientRepository;
 import ru.bisha.easycrm.service.ClientService;
 
@@ -17,17 +17,17 @@ public class ClientServiceImp implements ClientService {
     private ClientRepository clientRepository;
 
     @Override
-    public Client getClient(int id) {
+    public ClientEnitiy getClient(int id) {
         return clientRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public Client saveClient(Client client) {
+    public ClientEnitiy saveClient(ClientEnitiy client) {
         return clientRepository.save(client);
     }
 
     @Override
-    public Client findClientByNumber(String phoneNumber) {
+    public ClientEnitiy findClientByNumber(String phoneNumber) {
         String shorter = phoneNumber.replaceAll("[()+-]", "");
         if (shorter.length() >= 11 && shorter.startsWith("7")) {
             shorter = shorter.replaceFirst("7", "");
@@ -37,7 +37,7 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
-    public List<Client> findClientByPhone(String phoneNumber) {
+    public List<ClientEnitiy> findClientByPhone(String phoneNumber) {
         var parsedPhoneNumber = phoneNumber.trim().replaceAll("[^0-9]", "");
 
         if (parsedPhoneNumber.length() >= 10 //9153332211 - 10 characters
@@ -50,13 +50,13 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
-    public Page<Client> getPageOfClients(PageRequest request) {
+    public Page<ClientEnitiy> getPageOfClients(PageRequest request) {
         return clientRepository.findAll(request);
     }
 
     @Override
-    public Page<Client> getPageOfClientsBySearch(String search,
-                                                 PageRequest request) {
+    public Page<ClientEnitiy> getPageOfClientsBySearch(String search,
+                                                       PageRequest request) {
         if ((search.startsWith("+")
                 || search.startsWith("7")
                 || search.startsWith("8")) && search.length() >= 10 ) {

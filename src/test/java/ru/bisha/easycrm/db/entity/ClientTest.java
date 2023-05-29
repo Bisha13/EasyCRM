@@ -12,7 +12,7 @@ class ClientTest {
     @ParameterizedTest
     @CsvSource({"89153332211,+7(915)333-22-11", "9153332211,+7(915)333-22-11", "123456789,123456789"})
     void testPhoneNumber(String input, String expected) {
-        Client client = new Client();
+        ClientEnitiy client = new ClientEnitiy();
         client.setPhoneNumber(input);
 
         assertEquals(expected, client.getPhoneNumber());

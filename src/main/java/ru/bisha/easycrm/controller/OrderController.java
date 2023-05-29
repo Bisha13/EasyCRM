@@ -57,7 +57,7 @@ public class OrderController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
-        Page<Order> orderPage;
+        Page<OrderEntity> orderPage;
 
         if (status.isEmpty()) {
             orderPage = orderService.getPageOfOrders(
@@ -78,7 +78,7 @@ public class OrderController {
 
         model.addAttribute("statusesAtr", statusService.getAll());
         model.addAttribute("orderListAttr", orderPage);
-        model.addAttribute("statusAtr", new Status());
+        model.addAttribute("statusAtr", new StatusEntity());
 
         int totalPages = orderPage.getTotalPages();
         if (totalPages > 0) {
@@ -106,20 +106,20 @@ public class OrderController {
                     + DEFAULT_PAGE_SIZE + "&page=1";
         }
 
-        List<Status> statuses = statusService.getAll();
-        List<User> users = userService.getAllUsers();
-        List<Item> items = itemService.getAll();
-        List<Stock> stockList = stockService.getAllStockParts();
+        List<StatusEntity> statuses = statusService.getAll();
+        List<UserEntity> users = userService.getAllUsers();
+        List<ItemEntity> items = itemService.getAll();
+        List<StockEntity> stockList = stockService.getAllStockParts();
 
         try {
             order.getDevice();
         } catch (Exception e) {
-            order.setDevice(new Device());
+            order.setDevice(new DeviceEntity());
         }
 
         if (order.getListOfParts().isEmpty()) {
-            var listOfParts = new ArrayList<Part>();
-            listOfParts.add(new Part(stockList.get(0)));
+            var listOfParts = new ArrayList<PartEntity>();
+            listOfParts.add(new PartEntity(stockList.get(0)));
             order.setListOfParts(listOfParts);
         }
 
@@ -142,13 +142,13 @@ public class OrderController {
         var someClient =
                 clientService.saveClient(orderWrapper.getClient());
 
-        for (Order order : orderWrapper.getOrderList()) {
+        for (OrderEntity order : orderWrapper.getOrderList()) {
             order.setClient(someClient);
             order.getDevice().setOwnerId(someClient.getId());
             for (ServiceEntity service : order.getListOfServices()) {
                 service.setOrder(order);
             }
-            for (Part part : order.getListOfParts()) {
+            for (PartEntity part : order.getListOfParts()) {
                 part.setOrder(order);
             }
             orderService.saveOrder(order);
@@ -158,13 +158,13 @@ public class OrderController {
     }
 
     @RequestMapping("orders/save")
-    public String saveOrder(@ModelAttribute("orderAtr") final Order order) {
+    public String saveOrder(@ModelAttribute("orderAtr") final OrderEntity order) {
         orderService.saveOrder(order);
         return "redirect:/orders/" + order.getOrderId();
     }
 
     @RequestMapping("orders/close")
-    public String closeOrder(@ModelAttribute("orderAtr") final Order order) {
+    public String closeOrder(@ModelAttribute("orderAtr") final OrderEntity order) {
         order.setTimeClose(new Date(new java.util.Date().getTime()));
         order.setExecuteStatus(statusService.findById(14));
         orderService.saveOrder(order);
@@ -174,10 +174,10 @@ public class OrderController {
     @RequestMapping
     public String newOrder(Model model) {
         var ordersWrapper = new OrderWrapper();
-        List<Item> itemList = itemService.getAll();
-        List<Stock> stockList = stockService.getAllStockParts();
+        List<ItemEntity> itemList = itemService.getAll();
+        List<StockEntity> stockList = stockService.getAllStockParts();
         ordersWrapper.addOrder(
-                new Order(itemList.get(0),
+                new OrderEntity(itemList.get(0),
                         stockList.get(0),
                         statusService.findById(1)));
 
@@ -195,13 +195,13 @@ public class OrderController {
         var foundClient = clientService
                 .findClientByNumber(client.getPhoneNumber());
 
-        List<Device> deviceList = new ArrayList<>();
+        List<DeviceEntity> deviceList = new ArrayList<>();
         if (foundClient != null) {
             orderWrapper.setClient(foundClient);
             deviceList = deviceService
                     .getDevicesByUserId(foundClient.getId());
         }
-        List<Stock> stockList = stockService.getAllStockParts();
+        List<StockEntity> stockList = stockService.getAllStockParts();
 
         model.addAttribute("stockAtr", stockList);
         model.addAttribute("itemsAtr", itemService.getAll());
@@ -216,7 +216,7 @@ public class OrderController {
     public String findByPhoneNumber(
             @ModelAttribute("ordersWrapperAtr") final OrderWrapper orderWrapper, Model model) {
 
-        List<Client> clients
+        List<ClientEnitiy> clients
                 = clientService.findClientByPhone(
                 orderWrapper.getClient().getPhoneNumber());
 
@@ -232,7 +232,7 @@ public class OrderController {
         if (clients.size() > 1) {
             model.addAttribute("clientListAtr", clients);
         }
-        List<Stock> stockList = stockService.getAllStockParts();
+        List<StockEntity> stockList = stockService.getAllStockParts();
 
         model.addAttribute("stockAtr", stockList);
         model.addAttribute("ordersWrapperAtr", orderWrapper);
@@ -247,14 +247,14 @@ public class OrderController {
         var client = clientService.getClient(id);
         ordersWrapper.setClient(client);
 
-        List<Item> itemList = itemService.getAll();
-        List<Stock> stockList = stockService.getAllStockParts();
+        List<ItemEntity> itemList = itemService.getAll();
+        List<StockEntity> stockList = stockService.getAllStockParts();
         var deviceList = deviceService.getDevicesByUserId(id);
-        var newOrder = new Order(itemList.get(0), stockList.get(0),
+        var newOrder = new OrderEntity(itemList.get(0), stockList.get(0),
                 statusService.findById(1));
         newOrder.setClient(client);
         ordersWrapper.addOrder(
-                new Order(itemList.get(0),
+                new OrderEntity(itemList.get(0),
                         stockList.get(0),
                         statusService.findById(1)));
 

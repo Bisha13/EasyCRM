@@ -10,11 +10,11 @@ import java.util.List;
 @Setter
 public class OrderWrapper {
 
-    private List<Order> orderList;
+    private List<OrderEntity> orderList;
 
-    private Client client;
+    private ClientEnitiy client;
 
-    public void addOrder(Order order) {
+    public void addOrder(OrderEntity order) {
         if (orderList == null) {
             orderList = new ArrayList<>();
         }
@@ -22,6 +22,6 @@ public class OrderWrapper {
     }
 
     public OrderWrapper() {
-        this.client = new Client();
+        this.client = new ClientEnitiy();
     }
 }

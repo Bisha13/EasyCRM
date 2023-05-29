@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.bisha.easycrm.db.entity.Item;
-import ru.bisha.easycrm.db.entity.Stock;
+import ru.bisha.easycrm.db.entity.StockEntity;
 import ru.bisha.easycrm.service.StockService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/stocks")
@@ -39,7 +37,7 @@ public class StockController {
     }
 
     @RequestMapping("/save")
-    public String save(@ModelAttribute("stockAtr") Stock stock) {
+    public String save(@ModelAttribute("stockAtr") StockEntity stock) {
         stockService.save(stock);
         return "redirect:/stocks";
     }
@@ -55,7 +53,7 @@ public class StockController {
 
     @RequestMapping("/new")
     public String createNew(Model model) {
-        model.addAttribute("stockAtr", new Stock());
+        model.addAttribute("stockAtr", new StockEntity());
         return "stock";
     }
 }

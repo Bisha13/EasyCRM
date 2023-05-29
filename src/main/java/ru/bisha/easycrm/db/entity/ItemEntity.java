@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Item {
+public class ItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity category;
 
     @Column(name = "priority")
     private Integer priority;
