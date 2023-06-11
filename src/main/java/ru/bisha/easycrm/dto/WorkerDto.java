@@ -11,4 +11,6 @@ public class WorkerDto {
 
     private String id;
     private String name;
+    private String phone;
+    private Integer percent;
 }

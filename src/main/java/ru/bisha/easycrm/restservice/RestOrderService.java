@@ -136,16 +136,8 @@ public class RestOrderService {
                 .forEach(p -> partRepository.delete(p.getPartId()));
 
         List<ServiceEntity> serviceEntities = request.getServices().stream()
-                .map(s -> ServiceEntity.builder()
-                        .serviceId(Optional.ofNullable(s.getId()).map(Integer::valueOf).orElse(null))
-                        .qty(s.getQty())
-                        .description(s.getDescription())
-                        .executor(getExecutor(s.getExecutorId()))
-                        .item(getItem(s.getItemId()))
-                        .price(Optional.ofNullable(s.getPrice()).map(BigDecimal::doubleValue).orElse(null))
-                        .isCustom(s.getIsCustom())
-                        .build()
-                ).collect(Collectors.toList());
+                .map(this::mapServiceDtoToEntity)
+                .collect(Collectors.toList());
         List<PartEntity> partEntities = request.getParts().stream()
                 .map(p -> PartEntity.builder()
                         .partId(Optional.ofNullable(p.getPartId()).map(Integer::valueOf).orElse(null))
@@ -159,7 +151,7 @@ public class RestOrderService {
         order.setListOfParts(partEntities);
         order.setPartsPrice(getPartsPrice(order.getListOfParts()));
         setSumFromServices(order);
-        setOrders(order);
+        setOrders(order); //todo set orders in mapper
         order.setFullPrice(order.getPartsPrice() + order.getWorkPrice());
         orderRepository.saveAndFlush(order);
     }
@@ -188,6 +180,34 @@ public class RestOrderService {
         orderRepository.saveAndFlush(order);
     }
 
+    public List<OrderDto> getByClientId(final Integer clientId) {
+        return orderRepository.findAllByClientId(clientId).stream()
+                .map(RestOrderService::buildOrderDto)
+                .collect(Collectors.toList());
+    }
+
+    public ByUserAndServiceStatusResponse getByUserIdAndStatus(final Integer userId, ServiceStatus status) {
+        List<OrderEntity> orders = orderRepository.getByUserIdAndStatus(userId, status);
+        double totalSum = orders.stream()
+                .flatMap(order -> order.getListOfServices().stream())
+                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).orElse(0)))
+                .mapToDouble(s -> {
+                    var percent = s.getExecutor().getPercent();
+                    var price = s.getIsCustom() ? s.getPrice() : s.getItem().getPrice();
+                    return s.getQty() * price / 100 * percent;
+                })
+                .sum();
+
+        List<OrderDto> orderDtos = orders.stream()
+                .map(o -> buildOrderDtoWithServicesByUser(o, userId))
+                .collect(Collectors.toList());
+
+        return ByUserAndServiceStatusResponse.builder()
+                .orders(orderDtos)
+                .totalSum(BigDecimal.valueOf(totalSum))
+                .build();
+    }
+
     private List<PartEntity> mapPartsToEntity(List<PartDto> parts) {
         return parts.stream()
                 .filter(p -> !(Boolean.TRUE.equals(p.getIsStock()) && "0".equals(p.getStockId())))
@@ -205,16 +225,7 @@ public class RestOrderService {
     private List<ServiceEntity> mapServicesToEntity(List<ServiceDto> services) {
         return services.stream()
                 .filter(s -> !(!Boolean.TRUE.equals(s.getIsCustom()) && "0".equals(s.getItemId())))
-                .map(s -> ServiceEntity.builder()
-                        .serviceId(Optional.ofNullable(s.getId()).map(Integer::valueOf).orElse(null))
-                        .qty(s.getQty())
-                        .description(s.getDescription())
-                        .executor(getExecutor(s.getExecutorId()))
-                        .item(getItem(s.getItemId()))
-                        .price(Optional.ofNullable(s.getPrice()).map(BigDecimal::doubleValue).orElse(null))
-                        .isCustom(s.getIsCustom())
-                        .build()
-                ).collect(Collectors.toList());
+                .map(this::mapServiceDtoToEntity).collect(Collectors.toList());
     }
 
     private DeviceEntity getDevice(NewOrderDto request, Integer ownerId) {
@@ -352,16 +363,18 @@ public class RestOrderService {
 
     private static List<ServiceDto> mapServicesToDto(OrderEntity order) {
         return order.getListOfServices().stream()
-                .map(s -> ServiceDto.builder()
-                        .id(String.valueOf(s.getServiceId()))
-                        .qty(s.getQty())
-                        .description(s.getDescription())
-                        .executorId(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).map(String::valueOf).orElse(null))
-                        .itemId(Optional.ofNullable(s.getItem()).map(ItemEntity::getId).map(String::valueOf).orElse(null))
-                        .price(Optional.ofNullable(s.getPrice()).map(BigDecimal::valueOf).orElse(null))
-                        .isCustom(s.getIsCustom())
-                        .build())
+                .map(ServiceEntity::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    private static OrderDto buildOrderDtoWithServicesByUser(final OrderEntity order, final Integer userId) {
+        final OrderDto orderDto = buildOrderDto(order);
+        List<ServiceDto> serviceDtos = order.getListOfServices().stream()
+                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).orElse(0)))
+                .map(ServiceEntity::mapToDto)
+                .collect(Collectors.toList());
+        orderDto.setServices(serviceDtos);
+        return orderDto;
     }
 
     private static OrderDto buildOrderDto(final OrderEntity order) {
@@ -376,9 +389,16 @@ public class RestOrderService {
                 .build();
     }
 
-    public List<OrderDto> getByClientId(final Integer clientId) {
-        return orderRepository.findAllByClientId(clientId).stream()
-                .map(RestOrderService::buildOrderDto)
-                .collect(Collectors.toList());
+    private ServiceEntity mapServiceDtoToEntity(ServiceDto s) {
+        return ServiceEntity.builder()
+                .serviceId(Optional.ofNullable(s.getId()).map(Integer::valueOf).orElse(null))
+                .qty(s.getQty())
+                .description(s.getDescription())
+                .price(Optional.ofNullable(s.getPrice()).map(BigDecimal::doubleValue).orElse(null))
+                .executor(getExecutor(s.getExecutorId()))
+                .item(getItem(s.getItemId()))
+                .isCustom(s.getIsCustom())
+                .status(s.getStatus())
+                .build();
     }
 }

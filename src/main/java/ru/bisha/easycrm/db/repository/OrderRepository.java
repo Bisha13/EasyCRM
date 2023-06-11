@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.bisha.easycrm.db.entity.OrderEntity;
+import ru.bisha.easycrm.db.entity.ServiceStatus;
 
 import java.util.List;
 
@@ -19,4 +20,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity,Integer> {
     Page<OrderEntity> findAllByExecuteStatusId (long id, Pageable pageable);
 
     Page<OrderEntity> findAllByExecuteStatusHide(boolean hide, Pageable pageable);
+
+    @Query("select distinct o from OrderEntity o LEFT join o.listOfServices as s where s.executor.id = :userId and s.status = :status")
+    List<OrderEntity> getByUserIdAndStatus(Integer userId, ServiceStatus status);
 }

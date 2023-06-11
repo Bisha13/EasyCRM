@@ -2,10 +2,8 @@ package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.bisha.easycrm.dto.GetOrdersResponse;
-import ru.bisha.easycrm.dto.NewOrderDto;
-import ru.bisha.easycrm.dto.OrderDto;
-import ru.bisha.easycrm.dto.SingleOrderDto;
+import ru.bisha.easycrm.db.entity.ServiceStatus;
+import ru.bisha.easycrm.dto.*;
 import ru.bisha.easycrm.restservice.RestOrderService;
 
 import java.util.List;
@@ -47,5 +45,10 @@ public class OrderRestController {
     @GetMapping
     public List<OrderDto> getByClient(@RequestParam Integer clientId) {
         return restOrderService.getByClientId(clientId);
+    }
+
+    @GetMapping("/byUser")
+    public ByUserAndServiceStatusResponse getOrdersByUser(@RequestParam Integer userId, @RequestParam ServiceStatus status) {
+        return restOrderService.getByUserIdAndStatus(userId, status);
     }
 }

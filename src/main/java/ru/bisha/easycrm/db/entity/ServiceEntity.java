@@ -2,9 +2,12 @@ package ru.bisha.easycrm.db.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.bisha.easycrm.dto.ServiceDto;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Entity
 @Table(name = "services")
@@ -56,6 +59,7 @@ public class ServiceEntity {
     private boolean isCustom;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private ServiceStatus status;
 
     public boolean getIsCustom() {
@@ -77,9 +81,17 @@ public class ServiceEntity {
         this.item = item;
     }
 
-    enum ServiceStatus {
-        NEW,
-        DONE,
-        PAID
+    public ServiceDto mapToDto() {
+        return ServiceDto.builder()
+                .id(String.valueOf(this.serviceId))
+                .orderId(String.valueOf(this.order.getOrderId()))
+                .qty(this.qty)
+                .description(this.description)
+                .price(Optional.ofNullable(this.price).map(BigDecimal::valueOf).orElse(null))
+                .executorId(Optional.ofNullable(this.executor).map(UserEntity::getId).map(String::valueOf).orElse(null))
+                .itemId(Optional.ofNullable(this.item).map(ItemEntity::getId).map(String::valueOf).orElse(null))
+                .isCustom(this.isCustom)
+                .status(this.status)
+                .build();
     }
 }
