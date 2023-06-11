@@ -21,4 +21,9 @@ public interface ServiceRepository extends JpaRepository<ServiceEntity, Integer>
     @Query("DELETE FROM ServiceEntity s WHERE s.serviceId in ?1")
     @Transactional
     void delete(Set<Integer> ids);
+
+    @Transactional
+    @Query(value = "UPDATE services s set s.status = :status WHERE s.service_id IN :ids", nativeQuery = true)
+    @Modifying
+    void updateStatuses(List<Integer> ids, String status);
 }

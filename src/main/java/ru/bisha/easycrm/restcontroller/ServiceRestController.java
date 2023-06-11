@@ -1,11 +1,9 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.repository.ServiceRepository;
+import ru.bisha.easycrm.dto.UpdateServiceStatusDto;
 
 @RestController
 @RequestMapping("/rest/services")
@@ -17,5 +15,10 @@ public class ServiceRestController {
     @DeleteMapping ("/{id}")
     public void deleteService(@PathVariable Integer id) {
         serviceRepository.deleteById(id);
+    }
+
+    @PostMapping("/updateStatus")
+    public void updateStatuses(@RequestBody UpdateServiceStatusDto request) {
+        serviceRepository.updateStatuses(request.getServiceIds(), request.getStatus().name());
     }
 }
