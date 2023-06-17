@@ -17,6 +17,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ru.bisha.easycrm.db.entity.ServiceStatus.DONE;
+import static ru.bisha.easycrm.db.entity.ServiceStatus.PAID;
+
 @Service
 @RequiredArgsConstructor
 public class RestOrderService {
@@ -184,6 +187,13 @@ public class RestOrderService {
         return orderRepository.findAllByClientId(clientId).stream()
                 .map(RestOrderService::buildOrderDto)
                 .collect(Collectors.toList());
+    }
+
+    public void finishOrder(SingleOrderDto request) {
+        var order = orderRepository.findById(Integer.valueOf(request.getId())).orElseThrow();
+        order.setExecuteStatus(statusRepository.getOne(10L));
+        order.getListOfServices().stream().filter(s -> !PAID.equals(s.getStatus())).forEach(s -> s.setStatus(DONE));
+        orderRepository.saveAndFlush(order);
     }
 
     public ByUserAndServiceStatusResponse getByUserIdAndStatus(final Integer userId, ServiceStatus status) {

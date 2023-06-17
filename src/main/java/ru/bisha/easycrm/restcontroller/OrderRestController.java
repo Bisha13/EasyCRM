@@ -37,6 +37,11 @@ public class OrderRestController {
         restOrderService.closeOrder(request);
     }
 
+    @PutMapping("/finishOrder")
+    public void finishOrder(@RequestBody SingleOrderDto request) {
+        restOrderService.finishOrder(request);
+    }
+
     @PostMapping("/new")
     public void createOrder(@RequestBody NewOrderDto request) {
         restOrderService.createOrder(request);
