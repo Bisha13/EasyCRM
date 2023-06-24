@@ -68,7 +68,7 @@ function UpdateItem() {
           alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
         } else {
           dispatch(loadRootItem({categoryId: 1}))
-          alert("Заказ обработан");
+          alert("Обновлено");
           routeChange();
         }
       })
@@ -111,7 +111,7 @@ function UpdateItem() {
           </InputGroup>
           <InputGroup>
             <InputGroup.Text style={{minWidth: 110}}>Цена</InputGroup.Text>
-            <Form.Control value={item.price} min='0' max='10000000' type='number' onChange={onChangePrice}/>
+            <Form.Control value={item.price} min='0' max='9999999' type='number' onChange={onChangePrice}/>
           </InputGroup>
           <div className="mt-2">
             <Button variant="primary" onClick={onUpdate}>Сохранить</Button>{' '}

@@ -100,7 +100,7 @@ function UpdateStock() {
           </InputGroup>
           <InputGroup>
             <InputGroup.Text style={{minWidth: 110}}>Закупка:</InputGroup.Text>
-            <Form.Control  min='1' max='10000000' type='number' value={stock.purchase} onChange={onChangePurchase}/>
+            <Form.Control  min='1' max='9999999' type='number' value={stock.purchase} onChange={onChangePurchase}/>
           </InputGroup>
           <InputGroup>
             <InputGroup.Text style={{minWidth: 110}}>Наценка %:</InputGroup.Text>
@@ -108,7 +108,7 @@ function UpdateStock() {
           </InputGroup>
           <InputGroup>
             <InputGroup.Text style={{minWidth: 110}}>Цена:</InputGroup.Text>
-            <Form.Control min='1' max='10000000' type='number' step='0.01' value={stock.price} onChange={onChangePrice}/>
+            <Form.Control min='1' max='9999999' type='number' step='0.01' value={stock.price} onChange={onChangePrice}/>
           </InputGroup>
           <div className="mt-2">
             <Button variant="primary" onClick={onUpdate}>Сохранить</Button>{' '}
