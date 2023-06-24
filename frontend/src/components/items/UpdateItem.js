@@ -63,10 +63,15 @@ function UpdateItem() {
 
   const onUpdate = () => {
     dispatch(updateItem(item))
-      .then(() => {
-        dispatch(loadRootItem({categoryId: 1}))
-        routeChange();
-      });
+      .then(({status, json}) => {
+        if (status >= 400) {
+          alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+        } else {
+          dispatch(loadRootItem({categoryId: 1}))
+          alert("Заказ обработан");
+          routeChange();
+        }
+      })
   }
   const onDelete = () => {
     const conf = window.confirm(`Подтверждаете удаление?`);

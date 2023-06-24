@@ -10,13 +10,13 @@ export const fetchStatuses = () => {
 
 export const updateStatuses = (statuses) => {
   return function (dispatch) {
-    fetch(`/rest/status`, {
+    return fetch(`/rest/status`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(statuses)
-    }).then(el => el);
+    });
   }
 }
 

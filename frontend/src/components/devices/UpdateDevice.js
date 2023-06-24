@@ -32,6 +32,13 @@ function UpdateDevice() {
 
   const onClick = (e) => {
     dispatch(updateDevice(device))
+      .then(({status, json}) => {
+        if (status >= 400) {
+          alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+        } else {
+          alert("Девайс обновлен");
+        }
+      })
   }
 
   return (

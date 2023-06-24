@@ -12,6 +12,13 @@ function AllStatuses() {
 
   const onClick = () => {
     dispatch(updateStatuses(statuses))
+      .then(({status, json}) => {
+        if (status >= 400) {
+          alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+        } else {
+          alert("Статус обновлен");
+        }
+      })
   }
 
   return (

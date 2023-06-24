@@ -27,7 +27,14 @@ function UpdateClientInfo() {
   }
 
   let onClick = e => {
-    dispatch(updateClient(state.client));
+    dispatch(updateClient(state.client))
+      .then(({status, json}) => {
+        if (status >= 400) {
+          alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+        } else {
+          alert("Клиент обновлен");
+        }
+      });
   }
 
   return (<div>

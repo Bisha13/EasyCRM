@@ -18,7 +18,7 @@ function OrderRow(props) {
         }
     }
 
-    return <tr bgcolor={props.data.status.colour} onClick={routeChange}>
+    return <tr bgcolor={props.data.status.colour} style={{'line-height': '23px'}} onClick={routeChange}>
         <td>{props.data.id}</td>
         <td>{props.data.clientName}</td>
         <td>{props.data.device}</td>

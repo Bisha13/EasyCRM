@@ -64,8 +64,16 @@ function UpdateStock() {
 
   function onUpdate() {
       dispatch(updateStock(stock))
-        .then(el => routeChange())
-    dispatch(loadRootStock({}))
+        .then(({status, json}) => {
+      if (status >= 400) {
+        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+      } else {
+        dispatch(loadRootStock({}))
+        alert("Запчасть обновлена");
+        navigate("/stocks");
+      }
+    })
+
   }
 
   function onDelete() {

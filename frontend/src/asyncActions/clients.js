@@ -38,13 +38,13 @@ export const fetchClientById = (id) => {
 
 export const updateClient = (client) => {
   return function (dispatch) {
-    fetch(`/rest/clients/`, {
+    return fetch(`/rest/clients/`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(client)
-    }).then(el => el);
+    })
   }
 }
 

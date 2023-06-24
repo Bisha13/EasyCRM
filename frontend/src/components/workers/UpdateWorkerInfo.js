@@ -21,7 +21,13 @@ function UpdateWorkerInfo() {
   }
 
   let onClick = e => {
-    dispatch(updateWorker(state.worker));
+    dispatch(updateWorker(state.worker)).then(({status, json}) => {
+      if (status >= 400) {
+        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+      } else {
+        alert("Работник обновлен");
+      }
+    })
   }
 
   return (<div>

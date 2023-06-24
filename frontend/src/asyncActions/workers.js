@@ -22,13 +22,13 @@ export const fetchWorkerById = (id) => {
 
 export const updateWorker = (worker) => {
     return function (dispatch) {
-        fetch(`/rest/workers`, {
+        return fetch(`/rest/workers`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(worker)
-        }).then(el => el);
+        });
     }
 }
 

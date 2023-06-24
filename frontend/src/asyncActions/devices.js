@@ -43,13 +43,13 @@ export const fetchDeviceAndClientById = (id) => {
 
 export const updateDevice = (device) => {
   return function (dispatch) {
-    fetch(`/rest/devices`, {
+    return fetch(`/rest/devices`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(device)
-    }).then(el => el);
+    });
   }
 }
 
