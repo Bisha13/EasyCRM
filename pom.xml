@@ -16,9 +16,8 @@
     <properties>
         <java.version>11</java.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-        <node.version>v18.15.0</node.version>
+        <node.version>v14.18.0</node.version>
         <yarn.version>v1.12.1</yarn.version>
-        <npm.version>9.5.0</npm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -108,25 +107,24 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                <execution>
-                    <id>copy-resources</id>
-                    <phase>process-classes</phase>
-                    <goals>
-                        <goal>copy-resources</goal>
-                    </goals>
-                    <configuration>
-                        <outputDirectory>${basedir}/target/classes/static</outputDirectory>
-                        <resources>
-                            <resource>
-                                <directory>front/build</directory>
-                            </resource>
-                        </resources>
-                    </configuration>
-                </execution>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>frontend/build</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -138,37 +136,34 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>install node and npm</id>
+                        <id>install node</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>install-node-and-yarn</goal>
                         </goals>
-                        <phase>generate-resources</phase>
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
-                            <npmVersion>${npm.version}</npmVersion>
+                            <yarnVersion>${yarn.version}</yarnVersion>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm ci</id>
+                        <id>yarn install</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
-                        <configuration>
-                            <arguments>ci</arguments>
-                        </configuration>
+                        <phase>generate-resources</phase>
                     </execution>
                     <execution>
-                        <id>npm run build</id>
+                        <id>yarn build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
+                        <phase>compile</phase>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>build</arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>

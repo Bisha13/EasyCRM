@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/stocks")
+@ConditionalOnProperty(value = "ui", havingValue = "thymeleaf")
 public class StockController {
 
     @Autowired

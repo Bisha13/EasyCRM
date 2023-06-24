@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/clients")
+@ConditionalOnProperty(value = "ui", havingValue = "thymeleaf")
 public class ClientController {
 
     @Autowired

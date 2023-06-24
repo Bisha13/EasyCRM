@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rest/clients")
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class ClientsRestController {
 
     private final ClientService clientService;

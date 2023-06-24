@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rest/devices")
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class DevicesRestController {
 
     private static final String DEFAULT_PAGE_SIZE = "100";

@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.restcontroller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.ServiceStatus;
 import ru.bisha.easycrm.dto.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/orders")
 @RequiredArgsConstructor
+@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class OrderRestController {
 
     private final RestOrderService restOrderService;

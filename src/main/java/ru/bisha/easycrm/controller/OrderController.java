@@ -1,6 +1,7 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/")
+@ConditionalOnProperty(value = "ui", havingValue = "thymeleaf")
 public class OrderController {
 
 
