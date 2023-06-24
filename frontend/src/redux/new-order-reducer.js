@@ -24,6 +24,7 @@ const newOrderSlice = createSlice({
       deviceDescription: '',
       clientName: '',
       clientPhone: '',
+      smallDescription: ''
     },
     devices: [],
     servicesSum: 0,

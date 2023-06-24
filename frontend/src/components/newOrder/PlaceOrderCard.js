@@ -15,8 +15,15 @@ function PlaceOrderCard() {
     navigate(path);
   }
   const createOrder = e => {
-    dispatch(createNewOrder(state.order));
-    routeChange();
+    dispatch(createNewOrder(state.order))
+      .then(({status, json}) => {
+      if (status >= 400) {
+        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
+      } else {
+        alert("Заказ сохранен")
+        routeChange();
+      }
+    })
   }
 
   return (<Card className={"mt-3"}>

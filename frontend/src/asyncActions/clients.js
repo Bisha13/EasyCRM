@@ -2,7 +2,6 @@ import {newLoadClients, newToggleIsNewClient, selectClient} from "../redux/new-o
 import {fetchDevicesByClientId, fetchDevicesByClientIdForClient} from "./devices";
 import {loadAllClients, loadClient, setClientPageCount, toggleClientPagination} from "../redux/client-reducer";
 import {fetchOrdersByClientId} from "./orders";
-import {loadOrders} from "../redux/orders-reducer";
 
 export const fetchClientsByPhone = (phoneNumber) => {
   return function (dispatch) {

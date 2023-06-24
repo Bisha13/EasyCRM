@@ -71,5 +71,15 @@
         <dropColumn tableName="orders" columnName="order_description"/>
     </changeSet>
 
+    <changeSet author="Bisha" id="remove-small_description-not-null-constraint">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="orders" columnName="small_description"/>
+            </and>
+        </preConditions>
+        <comment>Remove small_description null constraint</comment>
+        <modifyDataType tableName="orders" columnName="small_description" newDataType="tinytext"/>
+    </changeSet>
+
 
 </databaseChangeLog>

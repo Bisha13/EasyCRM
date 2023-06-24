@@ -1,8 +1,6 @@
 import OrderRow from "../orderTable/OrderRow";
 import Table from "react-bootstrap/Table";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {fetchOrdersByClientId} from "../../asyncActions/orders";
+import {useSelector} from "react-redux";
 
 function AllClientOrders() {
   const state = useSelector(state => state.client)

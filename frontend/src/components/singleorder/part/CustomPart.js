@@ -53,6 +53,13 @@ function CustomPart(props) {
     return percent;
   }
 
+  function getOptions() {
+    let result = [];
+    for (let i = 0; i <= 10; i++) {
+      result.push(i * 10);
+    }
+    return result;
+  }
 
   return (!orderState.isStockLoaded ? null :
       <div>
@@ -62,9 +69,7 @@ function CustomPart(props) {
           <Form.Control placeholder="Краткое описание" value={props.data.name} onChange={handleNameChange}/>
           <Form.Control type='number' style={{maxWidth: 100}}  placeholder="Цена" min={0} value={props.data.purchasePrice} onChange={handlePurchasePriceChange}/>
           <Form.Select style={{maxWidth: 100}} onChange={handlePecentSelect} defaultValue={getDefaultPercent()}>
-            <option value={0} key={0} selected={props.data.percent === 0}>{'0%'}</option>
-            <option value={20} key={20} selected={props.data.percent === 20}>{'20%'}</option>
-            <option value={30} key={30} selected={props.data.percent === 30}>{'30%'}</option>
+            {getOptions().map(el => <option value={el} key={el} selected={props.data.percent === el}>{el + '%'}</option>)}
           </Form.Select>
           <InputGroup.Text style={{width: 100}}>{props.data.price ? props.data.price : 'Цена'}</InputGroup.Text>
           <Button variant="danger" onClick={handleRemove}><i aria-hidden="true" className="fa fa-minus float-right"></i></Button>

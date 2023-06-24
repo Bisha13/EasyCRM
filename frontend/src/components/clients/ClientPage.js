@@ -3,7 +3,6 @@ import Card from "react-bootstrap/Card";
 import {Tab, Tabs} from "react-bootstrap";
 import ClientInfo from "./ClientInfo";
 import {useEffect} from "react";
-import {fetchOrders} from "../../asyncActions/orders";
 import {useDispatch} from "react-redux";
 import {fetchClientById} from "../../asyncActions/clients";
 import {useParams} from "react-router-dom";

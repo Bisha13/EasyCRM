@@ -49,11 +49,7 @@ export const updateSingleOrder = (order) => {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(order)
-    }).then(({status, json}) => {
-      if (status >= 400) {
-        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
-      }
-    });
+    })
   }
 }
 
@@ -65,11 +61,7 @@ export const closeOrder = (order) => {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(order)
-    }).then(({status, json}) => {
-      if (status >= 400) {
-        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
-      }
-    });
+    })
   }
 }
 
@@ -81,22 +73,18 @@ export const finishOrder = (order) => {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(order)
-    }).then(({status, json}) => {
-      if (status >= 400) {
-        alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
-      }
-    });
+    })
   }
 }
 
 export const createNewOrder = (order) => {
   return function (dispatch) {
-    fetch(`/rest/orders/new`, {
+    return fetch(`/rest/orders/new`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(order)
-    }).then(el => el);
+    })
   }
 }
