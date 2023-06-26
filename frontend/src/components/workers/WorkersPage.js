@@ -7,6 +7,7 @@ import {useParams} from "react-router-dom";
 import {fetchWorkerById} from "../../asyncActions/workers";
 import UpdateWorkerInfo from "./UpdateWorkerInfo";
 import ServicesTab from "./services/ServicesTab";
+import PaidServicesTab from "./services/PaidServicesTab";
 
 
 function ClientPage() {
@@ -23,8 +24,11 @@ function ClientPage() {
         <Card.Body>
           <div>{worker.name}</div>
           <Tabs>
-            <Tab eventKey='works' title="Работы">
+            <Tab eventKey='works' title="Готовые работы">
               <ServicesTab/>
+            </Tab>
+            <Tab eventKey='paid' title="Оплаченные работы">
+              <PaidServicesTab/>
             </Tab>
             <Tab eventKey='reduct' title="Редактировать">
               <UpdateWorkerInfo/>

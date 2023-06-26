@@ -5,8 +5,10 @@ const workerSlice = createSlice({
   initialState: {
     worker: {},
     workers: [],
-    workerOrders: [],
-    totalSum: 0
+    doneOrders: [],
+    doneTotalSum: 0,
+    paidOrders: [],
+    paidTotalSum: 0
   },
   reducers: {
     loadMasterWorker: (state, action) => {
@@ -27,15 +29,20 @@ const workerSlice = createSlice({
     changePercent: (state, action) => {
       state.worker.percent = action.payload;
     },
-    loadWorkerOrders: (state, action) => {
-      state.workerOrders = action.payload.orders;
-      state.totalSum = action.payload.totalSum;
+    loadDoneOrders: (state, action) => {
+      state.doneOrders = action.payload.orders;
+      state.doneTotalSum = action.payload.totalSum;
+    },
+    loadPaidOrders: (state, action) => {
+      state.paidOrders = action.payload.orders;
+      state.paidTotalSum = action.payload.totalSum;
     },
   }
 })
 
 export const {
-  loadWorkerOrders,
+  loadDoneOrders,
+  loadPaidOrders,
   loadMasterWorker,
   loadAllMasterWorkers ,
   changeName,

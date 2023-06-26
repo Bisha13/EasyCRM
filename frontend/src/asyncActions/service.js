@@ -1,4 +1,4 @@
-import {fetchWorkerOrders} from "./workers";
+import {fetchDoneOrders} from "./workers";
 
 export const updateStatuses = (request, id) => {
     return function (dispatch) {
@@ -13,7 +13,7 @@ export const updateStatuses = (request, id) => {
                 alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
             }
             alert("Готово!")
-            dispatch(fetchWorkerOrders(id, "DONE"))
+            dispatch(fetchDoneOrders(id, "DONE"))
         });
     }
 }

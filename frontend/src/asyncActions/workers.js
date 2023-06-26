@@ -1,5 +1,10 @@
 import {loadWorkers} from "../redux/common-reducer";
-import {loadAllMasterWorkers, loadMasterWorker, loadWorkerOrders} from "../redux/worker-reducer";
+import {
+    loadAllMasterWorkers,
+    loadDoneOrders,
+    loadMasterWorker,
+    loadPaidOrders
+} from "../redux/worker-reducer";
 
 export const fetchWorkers = () => {
     return function (dispatch) {
@@ -32,11 +37,20 @@ export const updateWorker = (worker) => {
     }
 }
 
-export const fetchWorkerOrders = (workerId, status) => {
+export const fetchDoneOrders = (workerId, status) => {
     return function (dispatch) {
         return fetch(`/rest/orders/byUser?userId=${workerId}&status=${status}`)
             .then(response => response.json())
-            .then(json => dispatch(loadWorkerOrders(json)))
+            .then(json => dispatch(loadDoneOrders(json)))
+            .then()
+    }
+}
+
+export const fetchPaidOrders = (workerId, status, year, month) => {
+    return function (dispatch) {
+        return fetch(`/rest/orders/byUser?userId=${workerId}&status=${status}&year=${year}&month=${month}`)
+            .then(response => response.json())
+            .then(json => dispatch(loadPaidOrders(json)))
             .then()
     }
 }

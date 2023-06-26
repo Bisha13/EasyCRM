@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchWorkerOrders} from "../../../asyncActions/workers";
+import {fetchDoneOrders} from "../../../asyncActions/workers";
 import {useParams} from "react-router-dom";
 import {Accordion} from "react-bootstrap";
 import WorkerOrder from "./WorkerOrder";
@@ -13,12 +13,12 @@ function ServicesTab() {
     const {id} = useParams();
 
     useEffect(() => {
-        dispatch(fetchWorkerOrders(id, "DONE"));
+        dispatch(fetchDoneOrders(id, "DONE"));
     }, []);
 
     const onClick = () => {
         let request = {
-            serviceIds: state.workerOrders.flatMap(o => o.services).map(s => s.id),
+            serviceIds: state.doneOrders.flatMap(o => o.services).map(s => s.id),
             status: 'PAID'
         }
         dispatch(updateStatuses(request, id));
@@ -27,10 +27,10 @@ function ServicesTab() {
     return (
         <div>
             <Accordion alwaysOpen>
-                { state.workerOrders.map((o, i ) => <WorkerOrder order={o} eventKey={o.id} key={i}/>) }
+                { state.doneOrders.map((o, i ) => <WorkerOrder order={o} eventKey={o.id} key={o.id}/>) }
             </Accordion>
             <br/>
-            <div>Итого выполнено работ на {state.totalSum} рублей</div>
+            <div>Итого выполнено работ на {state.doneTotalSum} рублей</div>
             <Button onClick={onClick} className="mt-3">Выплатить работнику его деньги!</Button>
         </div>
 
