@@ -67,7 +67,7 @@ export const closeOrder = (order) => {
 
 export const finishOrder = (order) => {
   return function (dispatch) {
-    return fetch(`/rest/orders/finishOrder`, {
+    return fetch(`/rest/orders/readyForCustomer`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json'

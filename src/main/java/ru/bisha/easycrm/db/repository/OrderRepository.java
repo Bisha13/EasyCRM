@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import ru.bisha.easycrm.db.entity.OrderEntity;
 import ru.bisha.easycrm.db.entity.ServiceStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity,Integer> {
@@ -23,4 +24,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity,Integer> {
 
     @Query("select distinct o from OrderEntity o LEFT join o.listOfServices as s where s.executor.id = :userId and s.status = :status")
     List<OrderEntity> getByUserIdAndStatus(Integer userId, ServiceStatus status);
+
+    @Query("select distinct o from OrderEntity o LEFT join o.listOfServices as s " +
+            "where s.executor.id = :userId " +
+            "and s.status = :status " +
+            "and s.statusUpdatedAt >= :after and s.statusUpdatedAt < :before")
+    List<OrderEntity> getByUserIdAndStatus(Integer userId, ServiceStatus status, LocalDateTime after, LocalDateTime before);
 }

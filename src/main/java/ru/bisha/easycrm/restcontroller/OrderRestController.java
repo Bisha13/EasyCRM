@@ -39,9 +39,9 @@ public class OrderRestController {
         restOrderService.closeOrder(request);
     }
 
-    @PutMapping("/finishOrder")
-    public void finishOrder(@RequestBody SingleOrderDto request) {
-        restOrderService.finishOrder(request);
+    @PutMapping("/readyForCustomer")
+    public void setReadyForCustomer(@RequestBody SingleOrderDto request) {
+        restOrderService.setOrderReadyForCustomer(request);
     }
 
     @PostMapping("/new")
@@ -55,7 +55,8 @@ public class OrderRestController {
     }
 
     @GetMapping("/byUser")
-    public ByUserAndServiceStatusResponse getOrdersByUser(@RequestParam Integer userId, @RequestParam ServiceStatus status) {
-        return restOrderService.getByUserIdAndStatus(userId, status);
+    public ByUserAndServiceStatusResponse getOrdersByUser(@RequestParam Integer userId, @RequestParam ServiceStatus status,
+                                                          @RequestParam(required = false) Integer year, @RequestParam(required = false) Integer month) {
+        return restOrderService.getByUserIdAndStatus(userId, status, year, month);
     }
 }

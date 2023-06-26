@@ -7,6 +7,7 @@ import ru.bisha.easycrm.dto.ServiceDto;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
@@ -62,6 +63,9 @@ public class ServiceEntity {
     @Enumerated(EnumType.STRING)
     private ServiceStatus status;
 
+    @Column(name = "status_updated_at")
+    private LocalDateTime statusUpdatedAt;
+
     public boolean getIsCustom() {
         return isCustom;
     }
@@ -92,6 +96,7 @@ public class ServiceEntity {
                 .itemId(Optional.ofNullable(this.item).map(ItemEntity::getId).map(String::valueOf).orElse(null))
                 .isCustom(this.isCustom)
                 .status(this.status)
+                .statusUpdatedAt(this.statusUpdatedAt)
                 .build();
     }
 }

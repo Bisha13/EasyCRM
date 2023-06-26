@@ -35,4 +35,18 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Bisha" id="add-status_updated_at-to-services-table">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="services"/>
+                <not>
+                    <columnExists tableName="services" columnName="status_updated_at"/>
+                </not>
+            </and>
+        </preConditions>
+        <addColumn tableName="services">
+            <column name="status_updated_at" type="datetime"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

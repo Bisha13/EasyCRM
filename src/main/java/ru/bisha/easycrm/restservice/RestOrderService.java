@@ -12,6 +12,7 @@ import ru.bisha.easycrm.dto.*;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -82,7 +83,6 @@ public class RestOrderService {
         order.setSmallDescription(request.getSmallDescription());
         order.setFullDescription(request.getFullDescription());
 
-
         Set<Integer> newServiceIds = request.getServices().stream()
                 .filter(s -> StringUtils.hasLength(s.getId()))
                 .filter(s -> !(!Boolean.TRUE.equals(s.getIsCustom()) && "0".equals(s.getItemId())))
@@ -90,7 +90,6 @@ public class RestOrderService {
         order.getListOfServices().stream()
                 .filter(s -> !newServiceIds.contains(s.getServiceId()))
                 .forEach(t -> serviceRepository.delete(t.getServiceId()));
-
 
         Set<Integer> newPartsIds = request.getParts().stream()
                 .filter(s -> StringUtils.hasLength(s.getPartId()))
@@ -189,15 +188,18 @@ public class RestOrderService {
                 .collect(Collectors.toList());
     }
 
-    public void finishOrder(SingleOrderDto request) {
+    public void setOrderReadyForCustomer(SingleOrderDto request) {
         var order = orderRepository.findById(Integer.valueOf(request.getId())).orElseThrow();
         order.setExecuteStatus(statusRepository.getOne(10L));
-        order.getListOfServices().stream().filter(s -> !PAID.equals(s.getStatus())).forEach(s -> s.setStatus(DONE));
+        order.getListOfServices().stream().filter(s -> !PAID.equals(s.getStatus())).forEach(s -> {
+            s.setStatusUpdatedAt(LocalDateTime.now());
+            s.setStatus(DONE);
+        });
         orderRepository.saveAndFlush(order);
     }
 
-    public ByUserAndServiceStatusResponse getByUserIdAndStatus(final Integer userId, ServiceStatus status) {
-        List<OrderEntity> orders = orderRepository.getByUserIdAndStatus(userId, status);
+    public ByUserAndServiceStatusResponse getByUserIdAndStatus(final Integer userId, ServiceStatus status, Integer year, Integer month) {
+        List<OrderEntity> orders = orderRepository.getByUserIdAndStatus(userId, status, getAfter(year, month), getBefore(year, month));
         double totalSum = orders.stream()
                 .flatMap(order -> order.getListOfServices().stream())
                 .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).orElse(0)))
@@ -216,6 +218,23 @@ public class RestOrderService {
                 .orders(orderDtos)
                 .totalSum(BigDecimal.valueOf(totalSum))
                 .build();
+    }
+
+    private static LocalDateTime getAfter(Integer year, Integer month) {
+        if (year == null || month == null) {
+            return LocalDateTime.of(2000, 1, 1, 0, 0);
+        }
+        return LocalDateTime.of(year, month, 1, 0, 0);
+    }
+
+    private static LocalDateTime getBefore(Integer year, Integer month) {
+        if (year == null || month == null) {
+            return LocalDateTime.of(3000, 1, 1, 0, 0);
+        }
+        if (month == 12) {
+            return LocalDateTime.of(year + 1, 1, 1, 0, 0);
+        }
+        return LocalDateTime.of(year, month + 1, 1, 0, 0);
     }
 
     private List<PartEntity> mapPartsToEntity(List<PartDto> parts) {
@@ -409,6 +428,7 @@ public class RestOrderService {
                 .item(getItem(s.getItemId()))
                 .isCustom(s.getIsCustom())
                 .status(s.getStatus())
+                .statusUpdatedAt(s.getStatusUpdatedAt())
                 .build();
     }
 }

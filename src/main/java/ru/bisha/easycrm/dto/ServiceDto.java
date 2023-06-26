@@ -6,6 +6,7 @@ import lombok.Getter;
 import ru.bisha.easycrm.db.entity.ServiceStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
@@ -21,4 +22,5 @@ public class ServiceDto {
     private String itemId;
     private Boolean isCustom;
     private ServiceStatus status;
+    private LocalDateTime statusUpdatedAt;
 }
