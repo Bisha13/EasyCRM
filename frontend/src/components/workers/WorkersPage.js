@@ -8,14 +8,16 @@ import {fetchWorkerById} from "../../asyncActions/workers";
 import UpdateWorkerInfo from "./UpdateWorkerInfo";
 import ServicesTab from "./services/ServicesTab";
 import PaidServicesTab from "./services/PaidServicesTab";
+import {changeActiveMonth} from "../../redux/worker-reducer";
 
 
-function ClientPage() {
+function WorkersPage() {
   const dispatch = useDispatch();
   const {id} = useParams();
   const worker = useSelector(state => state.worker.worker)
   useEffect(() => {
     dispatch(fetchWorkerById(id));
+    dispatch(changeActiveMonth(new Date().getMonth() + 1));
   }, []);
 
   return (
@@ -40,4 +42,4 @@ function ClientPage() {
   );
 }
 
-export default ClientPage;
+export default WorkersPage;

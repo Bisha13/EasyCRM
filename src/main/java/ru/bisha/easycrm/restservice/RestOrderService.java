@@ -189,6 +189,7 @@ public class RestOrderService {
     }
 
     public void setOrderReadyForCustomer(SingleOrderDto request) {
+        updateOrder(request);
         var order = orderRepository.findById(Integer.valueOf(request.getId())).orElseThrow();
         order.setExecuteStatus(statusRepository.getOne(10L));
         order.getListOfServices().stream().filter(s -> !PAID.equals(s.getStatus())).forEach(s -> {

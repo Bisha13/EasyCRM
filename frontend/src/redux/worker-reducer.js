@@ -8,9 +8,13 @@ const workerSlice = createSlice({
     doneOrders: [],
     doneTotalSum: 0,
     paidOrders: [],
-    paidTotalSum: 0
+    paidTotalSum: 0,
+    paidOrdersActiveMonth:  new Date().getMonth() + 1
   },
   reducers: {
+    changeActiveMonth: (state, action) => {
+      state.paidOrdersActiveMonth = action.payload;
+    },
     loadMasterWorker: (state, action) => {
       state.worker = action.payload;
     },
@@ -48,5 +52,6 @@ export const {
   changeName,
   changePercent,
   changePhone,
+  changeActiveMonth
 } = workerSlice.actions
 export default workerSlice.reducer
