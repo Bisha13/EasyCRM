@@ -77,9 +77,11 @@ public class RestOrderService {
     public void updateOrder(SingleOrderDto request) {
 
         var order = orderRepository.findById(Integer.valueOf(request.getId())).orElseThrow();
-        var status = statusRepository.findById(Long.valueOf(request.getStatusId())).orElseThrow();
+        var newStatus = statusRepository.findById(Long.valueOf(request.getStatusId())).orElseThrow();
 
-        order.setExecuteStatus(status);
+        var originalStatus = order.getExecuteStatus();
+
+        order.setExecuteStatus(newStatus);
         order.setSmallDescription(request.getSmallDescription());
         order.setFullDescription(request.getFullDescription());
 
@@ -101,6 +103,10 @@ public class RestOrderService {
 
 
         List<ServiceEntity> serviceEntities = mapServicesToEntity(request.getServices());
+        if (!originalStatus.getId().equals(newStatus.getId()) && newStatus.getId().equals(10L)) {
+            serviceEntities.stream().forEach(s -> s.setStatusUpdatedAt(LocalDateTime.now()));
+        }
+
         List<PartEntity> partEntities = mapPartsToEntity(request.getParts());
         order.setListOfServices(serviceEntities);
         order.setListOfParts(partEntities);
@@ -153,7 +159,7 @@ public class RestOrderService {
         order.setListOfParts(partEntities);
         order.setPartsPrice(getPartsPrice(order.getListOfParts()));
         setSumFromServices(order);
-        setOrders(order); //todo set orders in mapper
+        setOrders(order);
         order.setFullPrice(order.getPartsPrice() + order.getWorkPrice());
         orderRepository.saveAndFlush(order);
     }
