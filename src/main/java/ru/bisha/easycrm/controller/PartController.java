@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restcontroller;
+package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,12 +12,12 @@ import ru.bisha.easycrm.db.repository.PartRepository;
 @RequestMapping("/rest/parts")
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "ui", havingValue = "rest")
-public class PartRestController {
+public class PartController {
 
     private final PartRepository partRepository;
 
     @DeleteMapping ("/{id}")
-    public void deleteService(@PathVariable Integer id) {
+    public void deletePart(@PathVariable Integer id) {
         partRepository.deleteById(id);
     }
 }

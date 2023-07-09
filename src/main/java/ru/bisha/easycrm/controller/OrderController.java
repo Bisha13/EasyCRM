@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restcontroller;
+package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/rest/orders")
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "ui", havingValue = "rest")
-public class OrderRestController {
+public class OrderController {
 
     private final RestOrderService restOrderService;
 

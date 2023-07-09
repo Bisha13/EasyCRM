@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restcontroller;
+package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/rest/items")
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "ui", havingValue = "rest")
-public class ItemsRestController {
+public class ItemsController {
 
     private final ItemService itemService;
     private final ServiceRepository serviceRepository;

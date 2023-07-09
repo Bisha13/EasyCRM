@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restcontroller;
+package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/rest/stock")
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "ui", havingValue = "rest")
-public class StockRestController {
+public class StockController {
 
     private final StockRepository stockRepository;
     private final StockService stockService;

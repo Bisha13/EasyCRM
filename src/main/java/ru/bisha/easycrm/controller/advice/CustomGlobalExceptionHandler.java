@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restcontroller.advice;
+package ru.bisha.easycrm.controller.advice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
