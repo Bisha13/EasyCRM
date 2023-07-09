@@ -12,7 +12,7 @@
       <mapping class="ru.bisha.easycrm.db.entity.ItemEntity"/>
       <mapping class="ru.bisha.easycrm.db.entity.OrderEntity"/>
       <mapping class="ru.bisha.easycrm.db.entity.ServiceEntity"/>
-      <mapping class="ru.bisha.easycrm.db.entity.UserEntity"/>
+      <mapping class="ru.bisha.easycrm.db.entity.WorkerEntity"/>
     <mapping class="ru.bisha.easycrm.db.entity.StatusEntity"/>
       <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->

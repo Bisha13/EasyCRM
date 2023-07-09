@@ -6,14 +6,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "workers")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class UserEntity {
+public class WorkerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

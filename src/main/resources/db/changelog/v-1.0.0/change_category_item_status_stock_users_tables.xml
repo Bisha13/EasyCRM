@@ -1,0 +1,74 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Bisha" id="rename-category-to-categories">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="category"/>
+                <not>
+                    <tableExists tableName="categories"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="categories" oldTableName="category"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="rename-item-to-items">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="item"/>
+                <not>
+                    <tableExists tableName="items"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="items" oldTableName="item"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="rename-status-to-statuses">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="status"/>
+                <not>
+                    <tableExists tableName="statuses"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="statuses" oldTableName="status"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="rename-stock-to-stocks">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="stock"/>
+                <not>
+                    <tableExists tableName="stocks"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="stocks" oldTableName="stock"/>
+    </changeSet>
+
+    <changeSet author="Bisha" id="rename-users-to-workers">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="users"/>
+                <not>
+                    <tableExists tableName="workers"/>
+                </not>
+            </and>
+        </preConditions>
+        <renameTable newTableName="workers" oldTableName="users"/>
+    </changeSet>
+
+
+
+</databaseChangeLog>

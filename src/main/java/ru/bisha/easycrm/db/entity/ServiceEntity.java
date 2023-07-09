@@ -29,7 +29,7 @@ public class ServiceEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
-    private UserEntity executor;
+    private WorkerEntity executor;
 
     @Column(name = "description")
     private String description;
@@ -92,7 +92,7 @@ public class ServiceEntity {
                 .qty(this.qty)
                 .description(this.description)
                 .price(Optional.ofNullable(this.price).map(BigDecimal::valueOf).orElse(null))
-                .executorId(Optional.ofNullable(this.executor).map(UserEntity::getId).map(String::valueOf).orElse(null))
+                .executorId(Optional.ofNullable(this.executor).map(WorkerEntity::getId).map(String::valueOf).orElse(null))
                 .itemId(Optional.ofNullable(this.item).map(ItemEntity::getId).map(String::valueOf).orElse(null))
                 .isCustom(this.isCustom)
                 .status(this.status)

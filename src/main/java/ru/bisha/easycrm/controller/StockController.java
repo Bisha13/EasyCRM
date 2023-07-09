@@ -24,7 +24,7 @@ public class StockController {
         List<StockEntity> stocks = stockRepository.findAll();
         stocks.stream()
                 .filter(s -> StringUtils.hasLength(s.getName()))
-                .forEach(s -> s.setName(s.getName().replaceAll("\\s+", " ")));
+                .forEach(s -> s.setName(s.getName().replaceAll("\\s+", " ").trim()));
         return stocks;
     }
 

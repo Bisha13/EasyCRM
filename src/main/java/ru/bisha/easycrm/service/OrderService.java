@@ -29,7 +29,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final StatusRepository statusRepository;
-    private final UserRepository userRepository;
+    private final WorkerRepository workerRepository;
     private final ItemRepository itemRepository;
     private final StockRepository stockRepository;
     private final ServiceRepository serviceRepository;
@@ -209,7 +209,7 @@ public class OrderService {
         List<OrderEntity> orders = orderRepository.getByUserIdAndStatus(userId, status, getAfter(year, month), getBefore(year, month));
         double totalSum = orders.stream()
                 .flatMap(order -> order.getListOfServices().stream())
-                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).orElse(0)))
+                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(WorkerEntity::getId).orElse(0)))
                 .mapToDouble(s -> {
                     var percent = s.getExecutor().getPercent();
                     var price = s.getIsCustom() ? s.getPrice() : s.getItem().getPrice();
@@ -292,8 +292,8 @@ public class OrderService {
 
     }
 
-    private UserEntity getExecutor(String executorId) {
-        return executorId == null ? null : userRepository.findById(Integer.valueOf(executorId)).orElse(null);
+    private WorkerEntity getExecutor(String executorId) {
+        return executorId == null ? null : workerRepository.findById(Integer.valueOf(executorId)).orElse(null);
     }
 
     private StockEntity getStock(String stockId) {
@@ -406,7 +406,7 @@ public class OrderService {
     private static OrderDto buildOrderDtoWithServicesByUser(final OrderEntity order, final Integer userId) {
         final OrderDto orderDto = buildOrderDto(order);
         List<ServiceDto> serviceDtos = order.getListOfServices().stream()
-                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(UserEntity::getId).orElse(0)))
+                .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(WorkerEntity::getId).orElse(0)))
                 .map(ServiceEntity::mapToDto)
                 .collect(Collectors.toList());
         orderDto.setServices(serviceDtos);

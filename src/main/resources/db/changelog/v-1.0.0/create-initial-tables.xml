@@ -354,6 +354,9 @@
                 <not>
                     <tableExists tableName="users"/>
                 </not>
+                <not>
+                    <tableExists tableName="workers"/>
+                </not>
             </and>
         </preConditions>
         <comment>Create userstable</comment>

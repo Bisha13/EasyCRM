@@ -3,8 +3,8 @@ package ru.bisha.easycrm.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
-import ru.bisha.easycrm.db.entity.UserEntity;
-import ru.bisha.easycrm.db.repository.UserRepository;
+import ru.bisha.easycrm.db.entity.WorkerEntity;
+import ru.bisha.easycrm.db.repository.WorkerRepository;
 import ru.bisha.easycrm.dto.GetWorkersResponse;
 import ru.bisha.easycrm.dto.WorkerDto;
 
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class WorkersController {
 
-    private final UserRepository userRepository;
+    private final WorkerRepository workerRepository;
 
     @GetMapping("/all")
     public GetWorkersResponse getAllUsers() {
-        List<WorkerDto> workers = userRepository.findAll().stream()
+        List<WorkerDto> workers = workerRepository.findAll().stream()
                 .map(u -> WorkerDto.builder()
                         .id(String.valueOf(u.getId()))
                         .name(u.getFullName())
@@ -34,7 +34,7 @@ public class WorkersController {
 
     @GetMapping("/{id}")
     public WorkerDto getUser(@PathVariable String id) {
-        return userRepository.findById(Integer.valueOf(id))
+        return workerRepository.findById(Integer.valueOf(id))
                 .map(u -> WorkerDto.builder()
                         .id(String.valueOf(u.getId()))
                         .name(u.getFullName())
@@ -46,12 +46,12 @@ public class WorkersController {
 
     @PostMapping
     public void updateWorker(@RequestBody WorkerDto worker) {
-        UserEntity userEntity = UserEntity.builder()
+        WorkerEntity workerEntity = WorkerEntity.builder()
                 .id(Integer.parseInt(worker.getId()))
                 .fullName(worker.getName())
                 .phoneNumber(worker.getPhone())
                 .percent(worker.getPercent())
                 .build();
-        userRepository.save(userEntity);
+        workerRepository.save(workerEntity);
     }
 }
