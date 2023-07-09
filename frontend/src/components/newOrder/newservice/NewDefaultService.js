@@ -76,7 +76,7 @@ function NewDefaultService(props) {
   <div>
     <InputGroup className="mb-3">
       <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} onChange={handleChangeQty} min={1} max={10000000}/>
-      <Form.Control list="datalistOptions" className={props.data.itemId > 0 ? s.input : ''}
+      <Form.Control list="datalistOptions" className={props.data.itemId > 0 ? s.inputId : ''}
                     placeholder={getItemName()}
                     onChange={handleItemSelect}
                     onFocus={handleFocus}
