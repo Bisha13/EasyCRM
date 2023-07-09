@@ -45,12 +45,16 @@ function Buttons() {
       })
   }
 
+  function isEnabled() {
+      return orderState.order.services.every(s => s.executorId > 0)
+  }
+
   return (
     <div className="ms-3 mb-3">
-      <Button className='me-2' variant="primary" onClick={handleSave}>Сохранить</Button>
+      <Button className='me-2' variant="primary" onClick={handleSave} disabled={!isEnabled()}>Сохранить</Button>
       {orderState.order.statusId != '10' ?
-        <Button className='me-2' variant="success" onClick={handleFinish}>Готов к выдаче</Button> : null}
-      <Button className='me-2' variant="danger" onClick={handleClose}>Закрыть</Button>
+        <Button className='me-2' variant="success" onClick={handleFinish} disabled={!isEnabled()}>Готов к выдаче</Button> : null}
+      <Button className='me-2' variant="danger" onClick={handleClose} disabled={!isEnabled()}>Закрыть</Button>
     </div>
   );
 }
