@@ -18,13 +18,13 @@ function OrderRow(props) {
         }
     }
 
-    return <tr bgcolor={props.data.status.colour} style={{'line-height': '23px'}} onClick={routeChange}>
-        <td>{props.data.id}</td>
-        <td>{props.data.clientName}</td>
-        <td>{props.data.device}</td>
-        <td>{props.data.description}</td>
-        <td>{props.data.status.name}</td>
-        <td>{getDays()}</td>
+    return <tr style={{'line-height': '23px', 'background-color': props.data.status.colour}} onClick={routeChange}>
+        <td style={{'background-color': props.data.status.colour}}>{props.data.id}</td>
+        <td style={{'background-color': props.data.status.colour}}>{props.data.clientName}</td>
+        <td style={{'background-color': props.data.status.colour}}>{props.data.device}</td>
+        <td style={{'background-color': props.data.status.colour}}>{props.data.description}</td>
+        <td style={{'background-color': props.data.status.colour}}>{props.data.status.name}</td>
+        <td style={{'background-color': props.data.status.colour}}>{getDays()}</td>
     </tr>;
 }
 

@@ -24,17 +24,23 @@ function DefaultService(props) {
   }
 
   function getItemName() {
+    if (!props.data.itemId > 0) {
+      return 'Краткое описание';
+    }
     let item =  orderState.items.find(i => i.id === props.data.itemId);
-    return item?.name;
+    return item?.name || 'Краткое описание';
   }
 
   let handleItemSelect = (e) => {
-    if (e.target.value === '') return;
-    let selectedItem = orderState.items.find(item => item.name === e.target.value);
-    if (selectedItem) {
-      dispatch(selectItem({mockId: props.data.mockId, newItemId: selectedItem.id}));
+    if (e.target.value === '') {
+      dispatch(selectItem({mockId: props.data.mockId, newItemId: 0}));
       dispatch(changeServicesSum());
+      return;
     }
+
+    let selectedItem = orderState.items.find(item => item.name === e.target.value);
+    dispatch(selectItem({mockId: props.data.mockId, newItemId: selectedItem ? selectedItem.id : 0}));
+    dispatch(changeServicesSum());
   }
 
   let handleExecutorSelect = (e) => {
@@ -68,8 +74,8 @@ function DefaultService(props) {
   <div>
     <InputGroup className="mb-3">
       <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} onChange={handleChangeQty} min={1} disabled={props.data.status === 'PAID'}/>
-      <Form.Control list="datalistOptions" className={getItemName() ? s.inputId : ''}
-                    placeholder={getItemName() ? getItemName() : 'Краткое описание'}
+      <Form.Control list="datalistOptions" className={props.data.itemId > 0 ? s.input : ''}
+                    placeholder={getItemName()}
                     onChange={handleItemSelect}
                     onFocus={handleFocus}
                     onBlur={handleBlur}

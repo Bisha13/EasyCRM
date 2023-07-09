@@ -30,22 +30,25 @@ function NewStockPart(props) {
   }
 
   function getPartName() {
+    if (!props.data.stockId > 0) {
+      return 'Краткое описание';
+    }
+
     let stockPart =  orderState.stock.find(i => ''+i.id === props.data.stockId);
-    return stockPart?.name;
+    return stockPart?.name || 'Краткое описание';
   }
 
   let handlePartSelect = (e) => {
-    console.log(orderState.stock[3].name);
-    console.log(e.target.value);
-    console.log(e.target.value === orderState.stock[3].name);
-    if (e.target.value === '') return;
-    let selectedStock = orderState.stock
-      .filter(stock => stock.name != null)
-      .find(stock => stock.name === e.target.value)
-    if (selectedStock) {
-      dispatch(newSelectStock({mockId: props.data.mockId, newStockId: ''+selectedStock.id}))
+    if (e.target.value === '') {
+      dispatch(newSelectStock({mockId: props.data.mockId, newStockId: '0'}))
       dispatch(newChangePartsSum());
     }
+    let selectedStock = orderState.stock
+        .filter(stock => stock.name != null)
+        .find(stock => stock.name === e.target.value)
+
+    dispatch(newSelectStock({mockId: props.data.mockId, newStockId: selectedStock ? ''+selectedStock.id : '0'}))
+    dispatch(newChangePartsSum());
   }
 
   let handleChangeQty = (e) => {
@@ -74,8 +77,8 @@ function NewStockPart(props) {
       <div>
         <InputGroup className="mb-3">
           <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} min={1} max={10000000} onChange={handleChangeQty}/>
-          <Form.Control list="partsOptions" className={getPartName() ? s.inputId : ''}
-                        placeholder={getPartName() ? getPartName() : 'Краткое описание'}
+          <Form.Control list="partsOptions" className={props.data.stockId > 0 ? s.inputId : ''}
+                        placeholder={getPartName()}
                         onChange={handlePartSelect}
                         onFocus={handleFocus}
                         onBlur={handleBlur}

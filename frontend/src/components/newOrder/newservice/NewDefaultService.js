@@ -10,6 +10,7 @@ import {
   newSelectItem,
   newToggleIsCustom
 } from "../../../redux/new-order-reducer";
+import {changeServicesSum, selectItem} from "../../../redux/single-order-reducer";
 
 function NewDefaultService(props) {
 
@@ -29,17 +30,23 @@ function NewDefaultService(props) {
   }
 
   function getItemName() {
+    if (!props.data.itemId > 0 ) {
+      return 'Краткое описание';
+    }
     let item =  orderState.items.find(i => i.id === props.data.itemId);
-    return item?.name;
+    return item?.name || 'Краткое описание';
   }
 
   let handleItemSelect = (e) => {
-    if (e.target.value === '') return;
-    let selectedItem = orderState.items.find(item => item.name === e.target.value);
-    if (selectedItem) {
-      dispatch(newSelectItem({mockId: props.data.mockId, newItemId: selectedItem.id}));
+    if (e.target.value === '') {
+      dispatch(newSelectItem({mockId: props.data.mockId, newItemId: 0}));
       dispatch(newChangeServicesSum());
+      return;
     }
+
+    let selectedItem = orderState.items.find(item => item.name === e.target.value);
+    dispatch(newSelectItem({mockId: props.data.mockId, newItemId: selectedItem ? selectedItem.id : 0}));
+    dispatch(newChangeServicesSum());
   }
 
   let handleChangeQty = (e) => {
@@ -69,8 +76,8 @@ function NewDefaultService(props) {
   <div>
     <InputGroup className="mb-3">
       <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} onChange={handleChangeQty} min={1} max={10000000}/>
-      <Form.Control list="datalistOptions" className={getItemName() ? s.inputId : ''}
-                    placeholder={getItemName() ? getItemName() : 'Краткое описание'}
+      <Form.Control list="datalistOptions" className={props.data.itemId > 0 ? s.input : ''}
+                    placeholder={getItemName()}
                     onChange={handleItemSelect}
                     onFocus={handleFocus}
                     onBlur={handleBlur}

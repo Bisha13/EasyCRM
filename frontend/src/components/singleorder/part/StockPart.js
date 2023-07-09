@@ -23,17 +23,23 @@ function StockPart(props) {
   }
 
   function getPartName() {
+    if (!props.data.stockId > 0) {
+      return 'Краткое описание';
+    }
+
     let stockPart =  orderState.stock.find(i => ''+i.id === props.data.stockId);
-    return stockPart?.name;
+    return stockPart?.name || 'Краткое описание';
   }
 
   let handlePartSelect = (e) => {
-    if (e.target.value === '') return;
-    let selectedStock = orderState.stock.find(stock => stock.name === e.target.value)
-    if (selectedStock) {
-      dispatch(selectStock({mockId: props.data.mockId, newStockId: ''+selectedStock.id}))
+    if (e.target.value === '') {
+      dispatch(selectStock({mockId: props.data.mockId, newStockId: '0'}))
       dispatch(changePartsSum());
     }
+
+    let selectedStock = orderState.stock.find(stock => stock.name === e.target.value)
+    dispatch(selectStock({mockId: props.data.mockId, newStockId: selectedStock ? ''+selectedStock.id : 0}))
+    dispatch(changePartsSum());
   }
 
   let handleChangeQty = (e) => {
@@ -62,8 +68,8 @@ function StockPart(props) {
       <div>
         <InputGroup className="mb-3">
           <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} onChange={handleChangeQty}/>
-          <Form.Control list="partsOptions" className={getPartName() ? s.inputId : ''}
-                        placeholder={getPartName() ? getPartName() : 'Краткое описание'}
+          <Form.Control list="partsOptions" className={props.data.stockId > 0 ? s.inputId : ''}
+                        placeholder={getPartName()}
                         onChange={handlePartSelect}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
