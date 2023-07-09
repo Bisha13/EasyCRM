@@ -5,17 +5,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.StockEntity;
 import ru.bisha.easycrm.db.repository.StockRepository;
-import ru.bisha.easycrm.service.StockService;
+import ru.bisha.easycrm.service.StocksService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/rest/stock")
 @RequiredArgsConstructor
-public class StockController {
+public class StocksController {
 
     private final StockRepository stockRepository;
-    private final StockService stockService;
+    private final StocksService stocksService;
 
     @GetMapping("/all")
     public List<StockEntity> getAllItems() {
@@ -28,16 +28,16 @@ public class StockController {
 
     @GetMapping("/{id}")
     public StockEntity getById(@PathVariable String id) {
-        return stockService.getById(Integer.parseInt(id)).orElseThrow();
+        return stocksService.getById(Integer.parseInt(id)).orElseThrow();
     }
 
     @PutMapping
     public void update(@RequestBody StockEntity stock) {
-        stockService.save(stock);
+        stocksService.save(stock);
     }
 
     @DeleteMapping("/{id}")
     public void deleteItem(@PathVariable Integer id) {
-        stockService.deleteStockPart(id);
+        stocksService.deleteStockPart(id);
     }
 }

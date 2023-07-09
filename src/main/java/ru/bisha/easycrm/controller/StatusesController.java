@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/status")
 @RequiredArgsConstructor
-public class StatusController {
+public class StatusesController {
 
     private final StatusRepository statusRepository;
 

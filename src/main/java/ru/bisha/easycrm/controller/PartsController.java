@@ -10,7 +10,7 @@ import ru.bisha.easycrm.db.repository.PartRepository;
 @RestController
 @RequestMapping("/rest/parts")
 @RequiredArgsConstructor
-public class PartController {
+public class PartsController {
 
     private final PartRepository partRepository;
 

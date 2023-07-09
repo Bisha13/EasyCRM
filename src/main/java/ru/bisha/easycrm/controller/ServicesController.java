@@ -8,7 +8,7 @@ import ru.bisha.easycrm.dto.UpdateServiceStatusDto;
 @RestController
 @RequestMapping("/rest/services")
 @RequiredArgsConstructor
-public class ServiceController {
+public class ServicesController {
 
     private final ServiceRepository serviceRepository;
 

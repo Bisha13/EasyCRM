@@ -9,7 +9,7 @@ import ru.bisha.easycrm.db.repository.CategoryRepository;
 import ru.bisha.easycrm.db.repository.ItemRepository;
 import ru.bisha.easycrm.db.repository.ServiceRepository;
 import ru.bisha.easycrm.dto.ItemDto;
-import ru.bisha.easycrm.service.ItemService;
+import ru.bisha.easycrm.service.ItemsService;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemsController {
 
-    private final ItemService itemService;
+    private final ItemsService itemsService;
     private final ServiceRepository serviceRepository;
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
 
     @GetMapping("/all")
     public List<ItemDto> getAllItems() {
-        return itemService.getAll().stream().map(i -> ItemDto.builder()
+        return itemsService.getAll().stream().map(i -> ItemDto.builder()
                 .id(String.valueOf(i.getId()))
                 .name(getName(i))
                 .description(i.getDescription())
@@ -39,7 +39,7 @@ public class ItemsController {
 
     @GetMapping("/{id}")
     public ItemDto getItem(@PathVariable int id) {
-        return itemService.getById(id).map(i -> ItemDto.builder()
+        return itemsService.getById(id).map(i -> ItemDto.builder()
                 .id(String.valueOf(i.getId()))
                 .name(getName(i))
                 .description(i.getDescription())
@@ -70,12 +70,12 @@ public class ItemsController {
                 e.setPrice(item.getPrice());
             });
         }
-        itemService.save(item);
+        itemsService.save(item);
     }
 
     @DeleteMapping("/{id}")
     public void deleteItem(@PathVariable Integer id) {
-        itemService.delete(id);
+        itemsService.delete(id);
     }
 
     private static String getName(ItemEntity i) {

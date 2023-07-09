@@ -11,7 +11,7 @@ import ru.bisha.easycrm.db.repository.DeviceRepository;
 import java.util.List;
 
 @Service
-public class DeviceService {
+public class DevicesService {
 
     @Autowired
     DeviceRepository deviceRepository;

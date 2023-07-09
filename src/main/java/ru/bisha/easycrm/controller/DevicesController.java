@@ -10,7 +10,7 @@ import ru.bisha.easycrm.db.entity.DeviceEntity;
 import ru.bisha.easycrm.db.repository.DeviceRepository;
 import ru.bisha.easycrm.dto.DeviceDto;
 import ru.bisha.easycrm.dto.GetDevicesResponse;
-import ru.bisha.easycrm.service.DeviceService;
+import ru.bisha.easycrm.service.DevicesService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ public class DevicesController {
 
     private final DeviceRepository deviceRepository;
 
-    private final DeviceService deviceService;
+    private final DevicesService devicesService;
 
     @GetMapping("/by_client")
     public List<DeviceDto> getByClientId(@RequestParam String client) {
@@ -54,7 +54,7 @@ public class DevicesController {
     public GetDevicesResponse getAllDevices(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                             @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
 
-        Page<DeviceEntity> devicePage = deviceService.getPageOfDevices(
+        Page<DeviceEntity> devicePage = devicesService.getPageOfDevices(
                 PageRequest.of(page - 1, size,
                         Sort.by("deviceId").descending()));
 

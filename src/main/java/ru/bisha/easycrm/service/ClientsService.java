@@ -10,7 +10,7 @@ import ru.bisha.easycrm.db.repository.ClientRepository;
 import java.util.List;
 
 @Service
-public class ClientService {
+public class ClientsService {
 
     @Autowired
     private ClientRepository clientRepository;

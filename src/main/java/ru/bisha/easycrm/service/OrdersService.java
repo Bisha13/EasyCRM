@@ -23,7 +23,7 @@ import static ru.bisha.easycrm.db.entity.ServiceStatus.PAID;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrdersService {
 
     private static final String ORDER_ID = "orderId";
 
@@ -58,7 +58,7 @@ public class OrderService {
         }
 
         List<OrderDto> orderDtos = orderPage.stream()
-                .map(OrderService::buildOrderDto)
+                .map(OrdersService::buildOrderDto)
                 .collect(Collectors.toList());
         return GetOrdersResponse.builder()
                 .orders(orderDtos)
@@ -190,7 +190,7 @@ public class OrderService {
 
     public List<OrderDto> getByClientId(final Integer clientId) {
         return orderRepository.findAllByClientId(clientId).stream()
-                .map(OrderService::buildOrderDto)
+                .map(OrdersService::buildOrderDto)
                 .collect(Collectors.toList());
     }
 

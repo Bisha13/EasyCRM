@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.ClientEnitiy;
 import ru.bisha.easycrm.dto.ClientDto;
 import ru.bisha.easycrm.dto.GetClientsResponse;
-import ru.bisha.easycrm.service.ClientService;
+import ru.bisha.easycrm.service.ClientsService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientsController {
 
-    private final ClientService clientService;
+    private final ClientsService clientsService;
 
     private static final String DEFAULT_PAGE_SIZE = "100";
 
     @GetMapping("/by_phone")
     public List<ClientDto> getClientByPhone(@RequestParam String phone) {
         List<ClientEnitiy> clients
-                = clientService.findClientByPhone(phone);
+                = clientsService.findClientByPhone(phone);
         return clients.stream().map(c -> ClientDto.builder()
                 .id(String.valueOf(c.getId()))
                 .name(c.getName())
@@ -36,7 +36,7 @@ public class ClientsController {
 
     @GetMapping("/{id}")
     public ClientDto getClientByPhone(@PathVariable Integer id) {
-        ClientEnitiy client = clientService.getClient(id);
+        ClientEnitiy client = clientsService.getClient(id);
         return ClientDto.builder()
                 .id(String.valueOf(client.getId()))
                 .name(client.getName())
@@ -50,20 +50,20 @@ public class ClientsController {
 
     @PutMapping("/")
     public void updateClient(@RequestBody ClientDto clientDto) {
-        ClientEnitiy client = clientService.getClient(Integer.parseInt(clientDto.getId()));
+        ClientEnitiy client = clientsService.getClient(Integer.parseInt(clientDto.getId()));
         client.setName(clientDto.getName());
         client.setPhoneNumber(clientDto.getPhone());
         client.setPhoneNumber2(clientDto.getPhone2());
         client.setAddress(clientDto.getAddress());
         client.setDiscount(clientDto.getDiscount());
-        clientService.saveClient(client);
+        clientsService.saveClient(client);
     }
 
     @GetMapping
     public GetClientsResponse getAllClients(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                             @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
 
-        Page<ClientEnitiy> clientPage = clientService.getPageOfClients(
+        Page<ClientEnitiy> clientPage = clientsService.getPageOfClients(
                 PageRequest.of(page - 1, size,
                         Sort.by("id").descending()));
 
@@ -87,7 +87,7 @@ public class ClientsController {
     public GetClientsResponse findClients(@RequestParam("search") String search,
                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
                                           @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) Integer size) {
-        Page<ClientEnitiy> clientsPage = clientService.getPageOfClientsBySearch(
+        Page<ClientEnitiy> clientsPage = clientsService.getPageOfClientsBySearch(
                 search, PageRequest.of(page - 1, size));
         int totalPages = clientsPage.getTotalPages();
         List<ClientDto> clients = clientsPage.stream().map(client -> ClientDto.builder()

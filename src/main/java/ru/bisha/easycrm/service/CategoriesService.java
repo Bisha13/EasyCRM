@@ -8,7 +8,7 @@ import ru.bisha.easycrm.db.repository.CategoryRepository;
 import java.util.List;
 
 @Service
-public class CategoryService {
+public class CategoriesService {
 
     @Autowired
     private CategoryRepository repository;
