@@ -45,6 +45,11 @@ public class ClientServiceImp implements ClientService {
             parsedPhoneNumber = parsedPhoneNumber.replaceFirst("7", "");
         }
 
+        if (parsedPhoneNumber.length() >= 10 //9153332211 - 10 characters
+                && parsedPhoneNumber.startsWith("8")) {
+            parsedPhoneNumber = parsedPhoneNumber.replaceFirst("8", "");
+        }
+
         return clientRepository
                 .findClientsByPhoneNumberContains(parsedPhoneNumber);
     }
