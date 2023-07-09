@@ -1,7 +1,6 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rest/categories")
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class CategoryController {
 
     private final ItemService itemService;

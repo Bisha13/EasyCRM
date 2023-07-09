@@ -1,7 +1,6 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.WorkerEntity;
 import ru.bisha.easycrm.db.repository.WorkerRepository;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rest/workers")
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class WorkersController {
 
     private final WorkerRepository workerRepository;

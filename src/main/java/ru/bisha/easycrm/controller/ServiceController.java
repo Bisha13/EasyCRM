@@ -1,7 +1,6 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.repository.ServiceRepository;
 import ru.bisha.easycrm.dto.UpdateServiceStatusDto;
@@ -9,7 +8,6 @@ import ru.bisha.easycrm.dto.UpdateServiceStatusDto;
 @RestController
 @RequestMapping("/rest/services")
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class ServiceController {
 
     private final ServiceRepository serviceRepository;

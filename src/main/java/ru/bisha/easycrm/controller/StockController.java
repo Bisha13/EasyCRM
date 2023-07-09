@@ -1,7 +1,6 @@
 package ru.bisha.easycrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.bisha.easycrm.db.entity.StockEntity;
@@ -13,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/stock")
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "ui", havingValue = "rest")
 public class StockController {
 
     private final StockRepository stockRepository;
