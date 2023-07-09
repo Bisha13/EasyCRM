@@ -1,45 +1,49 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {shallowEqual} from "react-redux";
 
+const initialState= {
+  order: {
+    services: [{
+      qty: 1,
+      isCustom: false,
+      itemId: '0',
+      mockId: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)
+    }],
+    parts: [{
+      isStock: true,
+      qty: 1,
+      stockId: 0,
+      mockId: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)
+    }],
+    isNewDevice: true,
+    isNewClient: false,
+    deviceName: '',
+    deviceDescription: '',
+    clientName: '',
+    clientPhone: '',
+    smallDescription: ''
+  },
+  devices: [],
+  servicesSum: 0,
+  partsSum: 0,
+  totalSum: 0,
+  isCustom: true,
+  isLoaded: false,
+  isFetchError: false,
+  items: [],
+  stock: [],
+  clients: [],
+  isItemsLoaded: false,
+  isStockLoaded: false,
+}
 
 const newOrderSlice = createSlice({
   name: 'newOrder',
-  initialState: {
-    order: {
-      services: [{
-        qty: 1,
-        isCustom: false,
-        itemId: '0',
-        mockId: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)
-      }],
-      parts: [{
-        isStock: true,
-        qty: 1,
-        stockId: 0,
-        mockId: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)
-      }],
-      isNewDevice: true,
-      isNewClient: false,
-      deviceName: '',
-      deviceDescription: '',
-      clientName: '',
-      clientPhone: '',
-      smallDescription: ''
-    },
-    devices: [],
-    servicesSum: 0,
-    partsSum: 0,
-    totalSum: 0,
-    isCustom: true,
-    isLoaded: false,
-    isFetchError: false,
-    items: [],
-    stock: [],
-    clients: [],
-    isItemsLoaded: false,
-    isStockLoaded: false,
-  },
+  initialState,
   reducers: {
+    resetState: (state, action) => {
+      return {...initialState, isItemsLoaded: true, isStockLoaded: true};
+    },
     newLoadStock: (state, action) => {
       state.stock = action.payload;
     },
@@ -223,6 +227,7 @@ const newOrderSlice = createSlice({
 })
 
 export const {
+  resetState,
   newChangeDeviceName,
   newChangeDeviceDescription,
   newToggleIsNewClient,

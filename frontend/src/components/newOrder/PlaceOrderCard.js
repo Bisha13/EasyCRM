@@ -4,6 +4,7 @@ import UserSearch from "./UserSearch";
 import Button from "react-bootstrap/Button";
 import {createNewOrder} from "../../asyncActions/orders";
 import {useNavigate} from "react-router-dom";
+import {resetState} from "../../redux/new-order-reducer";
 
 function PlaceOrderCard() {
 
@@ -21,6 +22,7 @@ function PlaceOrderCard() {
         alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
       } else {
         alert("Заказ сохранен")
+        dispatch(resetState())
         routeChange();
       }
     })
