@@ -1,4 +1,4 @@
-package ru.bisha.easycrm.restservice;
+package ru.bisha.easycrm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import static ru.bisha.easycrm.db.entity.ServiceStatus.PAID;
 
 @Service
 @RequiredArgsConstructor
-public class RestOrderService {
+public class OrderService {
 
     private static final String ORDER_ID = "orderId";
 
@@ -58,7 +58,7 @@ public class RestOrderService {
         }
 
         List<OrderDto> orderDtos = orderPage.stream()
-                .map(RestOrderService::buildOrderDto)
+                .map(OrderService::buildOrderDto)
                 .collect(Collectors.toList());
         return GetOrdersResponse.builder()
                 .orders(orderDtos)
@@ -190,7 +190,7 @@ public class RestOrderService {
 
     public List<OrderDto> getByClientId(final Integer clientId) {
         return orderRepository.findAllByClientId(clientId).stream()
-                .map(RestOrderService::buildOrderDto)
+                .map(OrderService::buildOrderDto)
                 .collect(Collectors.toList());
     }
 
