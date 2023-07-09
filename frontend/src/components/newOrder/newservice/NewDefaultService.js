@@ -10,7 +10,6 @@ import {
   newSelectItem,
   newToggleIsCustom
 } from "../../../redux/new-order-reducer";
-import {changeServicesSum, selectItem} from "../../../redux/single-order-reducer";
 
 function NewDefaultService(props) {
 
@@ -93,7 +92,7 @@ function NewDefaultService(props) {
     </datalist>
   </div>
 )
-};
+}
 
 
 export default NewDefaultService;

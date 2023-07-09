@@ -42,7 +42,7 @@ const newOrderSlice = createSlice({
   initialState,
   reducers: {
     resetState: (state, action) => {
-      return {...initialState, isItemsLoaded: true, isStockLoaded: true};
+      return {...initialState, isItemsLoaded: true, isStockLoaded: true, items: state.items, stock: state.stock};
     },
     newLoadStock: (state, action) => {
       state.stock = action.payload;

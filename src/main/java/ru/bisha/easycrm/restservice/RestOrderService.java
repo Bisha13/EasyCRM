@@ -104,7 +104,7 @@ public class RestOrderService {
 
         List<ServiceEntity> serviceEntities = mapServicesToEntity(request.getServices());
         if (!originalStatus.getId().equals(newStatus.getId()) && newStatus.getId().equals(10L)) {
-            serviceEntities.stream().forEach(s -> s.setStatusUpdatedAt(LocalDateTime.now()));
+            serviceEntities.forEach(s -> s.setStatusUpdatedAt(LocalDateTime.now()));
         }
 
         List<PartEntity> partEntities = mapPartsToEntity(request.getParts());

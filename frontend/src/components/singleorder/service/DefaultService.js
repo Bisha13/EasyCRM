@@ -95,7 +95,7 @@ function DefaultService(props) {
     </datalist>
   </div>
 )
-};
+}
 
 
 export default DefaultService;

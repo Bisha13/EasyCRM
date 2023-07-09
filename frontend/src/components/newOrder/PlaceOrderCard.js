@@ -15,9 +15,9 @@ function PlaceOrderCard() {
     let path = `/`;
     navigate(path);
   }
-  const createOrder = e => {
+  const createOrder = () => {
     dispatch(createNewOrder(state.order))
-      .then(({status, json}) => {
+      .then(({status}) => {
       if (status >= 400) {
         alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
       } else {

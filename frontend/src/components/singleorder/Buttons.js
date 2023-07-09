@@ -11,7 +11,7 @@ function Buttons() {
 
   const handleSave = () => {
     dispatch(updateSingleOrder(orderState.order))
-      .then(({status, json}) => {
+      .then(({status}) => {
         if (status >= 400) {
           alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
         } else {
@@ -23,7 +23,7 @@ function Buttons() {
 
   const handleClose = () => {
     dispatch(closeOrder(orderState.order))
-      .then(({status, json}) => {
+      .then(({status}) => {
         if (status >= 400) {
           alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
         } else {
@@ -35,7 +35,7 @@ function Buttons() {
 
   const handleFinish = () => {
     dispatch(finishOrder(orderState.order))
-      .then(({status, json}) => {
+      .then(({status}) => {
         if (status >= 400) {
           alert("Что-то пошло не так, нужно попробовать еще раз, или позвать Бишу.")
         } else {
@@ -51,7 +51,7 @@ function Buttons() {
 
   return (
     <div className="ms-3 mb-3">
-      <Button className='me-2' variant="primary" onClick={handleSave} disabled={!isEnabled()}>Сохранить</Button>
+      <Button className='me-2' variant="primary" onClick={handleSave} disabled={!isEnabled() && orderState.order.statusId == '10'}>Сохранить</Button>
       {orderState.order.statusId != '10' ?
         <Button className='me-2' variant="success" onClick={handleFinish} disabled={!isEnabled()}>Готов к выдаче</Button> : null}
       <Button className='me-2' variant="danger" onClick={handleClose} disabled={!isEnabled()}>Закрыть</Button>

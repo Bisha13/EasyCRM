@@ -85,7 +85,7 @@ function StockPart(props) {
         </datalist>
       </div>
   )
-};
+}
 
 
 export default StockPart;
