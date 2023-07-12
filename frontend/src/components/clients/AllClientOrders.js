@@ -1,11 +1,21 @@
 import OrderRow from "../orderTable/OrderRow";
 import Table from "react-bootstrap/Table";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Button from "react-bootstrap/Button";
+import {useNavigate} from "react-router-dom";
+import {fetchClientByIdForNewOrder} from "../../asyncActions/clients";
 
 function AllClientOrders() {
   const state = useSelector(state => state.client)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  return (
+  const onClick = () => {
+    dispatch(fetchClientByIdForNewOrder(state.client.id))
+      .then(() => navigate("/new_order"))
+  }
+
+    return  (
     <Table striped hover>
       <thead>
       <tr>
@@ -20,6 +30,7 @@ function AllClientOrders() {
       <tbody>
       {state.orders.map(o => <OrderRow data={o}/>)}
       </tbody>
+      <Button className="mt-3" onClick={onClick}>Новый заказ</Button>
     </Table>
   )
 }

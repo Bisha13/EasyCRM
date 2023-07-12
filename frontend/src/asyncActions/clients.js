@@ -1,4 +1,4 @@
-import {newLoadClients, newToggleIsNewClient, selectClient} from "../redux/new-order-reducer";
+import {newLoadClients, newToggleIsNewClient, resetState, selectClient} from "../redux/new-order-reducer";
 import {fetchDevicesByClientId, fetchDevicesByClientIdForClient} from "./devices";
 import {loadAllClients, loadClient, setClientPageCount, toggleClientPagination} from "../redux/client-reducer";
 import {fetchOrdersByClientId} from "./orders";
@@ -33,6 +33,19 @@ export const fetchClientById = (id) => {
         dispatch(fetchDevicesByClientIdForClient(json.id));
       }
     )
+  }
+}
+
+export const fetchClientByIdForNewOrder = (id) => {
+  return function (dispatch) {
+    dispatch(resetState());
+    return fetch(`/rest/clients/${id}`)
+      .then(response => response.json())
+      .then(json => {
+        dispatch(newLoadClients([json]))
+        dispatch(selectClient(id))
+        dispatch(fetchDevicesByClientId(id));
+      })
   }
 }
 

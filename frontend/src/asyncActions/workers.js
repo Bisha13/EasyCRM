@@ -32,7 +32,7 @@ export const updateWorker = (worker) => {
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify(worker)
+            body: JSON.stringify({...worker, id: worker.id > 0 ? worker.id : null})
         });
     }
 }

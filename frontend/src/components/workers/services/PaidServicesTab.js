@@ -14,10 +14,12 @@ function PaidServicesTab() {
     let items = [];
 
     useEffect(() => {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        dispatch(fetchPaidOrders(id, "PAID", year, month));
+        if (id > 0) {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            dispatch(fetchPaidOrders(id, "PAID", year, month));
+        }
     }, []);
 
 
@@ -41,7 +43,8 @@ function PaidServicesTab() {
     const month = date.getMonth() + 1;
     for (let i = 1; i <= month; i++) {
         items.push(
-            <Pagination.Item key={i} month={i} active={i === state.paidOrdersActiveMonth} onClick={() => onChangeMonth(i)}>
+            <Pagination.Item key={i} month={i} active={i === state.paidOrdersActiveMonth}
+                             onClick={() => onChangeMonth(i)}>
                 {getMonthName(i)}
             </Pagination.Item>,
         );

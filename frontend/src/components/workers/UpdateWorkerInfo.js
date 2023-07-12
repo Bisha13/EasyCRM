@@ -17,7 +17,9 @@ function UpdateWorkerInfo() {
     dispatch(changePhone(e.target.value));
   }
   let onChangePercent = e => {
-    dispatch(changePercent(e.target.value));
+    if (e.target.value >= 0 && e.target.value <= 100) {
+      dispatch(changePercent(e.target.value));
+    }
   }
 
   let onClick = e => {

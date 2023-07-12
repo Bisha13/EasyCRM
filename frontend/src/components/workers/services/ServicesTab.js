@@ -13,7 +13,9 @@ function ServicesTab() {
     const {id} = useParams();
 
     useEffect(() => {
-        dispatch(fetchDoneOrders(id, "DONE"));
+        if (id > 0) {
+            dispatch(fetchDoneOrders(id, "DONE"));
+        }
     }, []);
 
     const onClick = () => {

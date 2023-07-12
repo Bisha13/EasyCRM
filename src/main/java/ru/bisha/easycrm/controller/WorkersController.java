@@ -8,6 +8,7 @@ import ru.bisha.easycrm.dto.GetWorkersResponse;
 import ru.bisha.easycrm.dto.WorkerDto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,8 +45,9 @@ public class WorkersController {
 
     @PostMapping
     public void updateWorker(@RequestBody WorkerDto worker) {
+        Integer id = Optional.ofNullable(worker.getId()).map(Integer::valueOf).orElse(null);
         WorkerEntity workerEntity = WorkerEntity.builder()
-                .id(Integer.parseInt(worker.getId()))
+                .id(id)
                 .fullName(worker.getName())
                 .phoneNumber(worker.getPhone())
                 .percent(worker.getPercent())

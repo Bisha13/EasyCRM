@@ -16,7 +16,9 @@ function WorkersPage() {
   const {id} = useParams();
   const worker = useSelector(state => state.worker.worker)
   useEffect(() => {
-    dispatch(fetchWorkerById(id));
+    if (id >= 0) {
+      dispatch(fetchWorkerById(id));
+    }
     dispatch(changeActiveMonth(new Date().getMonth() + 1));
   }, []);
 
@@ -25,14 +27,14 @@ function WorkersPage() {
       <Card className={"mt-4 mb-4"}>
         <Card.Body>
           <div>{worker.name}</div>
-          <Tabs>
+          <Tabs defaultActiveKey={id > 0 ? "works" : "redact"}>
             <Tab eventKey='works' title="Готовые работы">
               <ServicesTab/>
             </Tab>
             <Tab eventKey='paid' title="Оплаченные работы">
               <PaidServicesTab/>
             </Tab>
-            <Tab eventKey='reduct' title="Редактировать">
+            <Tab eventKey='redact' title="Редактировать">
               <UpdateWorkerInfo/>
             </Tab>
           </Tabs>
