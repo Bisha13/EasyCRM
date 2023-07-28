@@ -26,6 +26,12 @@ function ClientSearch() {
     dispatch(fetchClients(1));
   }
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      routeChange();
+    }
+  }
+
   return <InputGroup className="mt-3">
     <Form.Control
       placeholder="Поиск по клиентам"
@@ -33,6 +39,7 @@ function ClientSearch() {
       aria-describedby="basic-addon2"
       value={state.searchString}
       onChange={handleChange}
+      onKeyDown={handleEnter}
     />
     <Button variant="primary" id="button-addon2" onClick={routeChange}>
       <i className="fa fa-search"></i>

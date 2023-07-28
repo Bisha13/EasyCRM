@@ -13,7 +13,7 @@ function AllWorkers() {
         <Card className={"mt-3"}>
           <WorkersTable/>
         </Card>
-          <Button onClick={() => navigate('/workers/new')}>Создать</Button>
+          <Button className="mt-3" onClick={() => navigate('/workers/new')}>Создать</Button>
       </Row>
     </Container>);
 }

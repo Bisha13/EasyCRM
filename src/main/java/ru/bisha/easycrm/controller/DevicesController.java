@@ -33,7 +33,7 @@ public class DevicesController {
                         .id(String.valueOf(d.getDeviceId()))
                         .name(d.getDeviceName())
                         .description(d.getDescription())
-                        .createdAt(d.getTimestamp().toLocalDateTime())
+                        .createdAt(d.getTimestamp())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -46,7 +46,7 @@ public class DevicesController {
                 .name(device.getDeviceName())
                 .description(device.getDescription())
                 .clientId(String.valueOf(device.getOwnerId()))
-                .createdAt(device.getTimestamp().toLocalDateTime())
+                .createdAt(device.getTimestamp())
                 .build();
     }
 
@@ -65,7 +65,7 @@ public class DevicesController {
                         .id(String.valueOf(d.getDeviceId()))
                         .name(d.getDeviceName())
                         .description(d.getDescription())
-                        .createdAt(d.getTimestamp().toLocalDateTime())
+                        .createdAt(d.getTimestamp())
                         .build())
                 .collect(Collectors.toList());
 

@@ -44,7 +44,7 @@ public class ClientsController {
                 .phone2(client.getPhoneNumber2())
                 .address(client.getAddress())
                 .discount(client.getDiscount())
-                .createdAt(client.getTimestamp().toLocalDateTime())
+                .createdAt(client.getTimestamp())
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class ClientsController {
                     .id(String.valueOf(client.getId()))
                     .name(client.getName())
                     .phone(client.getPhoneNumber())
-                    .createdAt(client.getTimestamp().toLocalDateTime())
+                    .createdAt(client.getTimestamp())
                     .build())
                 .collect(Collectors.toList());
 
@@ -94,7 +94,7 @@ public class ClientsController {
                         .id(String.valueOf(client.getId()))
                         .name(client.getName())
                         .phone(client.getPhoneNumber())
-                        .createdAt(client.getTimestamp().toLocalDateTime())
+                        .createdAt(client.getTimestamp())
                         .build())
                 .collect(Collectors.toList());
 

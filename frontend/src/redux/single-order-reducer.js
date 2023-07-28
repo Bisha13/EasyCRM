@@ -82,15 +82,12 @@ const singleOrderSlice = createSlice({
         .map(el => el.price * el.qty)
         .reduce((partialSum, a) => partialSum + a, 0);
 
-
       let stockPartsSum = state.order.parts
         .filter(el => el.isStock)
         .map(el => el.qty * state.stock.find(i => ''+i.id === ''+el.stockId).price)
         .reduce((partialSum, a) => partialSum + a, 0);
        state.partsSum = customPartsSum + stockPartsSum;
        state.totalSum = customPartsSum + stockPartsSum + state.servicesSum;
-       console.log('customPartsSum ' + customPartsSum)
-       console.log('stockPartsSum ' + stockPartsSum)
     },
     changeAllExecutors: (state, action) => {
       state.order.services.forEach(s => s.executorId = action.payload);
@@ -113,7 +110,7 @@ const singleOrderSlice = createSlice({
 
       let purchasePrice = part.purchasePrice ? Number(part.purchasePrice) : 0;
       let percent = part.percent ? Number(part.percent) : 0;
-      part.price = purchasePrice / 100 * (100 + percent);
+      part.price = Math.round(purchasePrice / 100 * (100 + percent));
     },
     changeQty: (state, action) => {
       let service = state.order.services.find(el => el.mockId === action.payload.mockId);
@@ -145,7 +142,7 @@ const singleOrderSlice = createSlice({
 
       let purchasePrice = part.purchasePrice ? Number(part.purchasePrice) : 0;
       let percent = part.percent ? Number(part.percent) : 0;
-      part.price = purchasePrice / 100 * (100 + percent);
+      part.price = Math.round(purchasePrice / 100 * (100 + percent));
     },
     changePartPrice: (state, action) => {
       let part = state.order.parts.find(el => shallowEqual(el, action.payload.part));

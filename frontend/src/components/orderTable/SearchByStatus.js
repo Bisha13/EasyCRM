@@ -17,8 +17,14 @@ function SearchByStatus() {
     dispatch(fetchOrders(1, common.selectedStatus));
   }
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(fetchOrders(1, common.selectedStatus));
+    }
+  }
+
   return <InputGroup className="mt-3">
-    <Form.Select onChange={handleChange}>
+    <Form.Select onChange={handleChange} onKeyDown={handleEnter}>
       <option value={-1}>Активные</option>
       <option value="">Все</option>
       {common.statuses.map(s =>

@@ -20,7 +20,7 @@ import AllStocks from "./components/stock/AllStocks";
 import UpdateStock from "./components/stock/UpdateStock";
 import AllStatuses from "./components/statuses/AllStatuses";
 import Settings from "./components/Settings";
-import AllWorkers from "./components/workers/allWarkers/AllWorkers";
+import AllWorkers from "./components/workers/allWorkers/AllWorkers";
 import WorkersPage from "./components/workers/WorkersPage";
 
 function App() {

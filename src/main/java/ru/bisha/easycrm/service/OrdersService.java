@@ -13,6 +13,7 @@ import ru.bisha.easycrm.dto.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -218,6 +219,7 @@ public class OrdersService {
                 .sum();
 
         List<OrderDto> orderDtos = orders.stream()
+                .sorted(Comparator.comparing(OrderEntity::getTimestamp))
                 .map(o -> buildOrderDtoWithServicesByUser(o, userId))
                 .collect(Collectors.toList());
 
@@ -376,7 +378,7 @@ public class OrdersService {
                         + Optional.ofNullable(order.getDevice().getDescription()).orElse(""))
                 .smallDescription(order.getSmallDescription())
                 .fullDescription(order.getFullDescription())
-                .startedAt(order.getTimestamp().toLocalDateTime().toLocalDate())
+                .startedAt(order.getTimestamp())
                 .closedAt(Optional.ofNullable(order.getTimeClose()).map(Date::toLocalDate).orElse(null))
                 .services(services)
                 .parts(parts)
@@ -421,7 +423,7 @@ public class OrdersService {
                         Optional.ofNullable(order.getDevice().getDescription()).orElse(""))
                 .clientName(order.getClient().getName())
                 .status(order.getExecuteStatus())
-                .startedAt(order.getTimestamp().toLocalDateTime().toLocalDate())
+                .startedAt(order.getTimestamp())
                 .build();
     }
 

@@ -6,7 +6,6 @@ import ru.bisha.easycrm.dto.ServiceDto;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -48,7 +47,7 @@ public class ServiceEntity {
     @CreationTimestamp
     @Column(name="time_stamp",
             nullable = false, updatable = false, insertable = false)
-    private Timestamp timeStamp;
+    private LocalDateTime timeStamp;
 
     @Column(name = "executor_money")
     private Double executorMoney;

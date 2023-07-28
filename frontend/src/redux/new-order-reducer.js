@@ -137,7 +137,7 @@ const newOrderSlice = createSlice({
 
       let purchasePrice = part.purchasePrice ? Number(part.purchasePrice) : 0;
       let percent = part.percent ? Number(part.percent) : 0;
-      part.price = purchasePrice / 100 * (100 + percent);
+      part.price = Math.round(purchasePrice / 100 * (100 + percent));
     },
     newChangeQty: (state, action) => {
       let service = state.order.services.find(el => el.mockId === action.payload.mockId);
@@ -169,7 +169,7 @@ const newOrderSlice = createSlice({
 
       let purchasePrice = part.purchasePrice ? Number(part.purchasePrice) : 0;
       let percent = part.percent ? Number(part.percent) : 0;
-      part.price = purchasePrice / 100 * (100 + percent);
+      part.price = Math.round(purchasePrice / 100 * (100 + percent));
     },
     newChangePartPrice: (state, action) => {
       let part = state.order.parts.find(el => shallowEqual(el, action.payload.part));

@@ -5,7 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class OrderEntity {
     @CreationTimestamp
     @Column(name = "timestamp",
             nullable = false, updatable = false, insertable = false)
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 
     @OneToOne(fetch = FetchType.LAZY, cascade =
             {CascadeType.PERSIST, CascadeType.MERGE})
@@ -79,15 +79,6 @@ public class OrderEntity {
         listOfServices.add(new ServiceEntity());
         this.listOfParts = new ArrayList<>();
         listOfParts.add(new PartEntity());
-    }
-
-    public OrderEntity(ItemEntity item, StockEntity stock, StatusEntity status) {
-        this.device = new DeviceEntity();
-        this.listOfServices = new ArrayList<>();
-        listOfServices.add(new ServiceEntity(item));
-        this.executeStatus = status;
-        this.listOfParts = new ArrayList<>();
-        listOfParts.add(new PartEntity(stock));
     }
 
     @PostLoad

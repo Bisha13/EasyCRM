@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -26,7 +27,7 @@ public class SingleOrderDto {
     private String deviceName;
     private String smallDescription;
     private String fullDescription;
-    private LocalDate startedAt;
+    private LocalDateTime startedAt;
     private LocalDate closedAt;
     private List<ServiceDto> services;
     private List<PartDto> parts;

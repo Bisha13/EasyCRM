@@ -32,7 +32,7 @@ function CustomPart(props) {
     dispatch(changePartName({mockId: props.data.mockId, newName: e.target.value}))
   }
 
-  let handlePecentSelect = (e) => {
+  let handlePercentSelect = (e) => {
     dispatch(selectPercentValue({mockId: props.data.mockId, newPercent: e.target.value}))
     dispatch(changePartsSum());
   }
@@ -68,7 +68,7 @@ function CustomPart(props) {
           <Form.Control style={{maxWidth: 100}} type="number" value={props.data.qty} onChange={handleChangeQty}/>
           <Form.Control placeholder="Краткое описание" value={props.data.name} onChange={handleNameChange}/>
           <Form.Control type='number' style={{maxWidth: 100}}  placeholder="Цена" min={0} value={props.data.purchasePrice} onChange={handlePurchasePriceChange}/>
-          <Form.Select style={{maxWidth: 100}} onChange={handlePecentSelect} defaultValue={getDefaultPercent()}>
+          <Form.Select style={{maxWidth: 100}} onChange={handlePercentSelect} defaultValue={getDefaultPercent()}>
             {getOptions().map(el => <option value={el} key={el} selected={props.data.percent === el}>{el + '%'}</option>)}
           </Form.Select>
           <InputGroup.Text style={{width: 100}}>{props.data.price ? props.data.price : 'Цена'}</InputGroup.Text>

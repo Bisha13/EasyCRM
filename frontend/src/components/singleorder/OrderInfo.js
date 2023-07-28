@@ -49,7 +49,7 @@ function OrderInfo() {
 
           <div>
             <span>Открыт: </span>
-            <span>{state.order.startedAt}</span>
+            <span>{state.order.startedAt.replace("T", " ")}</span>
           </div>
 
 

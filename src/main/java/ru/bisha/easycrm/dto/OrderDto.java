@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.bisha.easycrm.db.entity.StatusEntity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,7 +24,7 @@ public class OrderDto {
 
     private StatusEntity status;
 
-    private LocalDate startedAt;
+    private LocalDateTime startedAt;
 
     @Setter
     private List<ServiceDto> services;

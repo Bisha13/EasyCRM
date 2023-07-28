@@ -19,6 +19,12 @@ function SearchById() {
     navigate(path);
   }
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      routeChange();
+    }
+  }
+
   return <InputGroup className="mt-3">
     <Form.Control
       placeholder="Номер заказа"
@@ -26,6 +32,7 @@ function SearchById() {
       aria-describedby="basic-addon2"
       value={state.orderToSearch}
       onChange={handleChange}
+      onKeyDown={handleEnter}
     />
     <Button variant="primary" id="button-addon2" onClick={routeChange}>
       <i className="fa fa-search"></i>

@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clients")
@@ -36,7 +36,7 @@ public class ClientEnitiy {
     @CreationTimestamp
     @Column(name = "timestamp",
             nullable = false, updatable = false, insertable = false)
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 
     public void setPhoneNumber(String phoneNumber) {
         phoneNumber = phoneNumber.trim().replaceAll("[^0-9]", "");
