@@ -211,11 +211,7 @@ public class OrdersService {
         double totalSum = orders.stream()
                 .flatMap(order -> order.getListOfServices().stream())
                 .filter(s -> userId.equals(Optional.ofNullable(s.getExecutor()).map(WorkerEntity::getId).orElse(0)))
-                .mapToDouble(s -> {
-                    var percent = s.getExecutor().getPercent();
-                    var price = s.getIsCustom() ? s.getPrice() : s.getItem().getPrice();
-                    return s.getQty() * price / 100 * percent;
-                })
+                .mapToDouble(ServiceEntity::getExecutorMoney)
                 .sum();
 
         List<OrderDto> orderDtos = orders.stream()
@@ -319,13 +315,9 @@ public class OrdersService {
         var services = order.getListOfServices();
         var sum = 0.0;
         for (ServiceEntity service : services) {
-            Double price = 0.0;
-            if (service.getIsCustom()) {
-                price = service.getPrice();
-            }
-            if (!service.getIsCustom()) {
-                price = service.getItem().getPrice();
-            }
+            Double price = service.getIsCustom()
+                    ? service.getPrice()
+                    : service.getItem().getPrice();
 
             if (price == null) {
                 price = 0.0;
@@ -334,12 +326,9 @@ public class OrdersService {
                 price = applyDiscount(price, order.getClient().getDiscount());
             }
 
-            int percent;
-            if (service.getExecutor() == null) {
-                percent = 0;
-            } else {
-                percent = service.getExecutor().getPercent();
-            }
+            int percent = service.getExecutor() != null
+                    ? service.getExecutor().getPercent()
+                    : 0;
 
             double executorMoney = (price / 100.0) * percent;
             service.setExecutorMoney(executorMoney);

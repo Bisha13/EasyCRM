@@ -92,6 +92,7 @@ public class ServiceEntity {
                 .description(this.description)
                 .price(Optional.ofNullable(this.price).map(BigDecimal::valueOf).orElse(null))
                 .executorId(Optional.ofNullable(this.executor).map(WorkerEntity::getId).map(String::valueOf).orElse(null))
+                .executorMoney(Optional.ofNullable(this.executorMoney).map(BigDecimal::new).orElse(BigDecimal.ZERO))
                 .itemId(Optional.ofNullable(this.item).map(ItemEntity::getId).map(String::valueOf).orElse(null))
                 .isCustom(this.isCustom)
                 .status(this.status)

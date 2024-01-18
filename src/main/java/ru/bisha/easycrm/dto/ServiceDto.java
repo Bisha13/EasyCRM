@@ -18,6 +18,7 @@ public class ServiceDto {
     private Integer qty;
     private String description;
     private BigDecimal price;
+    private BigDecimal executorMoney;
     private String executorId;
     private String itemId;
     private Boolean isCustom;

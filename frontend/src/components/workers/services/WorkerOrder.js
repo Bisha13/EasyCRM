@@ -13,7 +13,7 @@ function WorkerOrder(props) {
             <Accordion.Body style={{padding: 0}}>
                 <Table striped="columns" hover >
                     <tbody>
-                    {props.order.services.map(s => <WorkerService service={s} key={s.id} percent={state.worker.percent}/>)}
+                    {props.order.services.map(s => <WorkerService service={s} key={s.id}/>)}
                     </tbody>
                 </Table>
             </Accordion.Body>
